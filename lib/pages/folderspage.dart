@@ -225,108 +225,47 @@ class _FoldersPageState extends State<FoldersPage> {
                                                                     .folderName),
                                                               ))),
                                                           Positioned(
-                                                              right: -2,
-                                                              top: -13,
-                                                              child:
-                                                                  DropdownButton(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                      // hint: const Icon(Icons.more_vert,
-                                                                      //     color: AppColors.primaryColor),
-                                                                      elevation:
-                                                                          0,
-                                                                      hint: const Text(
-                                                                          ""),
-                                                                      disabledHint:
-                                                                          const SizedBox
-                                                                              .shrink(),
-                                                                      dropdownColor: AppColors
-                                                                          .primaryColor
-                                                                          .withOpacity(
-                                                                              0.5),
-                                                                      icon: const Icon(
-                                                                          Icons
-                                                                              .more_vert,
+                                                              right: p.isLoadingForDelete &&
+                                                                      p.isLoadingForId ==
+                                                                          data
+                                                                              .id
+                                                                            
+                                                                  ? 5
+                                                                  : -2,
+                                                              top: p.isLoadingForDelete &&
+                                                                      p.isLoadingForId ==
+                                                                          data
+                                                                              .id
+                                                                  ? 5
+                                                                  : -13,
+                                                              child: p.isLoadingForDelete &&
+                                                                      p.isLoadingForId ==
+                                                                          data
+                                                                              .id
+                                                                  ? const SizedBox(
+                                                                      width: 12,
+                                                                      height:
+                                                                          12,
+                                                                      child: CircularProgressIndicator(
+                                                                          strokeWidth:
+                                                                              2,
                                                                           color: AppColors
-                                                                              .primaryColor),
-                                                                      underline:
-                                                                          const SizedBox
-                                                                              .shrink(),
-                                                                      onChanged:
-                                                                          (value) {},
-                                                                      items: [
-                                                                    DropdownMenuItem(
-                                                                        value:
-                                                                            1,
-                                                                        onTap:
-                                                                            () async {
-                                                                          await Share.share(
-                                                                              " ${data.folderId} ",
-                                                                              subject: 'Share Folder!');
-                                                                        },
-                                                                        child: const Text(
-                                                                            'Share Folder')),
-                                                                    DropdownMenuItem(
-                                                                        value:
-                                                                            2,
-                                                                        onTap:
-                                                                            () async {
-                                                                          // Navigator.pop(
-                                                                          //     context);
-                                                                          // showAdaptiveDialog(
-                                                                          //     context: context,
-                                                                          //     builder: (context) {
-                                                                          //       return Galert(onTap: (v) {
-                                                                          //         // snackBarColorF("$v", context);
-                                                                          //         Navigator.push(context, MaterialPageRoute(builder: (context) => PlansPage(folderName: v, isFromBuyFolder: true)));
-                                                                          //       });
-                                                                          //     });
-                                                                          // await showCupertinoDialog(
-                                                                          //     context: context,
-                                                                          //     builder: (BuildContext context) {
-                                                                          //       return CupertinoAlertDialog(
-                                                                          //         title: const Text('Rname Folder'),
-                                                                          //         // content: CupertinoTextField(onChanged: (v) {}, controller: folderNameContr, cursorColor: Colors.cyan, style: const TextStyle(color: Colors.white), decoration: BoxDecoration(border: Border.all(color: Colors.white.withOpacity(0.5)), color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(15)), padding: const EdgeInsets.all(0), placeholder: 'Folder Name', placeholderStyle: TextStyle(color: Colors.white.withOpacity(0.5))),
-                                                                          //         actions: [
-                                                                          //           CupertinoButton.filled(
-                                                                          //               onPressed: () {
-                                                                          //                 Navigator.pop(context);
-                                                                          //               },
-                                                                          //               child: const Icon(Icons.cancel)),
-                                                                          //         ],
-                                                                          //         insetAnimationCurve: Curves.slowMiddle,
-                                                                          //         insetAnimationDuration: const Duration(seconds: 2),
-                                                                          //       );
-                                                                          //     });
-                                                                        },
-                                                                        child: const Text(
-                                                                            'Rename Folder ')),
-                                                                    DropdownMenuItem(
-                                                                        value:
-                                                                            2,
-                                                                        onTap:
-                                                                            () async {
-                                                                          await p.deleteFolderF(
-                                                                              context,
-                                                                              token: Provider.of<AuthVm>(context, listen: false).userProfile.token,
-                                                                              folderId: data.id);
-                                                                          // EasyLoading.showSuccess(
-                                                                          //     "Folder Deleted");
-                                                                        },
-                                                                        child: const Text(
-                                                                            'Delete Folder ')),
-                                                                    DropdownMenuItem(
-                                                                        value:
-                                                                            2,
-                                                                        onTap:
-                                                                            () async {
-                                                                          EasyLoading.showInfo(
-                                                                              " ${data.folderUsedSpace} MB ");
-                                                                        },
-                                                                        child: const Text(
-                                                                            'Details'))
-                                                                  ]))
+                                                                              .primaryColor))
+                                                                  : IconButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        optionsSheet(
+                                                                            context,
+                                                                            folderData:
+                                                                                data);
+                                                                      },
+                                                                      icon:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .more_vert,
+                                                                        color: AppColors
+                                                                            .primaryColor,
+                                                                      )))
                                                         ])
                                                       ])));
                                         })
@@ -384,94 +323,7 @@ class _FoldersPageState extends State<FoldersPage> {
                                                             Icons.more_vert,
                                                             color: AppColors
                                                                 .primaryColor,
-                                                          ))
-
-                                                  // DropdownButton(
-                                                  //     borderRadius:
-                                                  //         BorderRadius.circular(
-                                                  //             10),
-                                                  //     // hint: const Icon(Icons.more_vert,
-                                                  //     //     color: AppColors.primaryColor),
-                                                  //     elevation: 0,
-                                                  //     // value: 1,
-                                                  //     dropdownColor: AppColors
-                                                  //         .primaryColor
-                                                  //         .withOpacity(0.5),
-                                                  //     icon: const Icon(
-                                                  //         Icons.more_vert,
-                                                  //         color: AppColors
-                                                  //             .primaryColor),
-                                                  //     underline: const SizedBox
-                                                  //         .shrink(),
-                                                  //     onChanged: (value) {},
-                                                  //     items: [
-                                                  //       DropdownMenuItem(
-                                                  //           value: 1,
-                                                  //           onTap: () async {
-                                                  //             await Share.share(
-                                                  //                 " ${data.folderId} ",
-                                                  //                 subject:
-                                                  //                     'Share Folder!');
-                                                  //           },
-                                                  //           child: const Text(
-                                                  //               'Share Folder')),
-                                                  //       DropdownMenuItem(
-                                                  //           value: 2,
-                                                  //           onTap: () async {
-                                                  //             optionsSheet(
-                                                  //                 context,
-                                                  //                 data.folderName);
-                                                  //             // p.renameFolderF(
-                                                  //             //     context,
-                                                  //             //     token: Provider.of<
-                                                  //             //                 AuthVm>(
-                                                  //             //             context,
-                                                  //             //             listen:
-                                                  //             //                 false)
-                                                  //             //         .userProfile
-                                                  //             //         .token,
-                                                  //             //     folderId:
-                                                  //             //         data.id,
-                                                  //             //     folderName:
-                                                  //             //         "renamed");
-
-                                                  //             // EasyLoading
-                                                  //             //     .showSuccess(
-                                                  //             //         "Rename Folder");
-                                                  //           },
-                                                  //           child: const Text(
-                                                  //               'Rename Folder ')),
-                                                  //       DropdownMenuItem(
-                                                  //           value: 2,
-                                                  //           onTap: () async {
-                                                  //             await p.deleteFolderF(
-                                                  //                 context,
-                                                  //                 token: Provider.of<
-                                                  //                             AuthVm>(
-                                                  //                         context,
-                                                  //                         listen:
-                                                  //                             false)
-                                                  //                     .userProfile
-                                                  //                     .token,
-                                                  //                 folderId:
-                                                  //                     data.id);
-                                                  //             // EasyLoading
-                                                  //             //     .showSuccess(
-                                                  //             //         "Folder Deleted");
-                                                  //           },
-                                                  //           child: const Text(
-                                                  //               'Delete Folder ')),
-                                                  //       DropdownMenuItem(
-                                                  //           value: 2,
-                                                  //           onTap: () async {
-                                                  //             EasyLoading.showInfo(
-                                                  //                 "${data.folderUsedSpace} MB ");
-                                                  //           },
-                                                  //           child: const Text(
-                                                  //               'Details'))
-                                                  //     ]));
-
-                                                  );
+                                                          )));
                                             }),
                                       )
                       ]),
