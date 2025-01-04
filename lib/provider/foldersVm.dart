@@ -103,6 +103,7 @@ class FoldersVm with ChangeNotifier {
 
   clearAllSelectedFramesLinkListF() {
     selectedFramesLinkList.clear();
+    selectedFramesLinkList = [];
     notifyListeners();
   }
 

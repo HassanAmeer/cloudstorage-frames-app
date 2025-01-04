@@ -590,3 +590,86 @@ pickImagesSheetF(context) {
                     ])));
       });
 }
+
+///////////////////////////////////
+Future<void> createOrderSheet(context, {required folderList}) async {
+  const primaryColor = Color(0xff4338CA);
+  const secondaryColor = Color(0xff6D28D9);
+  const accentColor = Color(0xffffffff);
+  // const backgroundColor = Color(0xffffffff);
+  // const errorColor = Color(0xffEF4444);
+  TextEditingController descContr = TextEditingController();
+  bool isDescEmpty = false;
+  await showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Consumer<FoldersVm>(builder: (context, p, c) {
+          return Container(
+              decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                      colors: [primaryColor, secondaryColor]),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(12, 26),
+                        blurRadius: 50,
+                        spreadRadius: 0,
+                        color: Colors.grey.withOpacity(.1))
+                  ]),
+              // height: 200,
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                const Center(
+                  child: Icon(
+                    Icons.horizontal_rule_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CupertinoTextField(
+                        onChanged: (v) {
+                          if (v.trim().isEmpty) {
+                            isDescEmpty = true;
+                          } else {
+                            isDescEmpty = false;
+                          }
+                        },
+                        minLines: 5,
+                        maxLines: 7,
+                        controller: descContr,
+                        cursorColor: Colors.cyan,
+                        style: const TextStyle(color: accentColor),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: accentColor.withOpacity(0.5)),
+                            color: accentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: const EdgeInsets.all(10),
+                        placeholder: 'Something Describe (optional)',
+                        placeholderStyle:
+                            TextStyle(color: accentColor.withOpacity(0.5)))),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.95,
+                    child: ElevatedButton.icon(
+                        onPressed: () async {
+                          // if (descContr.text.isEmpty) {
+                          //   EasyLoading.showSuccess("Write Something");
+                          //   isDescEmpty = true;
+                          //   return;
+                          // }
+                          Navigator.pop(context);
+                        },
+                        label: p.isLoadingForRename
+                            ? const DotLoader(color: primaryColor)
+                            : const Text("Create Order",
+                                style: TextStyle(color: primaryColor)),
+                        icon: const Icon(Icons.shopping_cart,
+                            color: primaryColor))),
+                const SizedBox(height: 20),
+              ]));
+        });
+      });
+}
