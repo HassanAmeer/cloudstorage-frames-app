@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../widgets/dotloader.dart';
-import '../widgets/galert.dart';
+import '../widgets/sheets.dart';
 import 'folderfiles.dart';
 
 class FoldersPage extends StatefulWidget {
@@ -195,7 +195,10 @@ class _FoldersPageState extends State<FoldersPage> {
                                                         MaterialPageRoute(
                                                             builder: (context) {
                                                       return FolderFiles(
-                                                          data: data);
+                                                        folderName:
+                                                            data.folderName,
+                                                        folderId: data.id,
+                                                      );
                                                     }));
                                                   },
                                                   child: Column(
@@ -229,7 +232,6 @@ class _FoldersPageState extends State<FoldersPage> {
                                                                       p.isLoadingForId ==
                                                                           data
                                                                               .id
-                                                                            
                                                                   ? 5
                                                                   : -2,
                                                               top: p.isLoadingForDelete &&
@@ -288,7 +290,9 @@ class _FoldersPageState extends State<FoldersPage> {
                                                         MaterialPageRoute(
                                                             builder: (context) {
                                                       return FolderFiles(
-                                                          data: data);
+                                                          folderId: data.id,
+                                                          folderName:
+                                                              data.folderName);
                                                     }));
                                                   },
                                                   leading: const Icon(

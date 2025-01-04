@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:cloudstorage/constant/links.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -35,9 +37,12 @@ class FoldersVm with ChangeNotifier {
         return;
       }
 
-      var response = await http.get(
-          Uri.parse(ApiLinks.baseUrl + ApiLinks.storage),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http
+          .get(Uri.parse(ApiLinks.baseUrl + ApiLinks.storage), headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token'
+      });
+      debugPrint("👉 getfolders: ${response.body}");
       var dresp = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -59,8 +64,8 @@ class FoldersVm with ChangeNotifier {
       }
       log("👉 ${dresp['storage']}");
     } catch (e, st) {
-      snackBarColorF("$e", context);
       debugPrint("💥 error: $e , st:$st");
+      snackBarColorF("$e", context);
     } finally {
       isLoadingF = false;
       notifyListeners();
@@ -371,5 +376,178 @@ class FoldersVm with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /////////////
+
+  bool _isLoadingForUpload = false;
+
+  bool get isLoadingForUpload => _isLoadingForUpload;
+  set isLoadingForUploadF(bool value) {
+    _isLoadingForUpload = value;
+    notifyListeners();
+  }
+
+  Future uploadFilesF(context,
+      {String token = "",
+      List<PlatformFile> files = const [],
+      String folderId = ""}) async {
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+      if (token.isEmpty) {
+        snackBarColorF("Token is required", context);
+        return;
+      }
+
+      isLoadingForUploadF = true;
+      notifyListeners();
+
+      try {
+        var request = await http.MultipartRequest(
+            'POST', Uri.parse(ApiLinks.baseUrl + ApiLinks.uploadfiles))
+          ..headers['Authorization'] = 'Bearer $token'
+          ..fields['folderid'] = folderId.toString();
+        for (var i = 0; i < files.length; i++) {
+          if (await File(files[i].path!).exists()) {
+            request.files.add(
+                await http.MultipartFile.fromPath('files[$i]', files[i].path!));
+          }
+        }
+        var response = await request.send();
+        var responseBody = await response.stream.bytesToString();
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          EasyLoading.showSuccess("Files uploaded");
+          await getFilesByFolderId(context,
+              isLoading: false, token: token, folderId: folderId);
+        } else {
+          debugPrint("Response body: $responseBody");
+          EasyLoading.showError("${jsonDecode(responseBody)['message']}");
+        }
+      } on SocketException catch (e, st) {
+        EasyLoading.showError("No address associated with hostname, errno = 7");
+        debugPrint(" error: $e , st:$st");
+      }
+    } catch (e, st) {
+      isLoadingForUploadF = false;
+      notifyListeners();
+      debugPrint(" 💥 error: $e , st:$st");
+      snackBarColorF("$e", context);
+    } finally {
+      isLoadingForUploadF = false;
+      notifyListeners();
+    }
+  }
+
 //
+
+  List<FolderModel> getfilesbyfolderidList = [];
+
+  Future getFilesByFolderId(context,
+      {bool isLoading = true, String token = "", String folderId = ""}) async {
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+      if (token.isEmpty) {
+        snackBarColorF("Token is required", context);
+        return;
+      }
+      if (folderId.isEmpty) {
+        snackBarColorF("Folder Id is required", context);
+        return;
+      }
+
+      if (isLoading) {
+        isLoadingF = true;
+        notifyListeners();
+      }
+      var response = await http.get(
+        Uri.parse(
+            "${ApiLinks.baseUrl}${ApiLinks.getfilesbyfolderid}/$folderId"),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      var dresp = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        getfilesbyfolderidList = [FolderModel.fromJson(dresp['files'])];
+      } else {
+        snackBarColorF("${dresp['message']}", context);
+      }
+      isLoadingF = false;
+      notifyListeners();
+    } catch (e, st) {
+      snackBarColorF("$e", context);
+      debugPrint("💥 error: $e , st:$st");
+      isLoadingF = false;
+      notifyListeners();
+    } finally {
+      isLoadingF = false;
+      notifyListeners();
+    }
+  }
+
+//
+
+  /////////////
+
+  bool _isLoadingForDeleteFiles = false;
+
+  bool get isLoadingForDeleteFiles => _isLoadingForDeleteFiles;
+  set isLoadingForDeleteFilesF(bool value) {
+    _isLoadingForDeleteFiles = value;
+    notifyListeners();
+  }
+
+  deleteFolderFilesF(context,
+      {String token = "", String folderId = "", String fileName = ""}) async {
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+      // var token = Provider.of<AuthVm>(context, listen: false).userProfile.token;
+      if (token.isEmpty) {
+        snackBarColorF("Token is required", context);
+        return;
+      }
+
+      isLoadingForDeleteFilesF = true;
+      isLoadingForId = fileName;
+      notifyListeners();
+
+      var resp = await http
+          .delete(Uri.parse(ApiLinks.baseUrl + ApiLinks.deletefile), body: {
+        "folderid": folderId.toString(),
+        "filename": "files\/" + fileName.split('/').last
+      }, headers: {
+        'Authorization': 'Bearer $token'
+      });
+      var respd = jsonDecode(resp.body);
+      if (resp.statusCode == 200 || resp.statusCode == 201) {
+        getfilesbyfolderidList.first.items
+            .removeWhere((element) => element.toString() == fileName);
+        isLoadingForDeleteFilesF = false;
+        EasyLoading.showSuccess("File Deleted");
+        notifyListeners();
+      } else {
+        EasyLoading.showError("${respd['message']}");
+      }
+    } catch (e, st) {
+      isLoadingForDeleteFilesF = false;
+      notifyListeners();
+      debugPrint("💥 error: $e , st:$st");
+      snackBarColorF("$e", context);
+    } finally {
+      isLoadingForId = "";
+      isLoadingForDeleteFilesF = false;
+      notifyListeners();
+    }
+  }
 }
