@@ -176,11 +176,9 @@ class _EditProfileState extends State<EditProfile> {
                     width: MediaQuery.of(context).size.width * 0.95,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
                         onPressed: () {
                           p.updateProfileF(context,
                               token: p.userProfile.token,

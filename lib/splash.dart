@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
       var v = await Config().getConfig();
       final user =
           await Provider.of<AuthVm>(context, listen: false).getUserData();
-      if (v!.firstTime.toString() == "false") {
+      if (v!.firstTime.toString() == "false" || v.firstTime == false) {
         Timer(const Duration(seconds: 3), () async {
           Navigator.of(context).pushReplacement(PageRouteBuilder(
               transitionDuration: const Duration(seconds: 3),

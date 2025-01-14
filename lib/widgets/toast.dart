@@ -22,7 +22,7 @@ snackBarColorF(msg, context,
       elevation: 100,
       dismissDirection: DismissDirection.horizontal,
       behavior: SnackBarBehavior.floating,
-      shape: BeveledRectangleBorder(
+      shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
           side: BorderSide(
               color: borderColor,

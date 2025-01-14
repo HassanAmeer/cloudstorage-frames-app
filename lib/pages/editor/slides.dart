@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudstorage/constant/links.dart';
-import 'package:cloudstorage/main.dart';
 import 'package:cloudstorage/widgets/sheets.dart';
 import 'package:cloudstorage/widgets/toast.dart';
 import 'package:flutter/material.dart';
@@ -320,7 +319,7 @@ class _SlidesPageState extends State<SlidesPage> {
               width: MediaQuery.of(context).size.width * 0.95,
               child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                      shape: BeveledRectangleBorder(
+                      shape: RoundedRectangleBorder(
                           side: const BorderSide(
                               color: AppColors.primaryColor, width: 1),
                           borderRadius: BorderRadius.circular(10)),
@@ -446,6 +445,8 @@ Widget _buildAddFrameButton(BuildContext context, String selectedImg) {
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 class ImageListScreen extends StatefulWidget {
+  const ImageListScreen({super.key});
+
   @override
   _ImageListScreenState createState() => _ImageListScreenState();
 }
@@ -511,7 +512,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
             onPressed: () {
               loadImages();
             },
-            icon: Icon(Icons.abc)),
+            icon: const Icon(Icons.abc)),
       ],
     );
   }

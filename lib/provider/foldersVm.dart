@@ -407,7 +407,7 @@ class FoldersVm with ChangeNotifier {
       notifyListeners();
 
       try {
-        var request = await http.MultipartRequest(
+        var request = http.MultipartRequest(
             'POST', Uri.parse(ApiLinks.baseUrl + ApiLinks.uploadfiles))
           ..headers['Authorization'] = 'Bearer $token'
           ..fields['folderid'] = folderId.toString();
@@ -526,7 +526,7 @@ class FoldersVm with ChangeNotifier {
       var resp = await http
           .delete(Uri.parse(ApiLinks.baseUrl + ApiLinks.deletefile), body: {
         "folderid": folderId.toString(),
-        "filename": "files\/" + fileName.split('/').last
+        "filename": "files/${fileName.split('/').last}"
       }, headers: {
         'Authorization': 'Bearer $token'
       });

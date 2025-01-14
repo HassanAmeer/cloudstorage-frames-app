@@ -16,6 +16,8 @@ class AppImages {
   static const String goldcart = 'assets/images/goldcart.png';
   static const String noframe = 'assets/images/noframe.png';
   static const String createfolder = 'assets/images/createfolder.png';
+  static const String ordersList = 'assets/orders.png';
+  static const String google_icon = 'assets/google_icon.png';
 }
 
 class AppFrames {

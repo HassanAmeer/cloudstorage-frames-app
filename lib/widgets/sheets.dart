@@ -592,6 +592,65 @@ pickImagesSheetF(context) {
 }
 
 ///////////////////////////////////
+Future<void> deleteFileSheet(context,
+    {required token, required folderId, required fileName}) async {
+  const primaryColor = Color(0xff4338CA);
+  const secondaryColor = Color(0xff6D28D9);
+  const accentColor = Color(0xffffffff);
+  // const backgroundColor = Color(0xffffffff);
+  // const errorColor = Color(0xffEF4444);
+  TextEditingController descContr = TextEditingController();
+  bool isDescEmpty = false;
+  await showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Consumer<FoldersVm>(builder: (context, p, c) {
+          return Container(
+              decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                      colors: [primaryColor, secondaryColor]),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(12, 26),
+                        blurRadius: 50,
+                        spreadRadius: 0,
+                        color: Colors.grey.withOpacity(.1))
+                  ]),
+              // height: 200,
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                const Center(
+                  child: Icon(
+                    Icons.horizontal_rule_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.95,
+                    child: ElevatedButton.icon(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await p.deleteFolderFilesF(context,
+                              token: token,
+                              folderId: folderId,
+                              fileName: fileName);
+                        },
+                        label: p.isLoadingForRename
+                            ? const DotLoader(color: primaryColor)
+                            : const Text("Delete This File",
+                                style: TextStyle(color: primaryColor)),
+                        icon: const Icon(Icons.delete_outline_outlined,
+                            color: primaryColor))),
+                const SizedBox(height: 20),
+              ]));
+        });
+      });
+}
+
+///////////////////////////////////
 Future<void> createOrderSheet(context, {required folderList}) async {
   const primaryColor = Color(0xff4338CA);
   const secondaryColor = Color(0xff6D28D9);
@@ -602,6 +661,7 @@ Future<void> createOrderSheet(context, {required folderList}) async {
   bool isDescEmpty = false;
   await showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return Consumer<FoldersVm>(builder: (context, p, c) {
           return Container(

@@ -3,6 +3,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:cloudstorage/constant/colors.dart';
 import 'package:cloudstorage/constant/images.dart';
 import 'package:cloudstorage/pages/orders.dart';
+import 'package:cloudstorage/widgets/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -122,116 +123,128 @@ class _BottomNavBarState extends State<BottomNavBar>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      appBar: _bottomNavIndex == 0
-          ? AppBar(
-              // backgroundColor: AppColors.primaryColor.withOpacity(0.1),
-              leading: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: AppColors.orange,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                          child: Text(
-                              context
-                                  .watch<AuthVm>()
-                                  .userProfile
-                                  .name
-                                  .toUpperCase()[0],
-                              style: GoogleFonts.agbalumo(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 18))))),
-              // title: Container(
-              //   decoration: BoxDecoration(
-              //     color: AppColors.primaryColor,
-              //     borderRadius: BorderRadius.circular(25),
-              //   ),
-              //   child: const Padding(
-              //     padding: EdgeInsets.all(8.0),
-              //     child: Text(
-              //       " Plan 20 GB ",
-              //       style: TextStyle(color: Colors.white),
-              //     ),
-              //   ),
-              // ),
-              actions: [
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton.filled(
-                          style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.all(
-                                  AppColors.primaryColor)),
-                          color: Colors.black,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ProfilePage()));
-                          },
-                          icon:
-                              const Icon(Icons.person_4, color: Colors.white)))
-                ])
-          : null,
-      body: NotificationListener<ScrollNotification>(
-        onNotification: onScrollNotification,
-        child: pagesList[_bottomNavIndex],
-        // child: NavigationScreen(pagesList[_bottomNavIndex]),
-      ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.primaryColor.shade700,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-          onPressed: () {
-            // _bottomNavIndex = 1;
-            // setState(() {});
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const OrdersPage()));
+    return WillPopScope(
+      onWillPop: () async {
+        if (_bottomNavIndex == 0) {
+          Logout().exitDialoge(context);
+        } else {
+          _bottomNavIndex = 0;
+          setState(() {});
+        }
+        return false;
+      },
+      child: Scaffold(
+        extendBody: true,
+        appBar: _bottomNavIndex == 0
+            ? AppBar(
+                // backgroundColor: AppColors.primaryColor.withOpacity(0.1),
+                leading: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: AppColors.orange,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                            child: Text(
+                                context
+                                    .watch<AuthVm>()
+                                    .userProfile
+                                    .name
+                                    .toUpperCase()[0],
+                                style: GoogleFonts.agbalumo(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 18))))),
+                // title: Container(
+                //   decoration: BoxDecoration(
+                //     color: AppColors.primaryColor,
+                //     borderRadius: BorderRadius.circular(25),
+                //   ),
+                //   child: const Padding(
+                //     padding: EdgeInsets.all(8.0),
+                //     child: Text(
+                //       " Plan 20 GB ",
+                //       style: TextStyle(color: Colors.white),
+                //     ),
+                //   ),
+                // ),
+                actions: [
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton.filled(
+                            style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(
+                                    AppColors.primaryColor)),
+                            color: Colors.black,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfilePage()));
+                            },
+                            icon: const Icon(Icons.person_4,
+                                color: Colors.white)))
+                  ])
+            : null,
+        body: NotificationListener<ScrollNotification>(
+          onNotification: onScrollNotification,
+          child: pagesList[_bottomNavIndex],
+          // child: NavigationScreen(pagesList[_bottomNavIndex]),
+        ),
+        floatingActionButton: FloatingActionButton(
+            backgroundColor: AppColors.primaryColor.shade700,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            onPressed: () {
+              // _bottomNavIndex = 1;
+              // setState(() {});
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const OrdersPage()));
 
-            // UploadMediaPage();
-            // _fabAnimationController.reset();
-            // _borderRadiusAnimationController.reset();
-            // _borderRadiusAnimationController.forward();
-            // _fabAnimationController.forward();
+              // UploadMediaPage();
+              // _fabAnimationController.reset();
+              // _borderRadiusAnimationController.reset();
+              // _borderRadiusAnimationController.forward();
+              // _fabAnimationController.forward();
+            },
+            child: Image.asset(AppImages.ordersList, height: 35, width: 35)),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+          itemCount: iconList.length,
+          tabBuilder: (int index, bool isActive) {
+            final color = isActive
+                ? AppColors.primaryColor
+                : AppColors.primaryColor.shade100.withOpacity(0.8);
+            return Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(iconList[index], size: 24, color: color),
+                  const SizedBox(height: 4),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(iconNamesList[index],
+                          maxLines: 1, style: TextStyle(color: color)))
+                ]);
           },
-          child: Image.asset(AppImages.goldcart, height: 30, width: 30)),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-        itemCount: iconList.length,
-        tabBuilder: (int index, bool isActive) {
-          final color = isActive
-              ? AppColors.primaryColor
-              : AppColors.primaryColor.shade100.withOpacity(0.8);
-          return Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(iconList[index], size: 24, color: color),
-                const SizedBox(height: 4),
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(iconNamesList[index],
-                        maxLines: 1, style: TextStyle(color: color)))
-              ]);
-        },
-        backgroundColor: Colors.white,
-        activeIndex: _bottomNavIndex,
-        notchAndCornersAnimation: borderRadiusAnimation,
-        splashSpeedInMilliseconds: 300,
-        notchSmoothness: NotchSmoothness.defaultEdge,
-        gapLocation: GapLocation.center,
-        leftCornerRadius: 15,
-        rightCornerRadius: 15,
-        onTap: (index) => setState(() => _bottomNavIndex = index),
-        hideAnimationController: _hideBottomBarAnimationController,
-        // shadow: const BoxShadow(
-        //   offset: Offset(0, 1),
-        //   blurRadius: 15,
-        //   spreadRadius: 0.1,
-        //   color: Colors.grey,
-        // ),
+          backgroundColor: Colors.white,
+          activeIndex: _bottomNavIndex,
+          notchAndCornersAnimation: borderRadiusAnimation,
+          splashSpeedInMilliseconds: 300,
+          notchSmoothness: NotchSmoothness.defaultEdge,
+          gapLocation: GapLocation.center,
+          leftCornerRadius: 15,
+          rightCornerRadius: 15,
+          onTap: (index) => setState(() => _bottomNavIndex = index),
+          hideAnimationController: _hideBottomBarAnimationController,
+          // shadow: const BoxShadow(
+          //   offset: Offset(0, 1),
+          //   blurRadius: 15,
+          //   spreadRadius: 0.1,
+          //   color: Colors.grey,
+          // ),
+        ),
       ),
     );
   }

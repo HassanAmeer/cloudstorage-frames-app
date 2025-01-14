@@ -1,13 +1,10 @@
 import 'package:cloudstorage/constant/colors.dart';
 import 'package:cloudstorage/constant/images.dart';
 import 'package:cloudstorage/pages/plans.dart';
-import 'package:cloudstorage/provider/authVm.dart';
 import 'package:cloudstorage/provider/foldersVm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../widgets/dotloader.dart';
 import '../widgets/sheets.dart';
@@ -62,7 +59,7 @@ class _FoldersPageState extends State<FoldersPage> {
               //       Icons.arrow_back_ios,
               //       color: AppColors.primaryColor,
               //     )),
-              title: const Text("5 Folders",
+              title: Text("${p.foldersList.length} Folders",
                   style: TextStyle(
                       color: AppColors.primaryColor,
                       fontSize: 20,

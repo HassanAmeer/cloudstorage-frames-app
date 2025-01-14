@@ -1,17 +1,12 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudstorage/constant/colors.dart';
 import 'package:cloudstorage/constant/images.dart';
 import 'package:cloudstorage/constant/links.dart';
-import 'package:cloudstorage/models/folderModel.dart';
 import 'package:cloudstorage/provider/authVm.dart';
 import 'package:cloudstorage/provider/foldersVm.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/dotloader.dart';
@@ -87,7 +82,7 @@ class _FolderFilesState extends State<FolderFiles> {
                   child: _selectedItems.isNotEmpty
                       ? ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                              shape: BeveledRectangleBorder(
+                              shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13)),
                               backgroundColor: Colors.black),
                           onPressed: () {
@@ -279,22 +274,9 @@ class _FolderFilesState extends State<FolderFiles> {
                                       : Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                              DropdownButton(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  elevation: 0,
-                                                  dropdownColor: AppColors
-                                                      .primaryColor
-                                                      .withOpacity(0.5),
-                                                  icon: const Icon(
-                                                      Icons.more_vert,
-                                                      color: AppColors
-                                                          .primaryColor),
-                                                  underline:
-                                                      const SizedBox.shrink(),
-                                                  onChanged: (value) async {
-                                                    await p.deleteFolderFilesF(
-                                                        context,
+                                              IconButton(
+                                                  onPressed: () {
+                                                    deleteFileSheet(context,
                                                         token:
                                                             Provider.of<AuthVm>(
                                                                     context,
@@ -304,15 +286,44 @@ class _FolderFilesState extends State<FolderFiles> {
                                                                 .token,
                                                         folderId:
                                                             widget.folderId,
-                                                        fileName:
-                                                            data);
+                                                        fileName: data);
                                                   },
-                                                  items: const [
-                                                    DropdownMenuItem(
-                                                        value: 2,
-                                                        child: Text(
-                                                            'Delete Folder '))
-                                                  ]),
+                                                  icon: const Icon(
+                                                      Icons.more_vert)),
+
+                                              // DropdownButton(
+                                              //     borderRadius:
+                                              //         BorderRadius.circular(10),
+                                              //     elevation: 0,
+                                              //     dropdownColor: AppColors
+                                              //         .primaryColor
+                                              //         .withOpacity(0.5),
+                                              //     icon: const Icon(
+                                              //         Icons.more_vert,
+                                              //         color: AppColors
+                                              //             .primaryColor),
+                                              //     underline:
+                                              //         const SizedBox.shrink(),
+                                              //     onChanged: (value) async {
+                                              //       await p.deleteFolderFilesF(
+                                              //           context,
+                                              //           token:
+                                              //               Provider.of<AuthVm>(
+                                              //                       context,
+                                              //                       listen:
+                                              //                           false)
+                                              //                   .userProfile
+                                              //                   .token,
+                                              //           folderId:
+                                              //               widget.folderId,
+                                              //           fileName: data);
+                                              //     },
+                                              //     items: const [
+                                              //       DropdownMenuItem(
+                                              //           value: 2,
+                                              //           child: Text(
+                                              //               'Delete File '))
+                                              //     ]),
                                               const SizedBox(width: 10),
                                               SizedBox(
                                                   width: 10,

@@ -79,7 +79,8 @@ class _PlansPageState extends State<PlansPage> {
                                       }
                                     },
                                     title: data.title,
-                                    subtitle: "${data.price} USD",
+                                    subtitle: "${data.price} \$",
+                                    // subtitle: "${data.price} USD",
                                     desc: data.desc
                                         .map((e) => e.toString())
                                         .toList()));

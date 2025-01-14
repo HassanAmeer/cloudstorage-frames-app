@@ -9,9 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey =

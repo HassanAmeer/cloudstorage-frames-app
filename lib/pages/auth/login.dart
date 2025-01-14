@@ -38,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          const SizedBox(height: 50),
                           Image.asset(AppImages.icon,
                               width: MediaQuery.of(context).size.width * 0.4),
                           const SizedBox(height: 70),
@@ -78,11 +79,11 @@ class _LoginPageState extends State<LoginPage> {
                                           BorderRadius.circular(10)))),
                           const SizedBox(height: 20),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.9,
+                              width: MediaQuery.of(context).size.width * 0.94,
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColors.primaryColor,
-                                      shape: BeveledRectangleBorder(
+                                      shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10))),
                                   onPressed: () async {
@@ -107,9 +108,46 @@ class _LoginPageState extends State<LoginPage> {
                                                   duration: const Duration(
                                                       seconds: 2),
                                                   color: Colors.grey)))),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                      color: Colors.grey, width: 1),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
+                                onPressed: () {},
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                        width: 25, AppImages.google_icon),
+                                    const Text("  Google Sign In"),
+                                  ],
+                                )),
+                          ),
                           const SizedBox(height: 20),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignupPage()));
+                                    },
+                                    child: Text('Forgot Password',
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            color: Colors.blueGrey.shade400)))
+                              ]),
+                          const SizedBox(height: 80),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TextButton(
                                     onPressed: () {
@@ -123,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                                         style: TextStyle(
                                             decoration:
                                                 TextDecoration.underline,
-                                            color: Colors.blueGrey.shade400)))
+                                            color: Colors.blueGrey.shade200)))
                               ])
                         ]),
                   ))));

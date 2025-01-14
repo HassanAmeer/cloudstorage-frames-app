@@ -25,11 +25,11 @@ class _OrdersDetailsState extends State<OrdersDetails> {
             backgroundColor: AppColors.primaryColor.withOpacity(0.05),
             title: const Text("Order Details"),
             actions: [
-              Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Text("ID: ${widget.data.id.length}",
-                      style: GoogleFonts.agbalumo(
-                          color: Colors.white, fontSize: 18)))
+              // Padding(
+              //     padding: const EdgeInsets.only(right: 10),
+              //     child: Text("ID: ${widget.data.id.length}",
+              //         style: GoogleFonts.agbalumo(
+              //             color: Colors.white, fontSize: 18)))
             ]),
         body: Padding(
             padding: const EdgeInsets.all(10),
