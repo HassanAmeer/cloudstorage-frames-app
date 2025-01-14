@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloudstorage/constant/images.dart';
-import 'package:cloudstorage/pages/contactus.dart';
-import 'package:cloudstorage/pages/orders.dart';
-import 'package:cloudstorage/provider/foldersVm.dart';
-import 'package:cloudstorage/widgets/logout.dart';
+import '../constant/images.dart';
+import '../pages/contactus.dart';
+import '../pages/orders.dart';
+import '../provider/foldersVm.dart';
+import '../widgets/logout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

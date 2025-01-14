@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloudstorage/provider/authVm.dart';
-import 'package:cloudstorage/provider/foldersVm.dart';
-import 'package:cloudstorage/provider/upgradingVm.dart';
+import '../../provider/authVm.dart';
+import '../../provider/foldersVm.dart';
+import '../../provider/upgradingVm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -180,7 +180,8 @@ class _FramesPagesState extends State<FramesPages> {
                                                                 imgLink: ApiLinks
                                                                         .imgLink +
                                                                     data.image);
-                                                                    Navigator.pop(context);
+                                                            Navigator.pop(
+                                                                context);
                                                           },
                                                           style: ElevatedButton.styleFrom(
                                                               backgroundColor:

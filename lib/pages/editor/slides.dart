@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloudstorage/constant/links.dart';
-import 'package:cloudstorage/widgets/sheets.dart';
-import 'package:cloudstorage/widgets/toast.dart';
+import '../../constant/links.dart';
+import '../../widgets/sheets.dart';
+import '../../widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:path_provider/path_provider.dart';

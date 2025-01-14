@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloudstorage/constant/links.dart';
-import 'package:cloudstorage/models/ordersModel.dart';
+import '../constant/links.dart';
+import '../models/ordersModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';

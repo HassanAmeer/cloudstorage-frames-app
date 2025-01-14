@@ -1,7 +1,7 @@
-import 'package:cloudstorage/constant/colors.dart';
-import 'package:cloudstorage/constant/images.dart';
-import 'package:cloudstorage/pages/plans.dart';
-import 'package:cloudstorage/provider/foldersVm.dart';
+import '../constant/colors.dart';
+import '../constant/images.dart';
+import '../pages/plans.dart';
+import '../provider/foldersVm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';

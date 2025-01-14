@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloudstorage/constant/colors.dart';
-import 'package:cloudstorage/constant/images.dart';
-import 'package:cloudstorage/constant/links.dart';
-import 'package:cloudstorage/provider/authVm.dart';
-import 'package:cloudstorage/provider/foldersVm.dart';
+import '../constant/colors.dart';
+import '../constant/images.dart';
+import '../constant/links.dart';
+import '../provider/authVm.dart';
+import '../provider/foldersVm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';

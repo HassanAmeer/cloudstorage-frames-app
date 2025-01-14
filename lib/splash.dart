@@ -6,8 +6,8 @@ import 'provider/authVm.dart';
 import 'pages/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cloudstorage/bottomnavbar.dart';
-import 'package:cloudstorage/constant/images.dart';
+import 'package:storyforgen/bottomnavbar.dart';
+import 'package:storyforgen/constant/images.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

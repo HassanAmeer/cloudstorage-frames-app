@@ -1,7 +1,7 @@
-import 'package:cloudstorage/constant/colors.dart';
-import 'package:cloudstorage/constant/images.dart';
-import 'package:cloudstorage/provider/authVm.dart';
-import 'package:cloudstorage/widgets/dotloader.dart';
+import '../../constant/colors.dart';
+import '../../constant/images.dart';
+import '../../provider/authVm.dart';
+import '../../widgets/dotloader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';

@@ -1,6 +1,6 @@
 {
-    "name": "cloudstorage",
-    "short_name": "cloudstorage",
+    "name": "storyforgen",
+    "short_name": "storyforgen",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

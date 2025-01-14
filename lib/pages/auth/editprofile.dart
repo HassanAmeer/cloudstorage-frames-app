@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloudstorage/constant/colors.dart';
-import 'package:cloudstorage/constant/images.dart';
-import 'package:cloudstorage/constant/links.dart';
-import 'package:cloudstorage/provider/authVm.dart';
-import 'package:cloudstorage/widgets/dotloader.dart';
+import '../../constant/colors.dart';
+import '../../constant/images.dart';
+import '../../constant/links.dart';
+import '../../provider/authVm.dart';
+import '../../widgets/dotloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';

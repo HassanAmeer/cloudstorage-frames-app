@@ -1,4 +1,4 @@
-import 'package:cloudstorage/helpers/nullables.dart';
+import '../helpers/nullables.dart';
 
 class FolderModel {
   String id;

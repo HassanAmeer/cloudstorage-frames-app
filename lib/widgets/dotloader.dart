@@ -1,4 +1,4 @@
-import 'package:cloudstorage/constant/colors.dart';
+import 'package:storyforgen/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math show sin, pi;
 

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "cloudstorage" "\0"
+            VALUE "FileDescription", "storyforgen" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "cloudstorage" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "cloudstorage.exe" "\0"
-            VALUE "ProductName", "cloudstorage" "\0"
+            VALUE "InternalName", "storyforgen" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
+            VALUE "OriginalFilename", "storyforgen.exe" "\0"
+            VALUE "ProductName", "storyforgen" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

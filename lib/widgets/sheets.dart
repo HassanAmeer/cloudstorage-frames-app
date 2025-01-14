@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:cloudstorage/constant/images.dart';
-import 'package:cloudstorage/widgets/dotloader.dart';
-import 'package:cloudstorage/widgets/toast.dart';
+import 'package:storyforgen/constant/images.dart';
+import 'package:storyforgen/widgets/dotloader.dart';
+import 'package:storyforgen/widgets/toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

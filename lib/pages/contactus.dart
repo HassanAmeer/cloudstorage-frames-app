@@ -1,4 +1,4 @@
-import 'package:cloudstorage/provider/authVm.dart';
+import '../provider/authVm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';

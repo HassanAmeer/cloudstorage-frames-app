@@ -1,4 +1,4 @@
-package com.example.cloudstorage
+package com.example.storyforgen
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity
 

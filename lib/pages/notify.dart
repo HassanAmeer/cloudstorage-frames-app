@@ -1,5 +1,5 @@
-import 'package:cloudstorage/provider/authVm.dart';
-import 'package:cloudstorage/widgets/dotloader.dart';
+import '../provider/authVm.dart';
+import '../widgets/dotloader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';

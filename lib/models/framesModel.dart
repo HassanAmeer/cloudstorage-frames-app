@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cloudstorage/helpers/nullables.dart';
+import '../helpers/nullables.dart';
 
 class FramesModel {
   String id;

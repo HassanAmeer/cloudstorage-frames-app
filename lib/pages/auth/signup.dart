@@ -1,7 +1,7 @@
-import 'package:cloudstorage/constant/colors.dart';
-import 'package:cloudstorage/pages/auth/login.dart';
-import 'package:cloudstorage/provider/authVm.dart';
-import 'package:cloudstorage/widgets/dotloader.dart';
+import '../../constant/colors.dart';
+import '../../pages/auth/login.dart';
+import '../../provider/authVm.dart';
+import '../../widgets/dotloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';

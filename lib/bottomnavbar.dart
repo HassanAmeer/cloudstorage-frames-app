@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:cloudstorage/constant/colors.dart';
-import 'package:cloudstorage/constant/images.dart';
-import 'package:cloudstorage/pages/orders.dart';
-import 'package:cloudstorage/widgets/logout.dart';
+import 'package:storyforgen/constant/colors.dart';
+import 'package:storyforgen/constant/images.dart';
+import 'package:storyforgen/pages/orders.dart';
+import 'package:storyforgen/widgets/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
