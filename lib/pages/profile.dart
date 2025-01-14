@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudstorage/constant/images.dart';
+import 'package:cloudstorage/pages/contactus.dart';
 import 'package:cloudstorage/pages/orders.dart';
 import 'package:cloudstorage/provider/foldersVm.dart';
 import 'package:cloudstorage/widgets/logout.dart';
@@ -11,7 +12,6 @@ import '../constant/colors.dart';
 import '../constant/links.dart';
 import '../provider/authVm.dart';
 import 'auth/editprofile.dart';
-import 'plans.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -93,15 +93,18 @@ class ProfilePage extends StatelessWidget {
                   title: const Text("Total Files"),
                   trailing: Text("${foldervm.allMediaList.length}")),
               const Divider(),
-              const CupertinoListTile(
-                  leading: Icon(Icons.support_agent_rounded,
+              CupertinoListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ConatctUsPage()));
+                  },
+                  leading: const Icon(Icons.support_agent_rounded,
                       color: AppColors.primaryColor),
-                  title: Text("Contact Us"),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 17,
-                  )),
+                  title: const Text("Contact Us"),
+                  trailing: const Icon(Icons.arrow_forward_ios,
+                      color: Colors.grey, size: 17)),
               const Divider(),
               CupertinoListTile(
                   onTap: () {

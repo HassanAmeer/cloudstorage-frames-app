@@ -60,7 +60,7 @@ class _FoldersPageState extends State<FoldersPage> {
               //       color: AppColors.primaryColor,
               //     )),
               title: Text("${p.foldersList.length} Folders",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: AppColors.primaryColor,
                       fontSize: 20,
                       fontWeight: FontWeight.bold)),

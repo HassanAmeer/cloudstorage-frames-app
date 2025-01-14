@@ -349,4 +349,54 @@ class AuthVm with ChangeNotifier {
       notifyListeners();
     }
   }
+
+/////////////// contactUsF start
+  Future contactUsF(context,
+      {String email = "", String name = "", String desc = ""}) async {
+    isLoadingF = true;
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+
+      if (name.isEmpty) {
+        snackBarColorF("Name is required", context);
+        return;
+      }
+      if (email.isEmpty) {
+        snackBarColorF("Email is required", context);
+        return;
+      }
+      if (desc.isEmpty) {
+        snackBarColorF("Decription is required", context);
+        return;
+      }
+      notifyListeners();
+
+      http.Response response =
+          await http.post(Uri.parse(ApiLinks.baseUrl + ApiLinks.help), body: {
+        "name": name,
+        "email": email,
+        "msg": desc,
+      }, headers: <String, String>{
+        // 'Content-Type': 'application/json',
+      });
+      var dresp = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        snackBarColorF("Report Sent Successfully", context);
+        Navigator.pop(context);
+      } else {
+        snackBarColorF("${dresp['message']}", context);
+      }
+    } catch (e, st) {
+      snackBarColorF("$e", context);
+      debugPrint("💥 error: $e , st:$st");
+    } finally {
+      isLoadingF = false;
+      notifyListeners();
+    }
+  }
 }

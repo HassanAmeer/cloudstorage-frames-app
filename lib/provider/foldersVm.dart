@@ -24,6 +24,15 @@ class FoldersVm with ChangeNotifier {
     notifyListeners();
   }
 
+  ////////////
+  bool _isDuringInput = false;
+  bool get duringInput => _isDuringInput;
+  setIsDuringInputF(v) {
+    _isDuringInput = v;
+    notifyListeners();
+  }
+  ////////////
+
   List<FolderModel> foldersList = [];
   List allMediaList = [];
   ////////////////////
@@ -548,6 +557,86 @@ class FoldersVm with ChangeNotifier {
     } finally {
       isLoadingForId = "";
       isLoadingForDeleteFilesF = false;
+      notifyListeners();
+    }
+  }
+
+////////////////////////////// create order start
+
+  Future createOrderF(context,
+      {String token = "",
+      List imgs = const [],
+      List frames = const [],
+      List slides = const [],
+      String desc = ""}) async {
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+      if (token.isEmpty) {
+        snackBarColorF("Token is required", context);
+        return;
+      }
+
+      isLoadingForUploadF = true;
+      notifyListeners();
+
+      try {
+        // images
+        // slides
+        // frames
+        // desc
+
+        var request = http.MultipartRequest(
+            'POST', Uri.parse(ApiLinks.baseUrl + ApiLinks.createOrder))
+          ..headers['Authorization'] = 'Bearer $token'
+          ..fields['desc'] = desc;
+        if (imgs.isNotEmpty) {
+          for (var i = 0; i < imgs.length; i++) {
+            if (await File(imgs[i].path!).exists()) {
+              request.files.add(await http.MultipartFile.fromPath(
+                  'images[$i]', imgs[i].path!));
+            }
+          }
+        }
+        if (frames.isNotEmpty) {
+          for (var i = 0; i < frames.length; i++) {
+            if (await File(frames[i].path!).exists()) {
+              request.files.add(await http.MultipartFile.fromPath(
+                  'slides[$i]', frames[i].path!));
+            }
+          }
+        }
+        if (slides.isNotEmpty) {
+          for (var i = 0; i < slides.length; i++) {
+            if (await File(slides[i].path!).exists()) {
+              request.files.add(await http.MultipartFile.fromPath(
+                  'frames[$i]', slides[i].path!));
+            }
+          }
+        }
+        var response = await request.send();
+        var responseBody = await response.stream.bytesToString();
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          EasyLoading.showSuccess("Order Created");
+        } else {
+          debugPrint("Response body: $responseBody");
+          EasyLoading.showError("${jsonDecode(responseBody)['message']}");
+        }
+      } on SocketException catch (e, st) {
+        EasyLoading.showError("Try Again Later");
+        debugPrint(" error: $e , st:$st");
+      }
+    } catch (e, st) {
+      isLoadingForUploadF = false;
+      notifyListeners();
+      debugPrint(" 💥 error: $e , st:$st");
+      EasyLoading.showError("$e");
+    } finally {
+      isLoadingForUploadF = false;
       notifyListeners();
     }
   }

@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image.asset(
-                                        width: 25, AppImages.google_icon),
+                                        width: 25, AppImages.googleIcon),
                                     const Text("  Google Sign In"),
                                   ],
                                 )),

@@ -651,13 +651,15 @@ Future<void> deleteFileSheet(context,
 }
 
 ///////////////////////////////////
-Future<void> createOrderSheet(context, {required folderList}) async {
+Future<void> createOrderSheet(context,
+    {required slidesList, required imgsList, required framesList}) async {
   const primaryColor = Color(0xff4338CA);
   const secondaryColor = Color(0xff6D28D9);
   const accentColor = Color(0xffffffff);
   // const backgroundColor = Color(0xffffffff);
   // const errorColor = Color(0xffEF4444);
   TextEditingController descContr = TextEditingController();
+
   bool isDescEmpty = false;
   await showModalBottomSheet<void>(
       context: context,
@@ -690,6 +692,12 @@ Future<void> createOrderSheet(context, {required folderList}) async {
                 Padding(
                     padding: const EdgeInsets.all(10),
                     child: CupertinoTextField(
+                        onTap: () {
+                          p.setIsDuringInputF(true);
+                        },
+                        onTapOutside: (v) {
+                          p.setIsDuringInputF(false);
+                        },
                         onChanged: (v) {
                           if (v.trim().isEmpty) {
                             isDescEmpty = true;
@@ -728,7 +736,7 @@ Future<void> createOrderSheet(context, {required folderList}) async {
                                 style: TextStyle(color: primaryColor)),
                         icon: const Icon(Icons.shopping_cart,
                             color: primaryColor))),
-                const SizedBox(height: 20),
+                SizedBox(height: p.duringInput ? 290 : 20),
               ]));
         });
       });

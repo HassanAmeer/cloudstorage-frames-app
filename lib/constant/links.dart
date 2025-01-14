@@ -7,7 +7,7 @@ class ApiLinks {
   static const String login = 'login'; // post
   static const String logout = 'logout'; // get
   static const String updateProfile = 'profile'; // post
-  static const String order = 'order'; // post
+  static const String createOrder = 'order'; // post
   static const String makefolder = 'makefolder'; // post
   static const String buyFrames = 'buyframe'; // post
   static const String renamefolder = 'renamefolder'; // post

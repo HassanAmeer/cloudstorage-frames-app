@@ -139,101 +139,100 @@ class _SlidesPageState extends State<SlidesPage> {
             //               color: Colors.white)))
             // ]),
             Screenshot(
-              controller: screenshotController,
-              child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 15,
-                                offset: Offset(1, 1))
-                          ],
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Stack(children: [
-                        Container(
-                            width: double.infinity,
-                            decoration:
-                                BoxDecoration(color: Colors.grey.shade50),
-                            child: Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: SizedBox(
-                                    height: 400,
-                                    width: double.infinity,
-                                    child: CachedNetworkImage(
-                                      imageUrl: ApiLinks.imgLink + selectedImg,
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(AppImages.imgnotfound,
-                                              fit: BoxFit.cover),
-                                      progressIndicatorBuilder: (context, url,
-                                              progress) =>
-                                          const Center(
-                                              child: CircularProgressIndicator(
-                                                  color:
-                                                      AppColors.primaryColor)),
-                                      fit: BoxFit.cover,
-                                    )))),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: _buildFrameWidget(context, selectedImg),
-                        ),
-                      ]))),
-            ),
+                controller: screenshotController,
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 15,
+                                  offset: Offset(1, 1))
+                            ],
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Stack(children: [
+                          Container(
+                              width: double.infinity,
+                              decoration:
+                                  BoxDecoration(color: Colors.grey.shade50),
+                              child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: SizedBox(
+                                      height: 400,
+                                      width: double.infinity,
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            ApiLinks.imgLink + selectedImg,
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(AppImages.imgnotfound,
+                                                fit: BoxFit.cover),
+                                        progressIndicatorBuilder: (context, url,
+                                                progress) =>
+                                            const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        color: AppColors
+                                                            .primaryColor)),
+                                        fit: BoxFit.cover,
+                                      )))),
+                          Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: _buildFrameWidget(context, selectedImg))
+                        ])))),
 
             OutlinedButton.icon(
-                onPressed:
-                    //  context
-                    //             .watch<FoldersVm>()
-                    //             .selectedFramesLinkList
-                    //             .firstWhere(
-                    //                 (e) =>
-                    //                     e['imgId'].toString() == selectedImg &&
-                    //                     e['saved'] == true,
-                    //                 orElse: () => {})['saved'] ==
-                    //         true
-                    //     ? null
-                    //     :
-                    () async {
-                  if (!Provider.of<FoldersVm>(context, listen: false)
-                      .selectedFramesLinkList
-                      .firstWhere((e) => e['imgId'].toString() == selectedImg,
-                          orElse: () => {})
-                      .isNotEmpty) {
-                    snackBarColorF("Please select frame", context);
-                  } else {
-                    context.read<FoldersVm>().saveSelectedFramesLinkListF(
-                        imgId: selectedImg, saved: true);
-                    final directory = await getTemporaryDirectory();
-                    final slidesPath = '${directory.path}/slides';
-                    final slidesDirectory = Directory(slidesPath);
+                onPressed: context
+                            .watch<FoldersVm>()
+                            .selectedFramesLinkList
+                            .firstWhere(
+                                (e) =>
+                                    e['imgId'].toString() == selectedImg &&
+                                    e['saved'] == true,
+                                orElse: () => {})['saved'] ==
+                        true
+                    ? null
+                    : () async {
+                        if (!Provider.of<FoldersVm>(context, listen: false)
+                            .selectedFramesLinkList
+                            .firstWhere(
+                                (e) => e['imgId'].toString() == selectedImg,
+                                orElse: () => {})
+                            .isNotEmpty) {
+                          snackBarColorF("Please select frame", context);
+                        } else {
+                          context.read<FoldersVm>().saveSelectedFramesLinkListF(
+                              imgId: selectedImg, saved: true);
+                          final directory = await getTemporaryDirectory();
+                          final slidesPath = '${directory.path}/slides';
+                          final slidesDirectory = Directory(slidesPath);
 
-                    if (await slidesDirectory.exists()) {
-                      await directory.create();
-                    }
+                          if (await slidesDirectory.exists()) {
+                            await directory.create();
+                          }
 
-                    var finalImgPath =
-                        "$slidesPath/${selectedImg.split("/").last}";
-                    if (await File(finalImgPath).exists()) {
-                      await File(finalImgPath).delete().then((value) {
-                        setState(() {});
-                        // EasyLoading.showSuccess("Delete: $value : $finalImgPath");
-                      });
-                    }
-                    // } else {
-                    //   EasyLoading.showSuccess("not delete ");
-                    // }
+                          var finalImgPath =
+                              "$slidesPath/${selectedImg.split("/").last}";
+                          if (await File(finalImgPath).exists()) {
+                            await File(finalImgPath).delete().then((value) {
+                              setState(() {});
+                              // EasyLoading.showSuccess("Delete: $value : $finalImgPath");
+                            });
+                          }
+                          // } else {
+                          //   EasyLoading.showSuccess("not delete ");
+                          // }
 
-                    screenshotController
-                        .captureAndSave(slidesPath,
-                            fileName: selectedImg.split("/").last)
-                        .then((value) {
-                      // EasyLoading.showSuccess("Save: $value");
-                    });
-                  }
-                },
+                          screenshotController
+                              .captureAndSave(slidesPath,
+                                  fileName: selectedImg.split("/").last)
+                              .then((value) {
+                            // EasyLoading.showSuccess("Save: $value");
+                          });
+                        }
+                      },
                 icon: const Icon(Icons.save),
                 label: const Text("Save")),
             // ImageListScreen(),
@@ -324,9 +323,29 @@ class _SlidesPageState extends State<SlidesPage> {
                               color: AppColors.primaryColor, width: 1),
                           borderRadius: BorderRadius.circular(10)),
                       backgroundColor: Colors.grey.shade100),
-                  onPressed: () {
-                    createOrderSheet(context,
-                        folderList: p.selectedFramesLinkList);
+                  onPressed: () async {
+                    final directory = await getTemporaryDirectory();
+                    final slidesPath = '${directory.path}/slides';
+                    final slidesDirectory = Directory(slidesPath);
+                    List slidesList = [];
+                    if (await slidesDirectory.exists()) {
+                      // EasyLoading.showSuccess("saved get");
+                      // Get all files in the directory
+                      final files = slidesDirectory.listSync();
+                      // Filter files to only include image files
+                      slidesList = files
+                          .where(
+                              (file) => file is File && isImageFile(file.path))
+                          .map((file) => File(file.path))
+                          .toList();
+                    }
+
+                    await createOrderSheet(context,
+                        slidesList: slidesList,
+                        framesList:
+                            Provider.of<FoldersVm>(context, listen: false)
+                                .selectedFramesLinkList,
+                        imgsList: widget.imgsList);
                   },
                   label: const Text("Order Now",
                       style: TextStyle(color: AppColors.primaryColor)),
@@ -335,6 +354,12 @@ class _SlidesPageState extends State<SlidesPage> {
         ),
       );
     });
+  }
+
+  bool isImageFile(String path) {
+    final extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    final ext = path.split('.').last.toLowerCase();
+    return extensions.contains(ext);
   }
 }
 

@@ -24,7 +24,7 @@ class _OrdersDetailsState extends State<OrdersDetails> {
         appBar: AppBar(
             backgroundColor: AppColors.primaryColor.withOpacity(0.05),
             title: const Text("Order Details"),
-            actions: [
+            actions: const [
               // Padding(
               //     padding: const EdgeInsets.only(right: 10),
               //     child: Text("ID: ${widget.data.id.length}",
