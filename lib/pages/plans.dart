@@ -1,3 +1,5 @@
+import 'package:storyforgen/provider/authVm.dart';
+
 import '../provider/upgradingVm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +54,7 @@ class _PlansPageState extends State<PlansPage> {
               ? const Center(child: DotLoader(color: AppColors.primaryColor))
               : p.plansList.isEmpty
                   ? Center(
-                      child: Text("No Notifications",
+                      child: Text("No Plans",
                               style: GoogleFonts.agbalumo(
                                   color: Colors.grey, fontSize: 20))
                           .animate(onPlay: (controller) => controller.repeat())
@@ -71,10 +73,16 @@ class _PlansPageState extends State<PlansPage> {
                                 child: PlanCard(
                                     onTap: () async {
                                       if (widget.isFromBuyFolder == true) {
+                                        var auth = await Provider.of<AuthVm>(
+                                                context,
+                                                listen: false)
+                                            .userProfile;
                                         await p.forBuyingFolderF(context,
-                                            folderName:
-                                                widget.folderName.toString(),
-                                            amount: data.price);
+                                            totalSize: data.storage,
+                                            folderName: widget.folderName,
+                                            amount: data.price,
+                                            subscriptionNo: data.id,
+                                            token: auth.token);
                                       }
                                     },
                                     title: data.title,

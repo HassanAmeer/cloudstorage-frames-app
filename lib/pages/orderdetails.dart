@@ -33,192 +33,92 @@ class _OrdersDetailsState extends State<OrdersDetails> {
             ]),
         body: Padding(
             padding: const EdgeInsets.all(10),
-            child: Column(children: [
-              // const Divider(height: 1),
-              ListTile(
-                  tileColor: AppColors.primaryColor.withOpacity(0.05),
-                  title: Text("STATUS: ",
-                      style: GoogleFonts.albertSans(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold)),
-                  trailing: Text(widget.data.status.toString(),
-                          style: GoogleFonts.agbalumo(
-                              color: AppColors.primaryColor, fontSize: 17))
-                      .animate(onPlay: (controller) => controller.repeat())
-                      .shimmer(
-                          color: Colors.grey.shade200,
-                          duration: 1.seconds,
-                          delay: (1).seconds)),
-              ListTile(
-                  title: Row(
-                    children: [
-                      Text(
-                        "ORDER ID: ",
+            child: SingleChildScrollView(
+              controller: ScrollController(),
+              physics: ClampingScrollPhysics(),
+              child: Column(children: [
+                // const Divider(height: 1),
+                ListTile(
+                    tileColor: AppColors.primaryColor.withOpacity(0.05),
+                    title: Text("STATUS: ",
                         style: GoogleFonts.albertSans(
                             color: Colors.grey,
                             fontSize: 14,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        widget.data.id,
-                        style: GoogleFonts.albertSans(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Text("${DateTime.parse(widget.data.createdAt).day}/${DateTime.parse(widget.data.createdAt).month}/${DateTime.parse(widget.data.createdAt).year} ",
-                            style: GoogleFonts.agdasima(
+                            fontWeight: FontWeight.bold)),
+                    trailing: Text(widget.data.status.toString(),
+                            style: GoogleFonts.agbalumo(
                                 color: AppColors.primaryColor, fontSize: 17))
                         .animate(onPlay: (controller) => controller.repeat())
                         .shimmer(
                             color: Colors.grey.shade200,
                             duration: 1.seconds,
-                            delay: (1).seconds),
-                    // const Icon(Icons.history, color: Colors.grey)
-                  ])),
-              const Divider(height: 1),
+                            delay: (1).seconds)),
+                ListTile(
+                    title: Row(
+                      children: [
+                        Text(
+                          "ORDER ID: ",
+                          style: GoogleFonts.albertSans(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          widget.data.id,
+                          style: GoogleFonts.albertSans(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Text("${DateTime.parse(widget.data.createdAt).day}/${DateTime.parse(widget.data.createdAt).month}/${DateTime.parse(widget.data.createdAt).year} ",
+                              style: GoogleFonts.agdasima(
+                                  color: AppColors.primaryColor, fontSize: 17))
+                          .animate(onPlay: (controller) => controller.repeat())
+                          .shimmer(
+                              color: Colors.grey.shade200,
+                              duration: 1.seconds,
+                              delay: (1).seconds),
+                      // const Icon(Icons.history, color: Colors.grey)
+                    ])),
 
-              ListTile(
-                  title: Text("TRANSACTION ID: ",
+                const Divider(height: 1),
+                ListTile(
+                    title: Text("Description",
+                        style: GoogleFonts.albertSans(
+                            color: Colors.grey, fontSize: 14)),
+                    subtitle: Text("${widget.data.desc} ...")),
+                const Divider(height: 1),
+                Row(children: [
+                  Text(" IMAGES: ",
                       style: GoogleFonts.lato(
-                          color: Colors.grey,
+                          color: AppColors.primaryColor,
                           fontSize: 14,
-                          fontWeight: FontWeight.w400)),
-                  subtitle: Text(widget.data.trId.toString(),
-                      style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500)),
-                  trailing: Text("${widget.data.price} \$",
-                          style: GoogleFonts.agdasima(
-                              color: AppColors.primaryColor, fontSize: 17))
-                      .animate(onPlay: (controller) => controller.repeat())
-                      .shimmer(
-                          color: Colors.grey.shade200,
-                          duration: 1.seconds,
-                          delay: (1).seconds)),
-              const Divider(height: 1),
-              ListTile(
-                  title: Text("Description",
-                      style: GoogleFonts.albertSans(
-                          color: Colors.grey, fontSize: 14)),
-                  subtitle: Text("${widget.data.desc} ...")),
-              Row(children: [
-                Text(" IMAGES: ",
-                    style: GoogleFonts.lato(
-                        color: AppColors.primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold))
-              ]),
+                          fontWeight: FontWeight.bold))
+                ]),
 
-              GridView.builder(
-                  shrinkWrap: true,
-                  controller: ScrollController(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
-                  itemCount: widget.data.images.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        showCupertinoDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CupertinoAlertDialog(
-                                  content: SizedBox(
-                                      width: 210,
-                                      height: 200,
-                                      child: CachedNetworkImage(
-                                          imageUrl: ApiLinks.imgLink +
-                                              widget.data.images[index],
-                                          errorWidget: (context, url, error) {
-                                            return Image.asset(
-                                                AppImages.imgnotfound,
-                                                opacity:
-                                                    const AlwaysStoppedAnimation(
-                                                        0.3));
-                                          },
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Center(
-                                                  child: SizedBox(
-                                                      width: 50,
-                                                      height: 50,
-                                                      child: CircularProgressIndicator(
-                                                          color: AppColors
-                                                              .primaryColor
-                                                              .shade100,
-                                                          value: downloadProgress
-                                                              .progress))))),
-                                  actions: [
-                                    CupertinoButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Close')),
-                                  ],
-                                  insetAnimationCurve: Curves.slowMiddle,
-                                  insetAnimationDuration:
-                                      const Duration(seconds: 2));
-                            });
-                      },
-                      child: Card(
-                          child: CachedNetworkImage(
-                              errorWidget: (context, url, error) {
-                                return Image.asset(AppImages.imgnotfound,
-                                    opacity: const AlwaysStoppedAnimation(0.3));
-                              },
-                              progressIndicatorBuilder:
-                                  (context, url, progress) {
-                                return const Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    SizedBox(
-                                      height: 2,
-                                      child: LinearProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation(
-                                              AppColors.primaryColor),
-                                          backgroundColor: Colors.grey),
-                                    ),
-                                  ],
-                                );
-                              },
-                              fit: BoxFit.cover,
-                              imageUrl: ApiLinks.imgLink +
-                                  widget.data.images[index])),
-                    );
-                  }),
-              const SizedBox(height: 10),
-              Row(children: [
-                Text(" FRAMES: ",
-                    style: GoogleFonts.lato(
-                        color: AppColors.primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold))
-              ]),
-
-              GridView.builder(
-                  shrinkWrap: true,
-                  controller: ScrollController(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
-                  itemCount: widget.data.frames.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
+                GridView.builder(
+                    shrinkWrap: true,
+                    controller: ScrollController(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
+                    itemCount: widget.data.images.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
                         onTap: () {
                           showCupertinoDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return CupertinoAlertDialog(
                                     content: SizedBox(
-                                        width: 210,
-                                        height: 200,
+                                        width: 400,
+                                        height: 250,
                                         child: CachedNetworkImage(
                                             imageUrl: ApiLinks.imgLink +
-                                                widget.data.frames[index],
+                                                widget.data.images[index],
                                             errorWidget: (context, url, error) {
                                               return Image.asset(
                                                   AppImages.imgnotfound,
@@ -274,93 +174,185 @@ class _OrdersDetailsState extends State<OrdersDetails> {
                                 },
                                 fit: BoxFit.cover,
                                 imageUrl: ApiLinks.imgLink +
-                                    widget.data.frames[index])));
-                  }),
-              const SizedBox(height: 10),
-              Row(children: [
-                Text(" SLIDES: ",
-                    style: GoogleFonts.lato(
-                        color: AppColors.primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold))
-              ]),
+                                    widget.data.images[index])),
+                      );
+                    }),
+                // const SizedBox(height: 10),
+                // Row(children: [
+                //   Text(" FRAMES: ",
+                //       style: GoogleFonts.lato(
+                //           color: AppColors.primaryColor,
+                //           fontSize: 14,
+                //           fontWeight: FontWeight.bold))
+                // ]),
 
-              GridView.builder(
-                  shrinkWrap: true,
-                  controller: ScrollController(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
-                  itemCount: widget.data.slides.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                        onTap: () {
-                          showCupertinoDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CupertinoAlertDialog(
-                                    content: SizedBox(
-                                        width: 210,
-                                        height: 200,
-                                        child: CachedNetworkImage(
-                                            imageUrl: ApiLinks.imgLink +
-                                                widget.data.slides[index],
-                                            errorWidget: (context, url, error) {
-                                              return Image.asset(
-                                                  AppImages.imgnotfound,
-                                                  opacity:
-                                                      const AlwaysStoppedAnimation(
-                                                          0.3));
+                // // GridView.builder(
+                // //     shrinkWrap: true,
+                // //     controller: ScrollController(),
+                // //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                // //         crossAxisCount: 3),
+                // //     itemCount: widget.data.frames.length,
+                // //     itemBuilder: (BuildContext context, int index) {
+                // //       return InkWell(
+                // //           onTap: () {
+                // //             showCupertinoDialog(
+                // //                 context: context,
+                // //                 builder: (BuildContext context) {
+                // //                   return CupertinoAlertDialog(
+                // //                       content: SizedBox(
+                // //                           width: 210,
+                // //                           height: 200,
+                // //                           child: CachedNetworkImage(
+                // //                               imageUrl: ApiLinks.imgLink +
+                // //                                   widget.data.frames[index],
+                // //                               errorWidget: (context, url, error) {
+                // //                                 return Image.asset(
+                // //                                     AppImages.imgnotfound,
+                // //                                     opacity:
+                // //                                         const AlwaysStoppedAnimation(
+                // //                                             0.3));
+                // //                               },
+                // //                               progressIndicatorBuilder: (context,
+                // //                                       url, downloadProgress) =>
+                // //                                   Center(
+                // //                                       child: SizedBox(
+                // //                                           width: 50,
+                // //                                           height: 50,
+                // //                                           child: CircularProgressIndicator(
+                // //                                               color: AppColors
+                // //                                                   .primaryColor
+                // //                                                   .shade100,
+                // //                                               value: downloadProgress
+                // //                                                   .progress))))),
+                // //                       actions: [
+                // //                         CupertinoButton(
+                // //                             onPressed: () {
+                // //                               Navigator.pop(context);
+                // //                             },
+                // //                             child: const Text('Close')),
+                // //                       ],
+                // //                       insetAnimationCurve: Curves.slowMiddle,
+                // //                       insetAnimationDuration:
+                // //                           const Duration(seconds: 2));
+                // //                 });
+                // //           },
+                // //           child: Card(
+                // //               child: CachedNetworkImage(
+                // //                   errorWidget: (context, url, error) {
+                // //                     return Image.asset(AppImages.imgnotfound,
+                // //                         opacity:
+                // //                             const AlwaysStoppedAnimation(0.3));
+                // //                   },
+                // //                   progressIndicatorBuilder:
+                // //                       (context, url, progress) {
+                // //                     return const Column(
+                // //                       mainAxisAlignment: MainAxisAlignment.end,
+                // //                       children: [
+                // //                         SizedBox(
+                // //                           height: 2,
+                // //                           child: LinearProgressIndicator(
+                // //                               valueColor: AlwaysStoppedAnimation(
+                // //                                   AppColors.primaryColor),
+
+                //                               backgroundColor: Colors.grey),
+                //                         ),
+                //                       ],
+                //                     );
+                //                   },
+                //                   fit: BoxFit.cover,
+                //                   imageUrl: ApiLinks.imgLink +
+                //                       widget.data.frames[index])));
+                //     }),
+
+                const SizedBox(height: 10),
+                Row(children: [
+                  Text(" SLIDES: ",
+                      style: GoogleFonts.lato(
+                          color: AppColors.primaryColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold))
+                ]),
+
+                GridView.builder(
+                    shrinkWrap: true,
+                    controller: ScrollController(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
+                    itemCount: widget.data.slides.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                          onTap: () {
+                            showCupertinoDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CupertinoAlertDialog(
+                                      content: SizedBox(
+                                          width: 400,
+                                          height: 250,
+                                          child: CachedNetworkImage(
+                                              imageUrl: ApiLinks.imgLink +
+                                                  widget.data.slides[index],
+                                              errorWidget:
+                                                  (context, url, error) {
+                                                return Image.asset(
+                                                    AppImages.imgnotfound,
+                                                    opacity:
+                                                        const AlwaysStoppedAnimation(
+                                                            0.3));
+                                              },
+                                              progressIndicatorBuilder: (context,
+                                                      url, downloadProgress) =>
+                                                  Center(
+                                                      child: SizedBox(
+                                                          width: 50,
+                                                          height: 50,
+                                                          child: CircularProgressIndicator(
+                                                              color: AppColors
+                                                                  .primaryColor
+                                                                  .shade100,
+                                                              value: downloadProgress
+                                                                  .progress))))),
+                                      actions: [
+                                        CupertinoButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
                                             },
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                Center(
-                                                    child: SizedBox(
-                                                        width: 50,
-                                                        height: 50,
-                                                        child: CircularProgressIndicator(
-                                                            color: AppColors
-                                                                .primaryColor
-                                                                .shade100,
-                                                            value: downloadProgress
-                                                                .progress))))),
-                                    actions: [
-                                      CupertinoButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('Close')),
-                                    ],
-                                    insetAnimationCurve: Curves.slowMiddle,
-                                    insetAnimationDuration:
-                                        const Duration(seconds: 2));
-                              });
-                        },
-                        child: Card(
-                            child: CachedNetworkImage(
-                                errorWidget: (context, url, error) {
-                                  return Image.asset(AppImages.imgnotfound,
-                                      opacity:
-                                          const AlwaysStoppedAnimation(0.3));
-                                },
-                                progressIndicatorBuilder:
-                                    (context, url, progress) {
-                                  return const Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        height: 2,
-                                        child: LinearProgressIndicator(
-                                            valueColor: AlwaysStoppedAnimation(
-                                                AppColors.primaryColor),
-                                            backgroundColor: Colors.grey),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                fit: BoxFit.cover,
-                                imageUrl: ApiLinks.imgLink +
-                                    widget.data.slides[index])));
-                  }),
-            ])));
+                                            child: const Text('Close')),
+                                      ],
+                                      insetAnimationCurve: Curves.slowMiddle,
+                                      insetAnimationDuration:
+                                          const Duration(seconds: 2));
+                                });
+                          },
+                          child: Card(
+                              child: CachedNetworkImage(
+                                  errorWidget: (context, url, error) {
+                                    return Image.asset(AppImages.imgnotfound,
+                                        opacity:
+                                            const AlwaysStoppedAnimation(0.3));
+                                  },
+                                  progressIndicatorBuilder:
+                                      (context, url, progress) {
+                                    return const Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        SizedBox(
+                                          height: 2,
+                                          child: LinearProgressIndicator(
+                                              valueColor:
+                                                  AlwaysStoppedAnimation(
+                                                      AppColors.primaryColor),
+                                              backgroundColor: Colors.grey),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  fit: BoxFit.cover,
+                                  imageUrl: ApiLinks.imgLink +
+                                      widget.data.slides[index])));
+                    }),
+              ]),
+            )));
   }
 }

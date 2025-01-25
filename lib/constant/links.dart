@@ -28,6 +28,7 @@ class ApiLinks {
   static const String orders = 'orders'; // get
   static const String storage = 'storage'; // get
   static const String getfilesbyfolderid = 'getfilesbyfolderid'; // get
+  static const String getsharedfolder = 'getsharedfolder'; // get
   ////// delete method
   static const String delfolder = 'delfolder'; // delete
   static const String deletefile = 'deletefile'; // delete

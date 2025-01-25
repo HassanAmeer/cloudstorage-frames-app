@@ -6,7 +6,8 @@ class FolderModel {
   String subscription;
   String folderId;
   String folderName;
-  String folderUsedSpace;
+  var usedSize;
+  String totalSize;
   List<String> items;
   List<String> shared;
   String createdAt;
@@ -19,7 +20,8 @@ class FolderModel {
     this.subscription = "",
     this.folderId = "",
     this.folderName = "",
-    this.folderUsedSpace = "",
+    this.usedSize = "",
+    this.totalSize = "",
     this.items = const [],
     this.shared = const [],
     this.createdAt = "",
@@ -33,7 +35,22 @@ class FolderModel {
         subscription: json["subscription"].toString().toNullString(),
         folderId: json["folderId"].toString().toNullString(),
         folderName: json["folderName"].toString().toNullString(),
-        folderUsedSpace: json["folderUsedSpace"].toString().toNullString(),
+        usedSize: json["usedsize"].toString(),
+
+        // usedSize: (int.parse(json["usedsize"].toString().toNullString()) > 1024
+        //     ? (int.parse(json["usedsize"].toString().toNullString()) / 1024)
+        //         .toStringAsFixed(1)
+        //     : int.parse(json["usedsize"].toString().toNullString()).toString()),
+
+        // totalSize: json["totalsize"].toString().toNullString(),
+
+        totalSize: (int.parse(json["totalsize"].toString().toNullString()) >
+                1024
+            ? (int.parse(json["totalsize"].toString().toNullString()) / 1024)
+                .toStringAsFixed(1)
+            : int.parse(json["totalsize"].toString().toNullString())
+                .toString()),
+
         items: List<String>.from(json["items"].map((x) => x)),
         shared: List<String>.from(json["shared"].map((x) => x)),
         createdAt: json["created_at"].toString().toNullString(),
@@ -47,7 +64,8 @@ class FolderModel {
         "subscription": subscription,
         "folderId": folderId,
         "folderName": folderName,
-        "folderUsedSpace": folderUsedSpace,
+        "totalsize": totalSize,
+        "usedsize": usedSize,
         "items": List<dynamic>.from(items.map((x) => x)),
         "shared": List<dynamic>.from(shared.map((x) => x)),
         "created_at": createdAt.toString().toNullString(),

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../constant/links.dart';
 import '../models/plansmodel.dart';
 import '../widgets/toast.dart';
+import 'authVm.dart';
 
 class Upgrading with ChangeNotifier {
   bool _isLoading = false;
@@ -97,7 +98,8 @@ class Upgrading with ChangeNotifier {
   ///////////////////////
 
 /////////////////
-  Future<bool> forBuyingFramesF(context, {amount = 0}) async {
+  Future forBuyingFramesF(context,
+      {required List<String> frameId, amount = 0}) async {
     try {
       isLoadingFoyBuyF = true;
       notifyListeners();
@@ -120,6 +122,30 @@ class Upgrading with ChangeNotifier {
       if (transactionId!.isNotEmpty) {
         // ScaffoldMessenger.of(context)
         //     .showSnackBar(const SnackBar(content: Text('Payment Successful')));
+
+        var token =
+            Provider.of<AuthVm>(context, listen: false).userProfile.token;
+        if (token.isEmpty) {
+          EasyLoading.showError("Reopen page");
+          return false;
+        }
+
+        debugPrint("💥 frameId:${frameId[0]}");
+
+        await Provider.of<FoldersVm>(context, listen: false)
+            .buyFrames(context, frameId: frameId[0].toString(), token: token);
+
+        await makeTransactionHistoyF(
+          context,
+          foldername: "",
+          folderstorage: "",
+          payfor: "1",
+          price: "$amount",
+          frameids: frameId,
+          trid: transactionId.toString(),
+          token: token.toString(),
+        );
+
         return true;
       } else {
         debugPrint(
@@ -127,16 +153,15 @@ class Upgrading with ChangeNotifier {
         return false;
       }
     } catch (e, st) {
-      isLoadingFoyBuyF = false;
-      notifyListeners();
       if (e is StripeException && e.error.code == FailureCode.Canceled) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Payment canceled')));
+        EasyLoading.showError('Payment canceled');
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('$e')));
+        debugPrint('💥 forBuyingFramesF Error: $e');
+        // EasyLoading.showError('$e');
       }
       debugPrint('erro:$e, st:$st ---------------- create stripe try catch ');
+      isLoadingFoyBuyF = false;
+      notifyListeners();
       return false;
     } finally {
       isLoadingFoyBuyF = false;
@@ -152,8 +177,14 @@ class Upgrading with ChangeNotifier {
     notifyListeners();
   }
 
-  Future forBuyingFolderF(context,
-      {amount = 0, required String folderName}) async {
+  Future forBuyingFolderF(
+    context, {
+    amount = 0,
+    required String folderName,
+    required String totalSize,
+    required String token,
+    required String subscriptionNo,
+  }) async {
     try {
       isLoadingFoyBuyF = true;
       notifyListeners();
@@ -176,26 +207,31 @@ class Upgrading with ChangeNotifier {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('Payment Successful')));
 
+        await makeTransactionHistoyF(
+          context,
+          foldername: folderName,
+          folderstorage: totalSize,
+          payfor: "0",
+          price: "$amount",
+          trid: transactionId.toString(),
+          token: token.toString(),
+        );
+
         await Provider.of<FoldersVm>(context, listen: false)
-            .createFolderF(context, folderName: folderName)
+            .createFolderF(context,
+                token: token,
+                folderName: folderName,
+                totalSize: totalSize,
+                subscriptionno: subscriptionNo)
             .then((v) {
-          makeTransactionHistoyF(
-            context,
-            foldername: "",
-            folderstorage: "",
-            payfor: 0,
-            price: "100",
-            trid: "name",
-            token: "",
-          );
           isLoadingFoyBuyF = false;
           notifyListeners();
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         });
 
-        // debugPrint(
-        //     'payment successfull ----------- $transactionId ---------------');
+        debugPrint(
+            'payment successfull ----------- $transactionId ---------------');
       } else {
         debugPrint(
             'payment cancelled ----------- $transactionId ----------------');
@@ -214,32 +250,44 @@ class Upgrading with ChangeNotifier {
   ////////// mak a transaction history
   makeTransactionHistoyF(
     context, {
-    String foldername = "",
-    String folderstorage = "",
-    int payfor = 0 /*0 for folder 1 for frames */,
+    String foldername = " ",
+    String folderstorage = " ",
+    String payfor = "0",
+    /*0 for folder 1 for frames */
     String price = "",
     List frameids = const [],
+    // List frameids = const ['1', '3'], // for example only
     String trid = "",
     String token = "",
   }) async {
-    var resp = await http.post(
-        Uri.parse(ApiLinks.baseUrl + ApiLinks.makeTransactionHistory),
-        body: {
-          "foldername": foldername,
-          "folderstorage": folderstorage,
-          "payfor": payfor,
-          "price": price,
-          "frameids": frameids,
-          "trid": trid,
-        },
-        headers: {
-          'Authorization': 'Bearer $token'
-        });
-    var respd = jsonDecode(resp.body);
-    if (resp.statusCode == 200 || resp.statusCode == 201) {
-      EasyLoading.showSuccess("Transaction Created");
-    } else {
-      EasyLoading.showSuccess("${respd['message']}");
+    try {
+      var resp = await http.post(
+          Uri.parse(ApiLinks.baseUrl + ApiLinks.makeTransactionHistory),
+          body: {
+            "foldername": foldername,
+            "folderstorage": folderstorage,
+            "payfor": payfor,
+            "price": price,
+            ...{
+              if (frameids.isNotEmpty)
+                for (int i = 0; i < frameids.length; i++)
+                  'frameids[$i]': frameids[i].toString(),
+            },
+            "trid": trid,
+          },
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          });
+      var respd = jsonDecode(resp.body);
+      if (resp.statusCode == 200 || resp.statusCode == 201) {
+        // EasyLoading.showSuccess("Transaction Created");
+      } else {
+        debugPrint(' 💥 makeTransactionHistoyF response Error: $respd');
+        EasyLoading.showError("${respd['message']}");
+      }
+    } catch (e, st) {
+      debugPrint(' 💥 makeTransactionHistoyF try catch erro:$e, st:$st ');
     }
   }
 }

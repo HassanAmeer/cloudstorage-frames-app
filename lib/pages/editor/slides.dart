@@ -17,7 +17,7 @@ import 'frames.dart';
 
 class SlidesPage extends StatefulWidget {
   var data;
-  final List imgsList;
+  final List<String> imgsList;
   SlidesPage({super.key, this.data, this.imgsList = const []});
 
   @override
@@ -324,10 +324,24 @@ class _SlidesPageState extends State<SlidesPage> {
                           borderRadius: BorderRadius.circular(10)),
                       backgroundColor: Colors.grey.shade100),
                   onPressed: () async {
+                    final foldervm =
+                        Provider.of<FoldersVm>(context, listen: false);
+                    final selectedFrameFalse = foldervm.selectedFramesLinkList
+                        .any((e) => e['saved'].toString() == 'false');
+
+                    debugPrint(" foldervm: ${foldervm.framesList}");
+                    debugPrint("${selectedFrameFalse}");
+
+                    if (selectedFrameFalse ||
+                        foldervm.selectedFramesLinkList.length !=
+                            widget.imgsList.length) {
+                      snackBarColorF("Save and Select All Frames", context);
+                      return;
+                    }
                     final directory = await getTemporaryDirectory();
                     final slidesPath = '${directory.path}/slides';
                     final slidesDirectory = Directory(slidesPath);
-                    List slidesList = [];
+                    List<File> slidesList = [];
                     if (await slidesDirectory.exists()) {
                       // EasyLoading.showSuccess("saved get");
                       // Get all files in the directory
@@ -344,7 +358,9 @@ class _SlidesPageState extends State<SlidesPage> {
                         slidesList: slidesList,
                         framesList:
                             Provider.of<FoldersVm>(context, listen: false)
-                                .selectedFramesLinkList,
+                                .selectedFramesLinkList
+                                .map((e) => e['frameId'])
+                                .toList(),
                         imgsList: widget.imgsList);
                   },
                   label: const Text("Order Now",
@@ -383,18 +399,16 @@ Widget _buildSelectedFrame(BuildContext context, Map<String, dynamic> frame) {
   return Stack(
     children: [
       Container(
-        width: 140,
-        height: 140,
+        width: 200,
+        height: 200,
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(width: 4, color: Colors.blueGrey.shade100),
-            left: BorderSide(width: 4, color: Colors.blueGrey.shade100),
-          ),
-          borderRadius: BorderRadius.circular(5),
-        ),
+            color: Colors.white,
+            border: Border(
+                top: BorderSide(width: 4, color: Colors.blueGrey.shade100),
+                left: BorderSide(width: 4, color: Colors.blueGrey.shade100)),
+            borderRadius: BorderRadius.circular(5)),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(4),
           child: CachedNetworkImage(
             imageUrl: imgLink,
             errorWidget: (context, url, error) => Image.asset(

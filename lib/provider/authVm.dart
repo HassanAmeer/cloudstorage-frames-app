@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -557,6 +558,73 @@ class AuthVm with ChangeNotifier {
       snackBarColorF("$e", context);
       debugPrint("💥 error: $e , st:$st");
       return false;
+    } finally {
+      isLoadingF = false;
+      notifyListeners();
+    }
+  }
+  ////////////////////
+
+  Future createOrderF(context,
+      {List<String> images = const [],
+      /* images List: set path only from files/..... */
+      List<File> slides = const [],
+      List frameIds = const [],
+      String desc = ""}) async {
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+
+      if (images.isEmpty) {
+        snackBarColorF("Images is required", context);
+        return;
+      }
+
+      isLoadingF = true;
+      notifyListeners();
+
+      try {
+        var request = http.MultipartRequest(
+            'POST', Uri.parse(ApiLinks.baseUrl + ApiLinks.createOrder))
+          ..headers['Authorization'] = 'Bearer ${userProfile.token}'
+          ..fields['desc'] = desc;
+        for (var i = 0; i < images.length; i++) {
+          request.fields['images[$i]'] = images[i].toString();
+        }
+        for (var i = 0; i < frameIds.length; i++) {
+          request.fields['frames[$i]'] = frameIds[i].toString();
+        }
+
+        for (var i = 0; i < slides.length; i++) {
+          if (await File(slides[i].path).exists()) {
+            request.files.add(await http.MultipartFile.fromPath(
+                'slides[$i]', slides[i].path));
+          }
+        }
+
+        var response = await request.send();
+        var responseBody = await response.stream.bytesToString();
+
+        log(" 👉 responseBody: $responseBody");
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          EasyLoading.showSuccess("Order Created");
+          Navigator.pop(context);
+        } else {
+          debugPrint("Response body: $responseBody");
+          EasyLoading.showError("${jsonDecode(responseBody)['message']}");
+        }
+      } on SocketException catch (e, st) {
+        EasyLoading.showError("$e");
+        debugPrint("💥 error: $e , st:$st");
+      }
+    } catch (e, st) {
+      isLoadingF = false;
+      notifyListeners();
+      debugPrint(" 💥 error: $e , st:$st");
+      snackBarColorF("$e", context);
     } finally {
       isLoadingF = false;
       notifyListeners();

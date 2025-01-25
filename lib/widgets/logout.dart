@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
 import '../pages/auth/login.dart';
+import '../provider/foldersVm.dart';
 import '../storage/userstorage.dart';
 
 class Logout {
@@ -64,8 +65,15 @@ class Logout {
                     child: const Text('Logout',
                         style: TextStyle(color: Colors.black)),
                     onPressed: () async {
+                      FoldersVm fv =
+                          Provider.of<FoldersVm>(context, listen: false);
                       AuthVm p = Provider.of<AuthVm>(context, listen: false);
                       await UserStorage.clear();
+
+                      fv.getedSharedFolderList.clear();
+                      fv.foldersList.clear();
+                      fv.allMediaList.clear();
+
                       await p.logoutF(context, token: p.userProfile.token);
 
                       Navigator.pop(context);

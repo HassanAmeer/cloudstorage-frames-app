@@ -16,8 +16,13 @@ import 'editor/slides.dart';
 class FolderFiles extends StatefulWidget {
   final String folderId;
   final String folderName;
-  const FolderFiles(
-      {super.key, required this.folderId, required this.folderName});
+  bool isFromShared;
+
+  FolderFiles(
+      {super.key,
+      required this.folderId,
+      this.isFromShared = false,
+      required this.folderName});
 
   @override
   State<FolderFiles> createState() => _FolderFilesState();
@@ -25,7 +30,7 @@ class FolderFiles extends StatefulWidget {
 
 class _FolderFilesState extends State<FolderFiles> {
   get decoration => null;
-  final List _selectedItems = [];
+  final List<String> _selectedItems = [];
 
   @override
   void initState() {
@@ -274,22 +279,45 @@ class _FolderFilesState extends State<FolderFiles> {
                                       : Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                              IconButton(
-                                                  onPressed: () {
-                                                    deleteFileSheet(context,
-                                                        token:
-                                                            Provider.of<AuthVm>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .userProfile
-                                                                .token,
-                                                        folderId:
-                                                            widget.folderId,
-                                                        fileName: data);
-                                                  },
-                                                  icon: const Icon(
-                                                      Icons.more_vert)),
+                                              widget.isFromShared == true
+                                                  ? SizedBox.shrink()
+                                                  : IconButton(
+                                                      onPressed: () {
+                                                        deleteFileSheet(
+                                                          context,
+                                                          onTap: () async {
+                                                            Navigator.pop(
+                                                                context);
+                                                            await p.deleteFolderFilesF(
+                                                                context,
+                                                                token: Provider.of<
+                                                                            AuthVm>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .userProfile
+                                                                    .token,
+                                                                folderId: widget
+                                                                    .folderId,
+                                                                fileName: data);
+                                                            if (_selectedItems
+                                                                .isNotEmpty) {
+                                                              _selectedItems
+                                                                  .clear();
+                                                            }
+                                                          },
+                                                          // token:
+                                                          //     Provider.of<AuthVm>(
+                                                          //             context,
+                                                          //             listen: false)
+                                                          //         .userProfile
+                                                          //         .token,
+                                                          // folderId: widget.folderId,
+                                                          // fileName: data,
+                                                        );
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.more_vert)),
 
                                               // DropdownButton(
                                               //     borderRadius:

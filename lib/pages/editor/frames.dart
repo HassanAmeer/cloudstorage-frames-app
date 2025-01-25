@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../provider/authVm.dart';
 import '../../provider/foldersVm.dart';
 import '../../provider/upgradingVm.dart';
@@ -177,6 +178,7 @@ class _FramesPagesState extends State<FramesPages> {
                                                             p.selectedFramesLinkListF(
                                                                 imgId: widget
                                                                     .imgId,
+                                                                    frameId: data.id,
                                                                 imgLink: ApiLinks
                                                                         .imgLink +
                                                                     data.image);
@@ -207,30 +209,27 @@ class _FramesPagesState extends State<FramesPages> {
                                                                         false)
                                                                 .forBuyingFramesF(
                                                                     context,
+                                                                    frameId:[data.id],
                                                                     amount: data
                                                                         .price
                                                                         .toString())
                                                                 .then(
                                                                     (value) async {
-                                                              if (value) {
-                                                                debugPrint(
-                                                                    " 👉 after  payment value: $value");
-                                                                await p
-                                                                    .buyFrames(
-                                                                        context,
-                                                                        token: Provider.of<AuthVm>(context, listen: false)
-                                                                            .userProfile
-                                                                            .token,
-                                                                        frameId:
-                                                                            data
-                                                                                .id)
-                                                                    .then(
-                                                                        (v) {});
-                                                              } else {
-                                                                snackBarColorF(
-                                                                    "Please try again",
-                                                                    context);
-                                                              }
+                                                              // if (value) {
+                                                              //   await p
+                                                              //       .buyFrames(
+                                                              //           context,
+                                                              //           token: Provider.of<AuthVm>(context, listen: false)
+                                                              //               .userProfile
+                                                              //               .token,
+                                                              //           frameId:
+                                                              //               data
+                                                              //                   .id)
+                                                              //       .then(
+                                                              //           (v) {});
+                                                              // } else {
+                                                              //  EasyLoading.showError("Try Later");
+                                                              // }
                                                             });
                                                           },
                                                           style: ElevatedButton.styleFrom(backgroundColor: Colors.grey.shade300, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),

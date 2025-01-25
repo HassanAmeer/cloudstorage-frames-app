@@ -83,8 +83,12 @@ class FoldersVm with ChangeNotifier {
 
   //////////////////////////
   List<Map<String, dynamic>> selectedFramesLinkList = [];
-  selectedFramesLinkListF({required String imgId, required String imgLink}) {
+  selectedFramesLinkListF(
+      {required String frameId,
+      required String imgId,
+      required String imgLink}) {
     Map<String, dynamic> frameLink = {
+      'frameId': frameId,
       'imgId': imgId,
       'imgLink': imgLink,
       "saved": false
@@ -133,8 +137,10 @@ class FoldersVm with ChangeNotifier {
   List<FramesModel> framesList = [];
 
   ////////////////////
-  Future getAllFrames(context, {token = ""}) async {
-    isLoadingF = true;
+  Future getAllFrames(context, {bool forceLoad = false, token = ""}) async {
+    if (!forceLoad) {
+      isLoadingF = true;
+    }
 
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
@@ -142,25 +148,26 @@ class FoldersVm with ChangeNotifier {
         snackBarColorF("🛜 Network Not Available", context);
         return;
       }
+      if (framesList.isEmpty || forceLoad) {
+        var response = await http.get(
+            Uri.parse(ApiLinks.baseUrl + ApiLinks.getframes),
+            headers: {'Authorization': 'Bearer $token'});
+        var dresp = jsonDecode(response.body);
 
-      var response = await http.get(
-          Uri.parse(ApiLinks.baseUrl + ApiLinks.getframes),
-          headers: {'Authorization': 'Bearer $token'});
-      var dresp = jsonDecode(response.body);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        if (dresp['frames'].isEmpty || dresp['frames'] == null) {
-          framesList = [];
-        } else {
-          framesList = [];
-          for (int i = 0; i < dresp['frames'].length; i++) {
-            framesList.add(FramesModel.fromJson(dresp['frames'][i]));
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          if (dresp['frames'].isEmpty || dresp['frames'] == null) {
+            framesList = [];
+          } else {
+            framesList = [];
+            for (int i = 0; i < dresp['frames'].length; i++) {
+              framesList.add(FramesModel.fromJson(dresp['frames'][i]));
+            }
           }
+        } else {
+          snackBarColorF("${dresp['message']}", context);
         }
-      } else {
-        snackBarColorF("${dresp['message']}", context);
+        log("👉 ${dresp['frames']}");
       }
-      log("👉 ${dresp['frames']}");
     } catch (e, st) {
       snackBarColorF("$e", context);
       debugPrint("💥 error: $e , st:$st");
@@ -173,7 +180,10 @@ class FoldersVm with ChangeNotifier {
 
 ////////////////////////
   Future createFolderF(context,
-      {String token = "", String folderName = ""}) async {
+      {String token = "",
+      String folderName = "",
+      required String totalSize,
+      required String subscriptionno}) async {
     isLoadingF = true;
 
     try {
@@ -182,11 +192,12 @@ class FoldersVm with ChangeNotifier {
         snackBarColorF("🛜 Network Not Available", context);
         return;
       }
-      var token = Provider.of<AuthVm>(context, listen: false).userProfile.token;
-      if (token.isEmpty) {
-        snackBarColorF("Token is required", context);
-        return;
-      }
+
+      // var token = Provider.of<AuthVm>(context, listen: false).userProfile.token;
+      // if (token.isEmpty) {
+      //   snackBarColorF("Token is required", context);
+      //   return;
+      // }
 
       if (folderName.isEmpty) {
         snackBarColorF("Folder Name is required", context);
@@ -194,10 +205,14 @@ class FoldersVm with ChangeNotifier {
       }
       notifyListeners();
 
-      var resp = await http.post(
-          Uri.parse(ApiLinks.baseUrl + ApiLinks.makefolder),
-          body: {"folderName": folderName},
-          headers: {'Authorization': 'Bearer $token'});
+      var resp = await http
+          .post(Uri.parse(ApiLinks.baseUrl + ApiLinks.makefolder), body: {
+        "folderName": folderName,
+        'totalsize': totalSize,
+        'subscriptionno': subscriptionno,
+      }, headers: {
+        'Authorization': 'Bearer $token',
+      });
       var respd = jsonDecode(resp.body);
       if (resp.statusCode == 200 || resp.statusCode == 201) {
         snackBarColorF("${respd['message']}", context);
@@ -284,8 +299,10 @@ class FoldersVm with ChangeNotifier {
   }
 
   ///////////////////////////////////////////
-  Future buyFrames(context, {String token = "", String frameId = ""}) async {
-    isLoadingF = true;
+  Future buyFrames(context,
+      {String token = "", required String frameId}) async {
+    // no need
+    // isLoadingF = true;
 
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
@@ -294,7 +311,7 @@ class FoldersVm with ChangeNotifier {
         return;
       }
       // var token = Provider.of<AuthVm>(context, listen: false).userProfile.token;
-      if (token.isEmpty) {
+      if (frameId.isEmpty) {
         snackBarColorF("frame Id Is Requirred", context);
         return;
       }
@@ -307,23 +324,20 @@ class FoldersVm with ChangeNotifier {
       var respd = jsonDecode(resp.body);
       if (resp.statusCode == 200 || resp.statusCode == 201) {
         // snackBarColorF("${respd['message']}", context);
-        await getAllFrames(context, token: token).then((v) {
-          isLoadingF = false;
-          notifyListeners();
-        });
+        await getAllFrames(context, forceLoad: true, token: token).then((v) {});
       } else {
-        snackBarColorF("${respd['message']}", context);
+        EasyLoading.showError("${respd['message']}");
       }
       log("👉 Buy Frames Resp: $respd");
     } catch (e, st) {
-      isLoadingF = false;
-      notifyListeners();
+      // isLoadingF = false;
+      // notifyListeners();
       debugPrint("💥 error: $e , st:$st");
-      snackBarColorF("$e", context);
+      // snackBarColorF("$e", context);
     } finally {
-      isLoadingF = false;
-      notifyListeners();
-      Navigator.pop(context); // for hide stripe payment popup
+      // isLoadingF = false;
+      // notifyListeners();
+      // Navigator.pop(context); // for hide stripe payment popup
     }
   }
 
@@ -431,6 +445,19 @@ class FoldersVm with ChangeNotifier {
 
         if (response.statusCode == 200 || response.statusCode == 201) {
           EasyLoading.showSuccess("Files uploaded");
+
+          var folder = foldersList.firstWhere(
+              (e) => e.id.toLowerCase() == folderId.toLowerCase(),
+              orElse: () => FolderModel());
+
+          // debugPrint(
+          //     "👉 files sizes: ${(files.fold(0, (sum, file) => sum + file.size) / 1048576)}");
+
+          folder.usedSize = (double.parse(folder.usedSize.toString()) +
+                  (files.fold(0, (sum, file) => sum + file.size) / 1048576))
+              .toStringAsFixed(1)
+              .toString();
+
           await getFilesByFolderId(context,
               isLoading: false, token: token, folderId: folderId);
         } else {
@@ -561,83 +588,220 @@ class FoldersVm with ChangeNotifier {
     }
   }
 
-////////////////////////////// create order start
+  ///////////////////////////////////////////
 
-  Future createOrderF(context,
+  bool _isLoadingForParticipent = false;
+  bool get isLoadingForParticipent => _isLoadingForParticipent;
+  set _isLoadingForParticipentF(bool value) {
+    _isLoadingForParticipent = value;
+    notifyListeners();
+  }
+
+  Future leaveSharedFolderF(context,
       {String token = "",
-      List imgs = const [],
-      List frames = const [],
-      List slides = const [],
-      String desc = ""}) async {
+      required String uid,
+      required String folderId}) async {
+    // no need
+    _isLoadingForParticipentF = true;
+
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
       if (connectivityResult == ConnectivityResult.none) {
         snackBarColorF("🛜 Network Not Available", context);
         return;
       }
-      if (token.isEmpty) {
-        snackBarColorF("Token is required", context);
+      // var token = Provider.of<AuthVm>(context, listen: false).userProfile.token;
+      if (folderId.isEmpty) {
+        snackBarColorF("Folder Id Is Required", context);
         return;
       }
-
-      isLoadingForUploadF = true;
       notifyListeners();
 
-      try {
-        // images
-        // slides
-        // frames
-        // desc
+      var resp = await http.post(
+          Uri.parse(ApiLinks.baseUrl + ApiLinks.removeaccessfolder),
+          body: {"shareid": folderId, "uid": uid},
+          headers: {'Authorization': 'Bearer $token'});
+      var respd = jsonDecode(resp.body);
 
-        var request = http.MultipartRequest(
-            'POST', Uri.parse(ApiLinks.baseUrl + ApiLinks.createOrder))
-          ..headers['Authorization'] = 'Bearer $token'
-          ..fields['desc'] = desc;
-        if (imgs.isNotEmpty) {
-          for (var i = 0; i < imgs.length; i++) {
-            if (await File(imgs[i].path!).exists()) {
-              request.files.add(await http.MultipartFile.fromPath(
-                  'images[$i]', imgs[i].path!));
-            }
-          }
-        }
-        if (frames.isNotEmpty) {
-          for (var i = 0; i < frames.length; i++) {
-            if (await File(frames[i].path!).exists()) {
-              request.files.add(await http.MultipartFile.fromPath(
-                  'slides[$i]', frames[i].path!));
-            }
-          }
-        }
-        if (slides.isNotEmpty) {
-          for (var i = 0; i < slides.length; i++) {
-            if (await File(slides[i].path!).exists()) {
-              request.files.add(await http.MultipartFile.fromPath(
-                  'frames[$i]', slides[i].path!));
-            }
-          }
-        }
-        var response = await request.send();
-        var responseBody = await response.stream.bytesToString();
+      if (resp.statusCode == 200 || resp.statusCode == 201) {
+        await getSharedFolderF(context, forceLoad: true, token: token)
+            .then((v) {});
+      } else {
+        EasyLoading.showError("${respd['message']}");
+      }
+      log("👉 Buy Frames Resp: $respd");
+    } catch (e, st) {
+      debugPrint("💥 error: $e , st:$st");
+      _isLoadingForParticipentF = false;
+    } finally {
+      Navigator.pop(context);
+      _isLoadingForParticipentF = false;
+    }
+  }
+
+  Future participentFolderF(context,
+      {String token = "", required String folderId}) async {
+    // no need
+    _isLoadingForParticipentF = true;
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+      // var token = Provider.of<AuthVm>(context, listen: false).userProfile.token;
+      if (folderId.isEmpty) {
+        snackBarColorF("Folder Id Is Required", context);
+        return;
+      }
+      notifyListeners();
+
+      var resp = await http.post(
+          Uri.parse(ApiLinks.baseUrl + ApiLinks.sharefolder),
+          body: {"shareid": folderId},
+          headers: {'Authorization': 'Bearer $token'});
+      var respd = jsonDecode(resp.body);
+
+      if (resp.statusCode == 200 || resp.statusCode == 201) {
+        await getSharedFolderF(context, forceLoad: true, token: token)
+            .then((v) {});
+      } else {
+        EasyLoading.showError("${respd['message']}");
+      }
+      log("👉 Buy Frames Resp: $respd");
+    } catch (e, st) {
+      debugPrint("💥 error: $e , st:$st");
+      _isLoadingForParticipentF = false;
+    } finally {
+      Navigator.pop(context);
+      _isLoadingForParticipentF = false;
+    }
+  }
+
+  List<FolderModel> getedSharedFolderList = [];
+
+  ////////////////////
+  Future getSharedFolderF(context, {bool forceLoad = false, token = ""}) async {
+    if (!forceLoad) {
+      isLoadingF = true;
+    }
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+      if (framesList.isEmpty || forceLoad) {
+        var response = await http.get(
+            Uri.parse(ApiLinks.baseUrl + ApiLinks.getsharedfolder),
+            headers: {'Authorization': 'Bearer $token'});
+        var dresp = jsonDecode(response.body);
 
         if (response.statusCode == 200 || response.statusCode == 201) {
-          EasyLoading.showSuccess("Order Created");
+          if (dresp['storage'].isEmpty || dresp['storage'] == null) {
+            getedSharedFolderList = [];
+          } else {
+            getedSharedFolderList = [];
+            for (int i = 0; i < dresp['storage'].length; i++) {
+              getedSharedFolderList
+                  .add(FolderModel.fromJson(dresp['storage'][i]));
+            }
+          }
         } else {
-          debugPrint("Response body: $responseBody");
-          EasyLoading.showError("${jsonDecode(responseBody)['message']}");
+          snackBarColorF("${dresp['message']}", context);
         }
-      } on SocketException catch (e, st) {
-        EasyLoading.showError("Try Again Later");
-        debugPrint(" error: $e , st:$st");
+        log("👉 ${dresp['frames']}");
       }
     } catch (e, st) {
-      isLoadingForUploadF = false;
-      notifyListeners();
-      debugPrint(" 💥 error: $e , st:$st");
-      EasyLoading.showError("$e");
+      snackBarColorF("$e", context);
+      debugPrint("💥 error: $e , st:$st");
     } finally {
-      isLoadingForUploadF = false;
+      isLoadingF = false;
       notifyListeners();
     }
   }
+  ////////
+
+  /////////////
+////////////////////////////// create order start
+
+  // Future createOrderF(context,
+  //     {String token = "",
+  //     List imgs = const [],
+  //     List frames = const [],
+  //     List slides = const [],
+  //     String desc = ""}) async {
+  //   try {
+  //     var connectivityResult = await (Connectivity().checkConnectivity());
+  //     if (connectivityResult == ConnectivityResult.none) {
+  //       snackBarColorF("🛜 Network Not Available", context);
+  //       return;
+  //     }
+  //     if (token.isEmpty) {
+  //       snackBarColorF("Token is required", context);
+  //       return;
+  //     }
+
+  //     isLoadingForUploadF = true;
+  //     notifyListeners();
+
+  //     try {
+  //       // images
+  //       // slides
+  //       // frames
+  //       // desc
+
+  //       var request = http.MultipartRequest(
+  //           'POST', Uri.parse(ApiLinks.baseUrl + ApiLinks.createOrder))
+  //         ..headers['Authorization'] = 'Bearer $token'
+  //         ..fields['desc'] = desc;
+  //       if (imgs.isNotEmpty) {
+  //         for (var i = 0; i < imgs.length; i++) {
+  //           if (await File(imgs[i].path!).exists()) {
+  //             request.files.add(await http.MultipartFile.fromPath(
+  //                 'images[$i]', imgs[i].path!));
+  //           }
+  //         }
+  //       }
+  //       if (frames.isNotEmpty) {
+  //         for (var i = 0; i < frames.length; i++) {
+  //           if (await File(frames[i].path!).exists()) {
+  //             request.files.add(await http.MultipartFile.fromPath(
+  //                 'slides[$i]', frames[i].path!));
+  //           }
+  //         }
+  //       }
+  //       if (slides.isNotEmpty) {
+  //         for (var i = 0; i < slides.length; i++) {
+  //           if (await File(slides[i].path!).exists()) {
+  //             request.files.add(await http.MultipartFile.fromPath(
+  //                 'frames[$i]', slides[i].path!));
+  //           }
+  //         }
+  //       }
+  //       var response = await request.send();
+  //       var responseBody = await response.stream.bytesToString();
+
+  //       if (response.statusCode == 200 || response.statusCode == 201) {
+  //         EasyLoading.showSuccess("Order Created");
+  //       } else {
+  //         debugPrint("Response body: $responseBody");
+  //         EasyLoading.showError("${jsonDecode(responseBody)['message']}");
+  //       }
+  //     } on SocketException catch (e, st) {
+  //       EasyLoading.showError("Try Again Later");
+  //       debugPrint(" error: $e , st:$st");
+  //     }
+  //   } catch (e, st) {
+  //     isLoadingForUploadF = false;
+  //     notifyListeners();
+  //     debugPrint(" 💥 error: $e , st:$st");
+  //     EasyLoading.showError("$e");
+  //   } finally {
+  //     isLoadingForUploadF = false;
+  //     notifyListeners();
+  //   }
+  // }
 }

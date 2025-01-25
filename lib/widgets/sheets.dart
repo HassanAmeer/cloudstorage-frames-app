@@ -138,7 +138,169 @@ class _GalertState extends State<Galert> {
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-Future<void> optionsSheet(context, {required FolderModel folderData}) async {
+class SharedFolderPinAlert extends StatefulWidget {
+  final Function onTap;
+  const SharedFolderPinAlert({super.key, required this.onTap});
+
+  @override
+  State<SharedFolderPinAlert> createState() => _SharedFolderPinAlertState();
+}
+
+class _SharedFolderPinAlertState extends State<SharedFolderPinAlert> {
+  final primaryColor = const Color(0xff4338CA);
+  final secondaryColor = const Color(0xff6D28D9);
+  final accentColor = const Color(0xffffffff);
+  final backgroundColor = const Color(0xffffffff);
+  final errorColor = const Color(0xffEF4444);
+
+  TextEditingController folderIdCodeContro = TextEditingController();
+
+  bool isNameEmpty = false;
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            height: MediaQuery.of(context).size.height / 3.1,
+            decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                gradient: LinearGradient(
+                    end: Alignment.bottomLeft,
+                    begin: Alignment.topLeft,
+                    colors: [
+                      primaryColor,
+                      primaryColor,
+                      AppColors.primaryColor,
+                      AppColors.goldenDark.withOpacity(0.4),
+                    ]),
+                borderRadius: BorderRadius.circular(15.0),
+                boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(12, 26),
+                      blurRadius: 50,
+                      spreadRadius: 0,
+                      color: Colors.grey.withOpacity(.1))
+                ]),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(""),
+                    const Text(""),
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                            backgroundColor: accentColor.withOpacity(0.1),
+                            radius: 40,
+                            child: Image.asset(AppImages.folderPin)),
+                        Positioned(
+                            child: Icon(
+                          Icons.share,
+                          color: AppColors.primaryColor,
+                          size: 40,
+                        ))
+                      ],
+                    ),
+                    Transform.translate(
+                        offset: const Offset(5, -15),
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.cancel,
+                                color: accentColor.withOpacity(0.3))))
+                  ]),
+              const SizedBox(height: 15),
+              Text("Participents Stories",
+                  style: GoogleFonts.agbalumo(
+                      color: AppColors.lightOrange.withOpacity(0.8),
+                      fontSize: 20)),
+              Text(
+                  "For Participent with other users enter folder invitaion code",
+                  style: GoogleFonts.lancelot(
+                      color: AppColors.lightBlue.withOpacity(0.8),
+                      fontSize: 12)),
+              const SizedBox(height: 5),
+              Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: CupertinoTextField(
+                      onChanged: (v) {
+                        if (v.trim().isEmpty) {
+                          isNameEmpty = true;
+                          setState(() {});
+                        } else {
+                          isNameEmpty = false;
+                          setState(() {});
+                        }
+                      },
+                      controller: folderIdCodeContro,
+                      cursorColor: Colors.cyan,
+                      style: TextStyle(color: accentColor),
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: accentColor.withOpacity(0.5)),
+                          color: accentColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(15)),
+                      padding: const EdgeInsets.all(10),
+                      placeholder: 'Folder Invitation Code',
+                      placeholderStyle:
+                          TextStyle(color: accentColor.withOpacity(0.5)))),
+              isNameEmpty
+                  ? Row(children: [
+                      Text("      Invitaion Key is required",
+                              style: GoogleFonts.abhayaLibre(
+                                  color: Colors.yellowAccent,
+                                  fontWeight: FontWeight.w200))
+                          .animate(onPlay: (controller) => controller.repeat())
+                          .shimmer(color: Colors.orange, duration: 2.seconds)
+                    ])
+                  : const SizedBox.shrink(),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.58,
+                  child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.indigoDark),
+                      onPressed: () {
+                        if (folderIdCodeContro.text.isEmpty) {
+                          EasyLoading.showError(
+                              "Folder Invitaion Key is required");
+                          isNameEmpty = true;
+                          setState(() {});
+                          return;
+                        }
+                        widget.onTap(folderIdCodeContro.text);
+                      },
+                      label: Text(" Participent",
+                          style: TextStyle(color: accentColor)),
+                      icon: context.watch<FoldersVm>().isLoadingForParticipent
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator.adaptive(
+                                  strokeWidth: 2,
+                                  backgroundColor: AppColors.lightBlue))
+                          : Icon(Icons.folder_shared_outlined,
+                              color: accentColor)))
+            ])));
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+Future<void> optionsSheet(
+  context, {
+  required FolderModel folderData,
+  bool isFromShared = false,
+}) async {
   const primaryColor = Color(0xff4338CA);
   const secondaryColor = Color(0xff6D28D9);
   const accentColor = Color(0xffffffff);
@@ -169,57 +331,103 @@ Future<void> optionsSheet(context, {required FolderModel folderData}) async {
                   color: Colors.white,
                 ),
               ),
-              ListTile(
-                  onTap: () async {
-                    await Share.share(" ${folderData.folderId} ",
-                        subject: 'Share Folder!');
-                  },
-                  tileColor: Colors.transparent,
-                  leading: const Icon(Icons.share, color: accentColor),
-                  title:
-                      const Text("Share", style: TextStyle(color: accentColor)),
-                  trailing: const Icon(Icons.arrow_forward_ios_sharp,
-                      color: Colors.grey)),
+              isFromShared == true
+                  ? ListTile(
+                      onTap: () async {
+                        var auth = Provider.of<AuthVm>(context, listen: false)
+                            .userProfile;
+                        Provider.of<FoldersVm>(context, listen: false)
+                            .leaveSharedFolderF(context,
+                                folderId: folderData.folderId,
+                                uid: auth.id,
+                                token: auth.token);
+                      },
+                      tileColor: Colors.transparent,
+                      leading: context
+                                  .watch<FoldersVm>()
+                                  .isLoadingForParticipent ==
+                              true
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator.adaptive(
+                                  strokeWidth: 2,
+                                  backgroundColor: Colors.orange))
+                          : const Icon(Icons.folder_off, color: Colors.orange),
+                      title: const Text("Excluded from this folder (Outsider",
+                          style: TextStyle(color: Colors.orange)),
+                      trailing: const Icon(Icons.arrow_forward_ios_sharp,
+                          color: Colors.grey))
+                  : ListTile(
+                      onTap: () async {
+                        await Share.share(" ${folderData.folderId} ",
+                            subject: 'Share Folder!');
+                      },
+                      tileColor: Colors.transparent,
+                      leading: const Icon(Icons.share, color: accentColor),
+                      title: const Text("Share",
+                          style: TextStyle(color: accentColor)),
+                      trailing: const Icon(Icons.arrow_forward_ios_sharp,
+                          color: Colors.grey)),
               const Divider(height: 1, color: Colors.grey),
+              isFromShared == true
+                  ? SizedBox.shrink()
+                  : ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        renameFolderSheet(context, folderData: folderData);
+                      },
+                      tileColor: Colors.transparent,
+                      leading: const Icon(Icons.edit, color: accentColor),
+                      title: const Text("Rename Folder",
+                          style: TextStyle(color: accentColor)),
+                      trailing: const Icon(Icons.arrow_forward_ios_sharp,
+                          color: Colors.grey)),
+              isFromShared == true
+                  ? SizedBox.shrink()
+                  : const Divider(height: 1, color: Colors.grey),
+              isFromShared == true
+                  ? SizedBox.shrink()
+                  : ListTile(
+                      onTap: () async {
+                        Navigator.pop(context);
+                        await Provider.of<FoldersVm>(context, listen: false)
+                            .deleteFolderF(context,
+                                token:
+                                    Provider.of<AuthVm>(context, listen: false)
+                                        .userProfile
+                                        .token,
+                                folderId: folderData.id);
+                      },
+                      tileColor: Colors.transparent,
+                      leading: const Icon(Icons.delete, color: accentColor),
+                      title: Row(children: [
+                        const Text("Delete",
+                            style: TextStyle(color: accentColor)),
+                        Text("  ${folderData.folderName}",
+                            style: const TextStyle(color: Colors.grey))
+                      ]),
+                      trailing: const Icon(Icons.arrow_forward_ios_sharp,
+                          color: Colors.grey)),
+              isFromShared == true
+                  ? SizedBox.shrink()
+                  : const Divider(height: 1, color: Colors.grey),
               ListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                    renameFolderSheet(context, folderData: folderData);
-                  },
+                  onTap: () {},
                   tileColor: Colors.transparent,
-                  leading: const Icon(Icons.edit, color: accentColor),
-                  title: const Text("Rename Folder",
+                  leading: const Icon(Icons.info, color: accentColor),
+                  title: const Text("Folder Used Size",
                       style: TextStyle(color: accentColor)),
-                  trailing: const Icon(Icons.arrow_forward_ios_sharp,
-                      color: Colors.grey)),
-              const Divider(height: 1, color: Colors.grey),
-              ListTile(
-                  onTap: () async {
-                    Navigator.pop(context);
-                    await Provider.of<FoldersVm>(context, listen: false)
-                        .deleteFolderF(context,
-                            token: Provider.of<AuthVm>(context, listen: false)
-                                .userProfile
-                                .token,
-                            folderId: folderData.id);
-                  },
-                  tileColor: Colors.transparent,
-                  leading: const Icon(Icons.delete, color: accentColor),
-                  title: Row(children: [
-                    const Text("Delete", style: TextStyle(color: accentColor)),
-                    Text("  ${folderData.folderName}",
-                        style: const TextStyle(color: Colors.grey))
-                  ]),
-                  trailing: const Icon(Icons.arrow_forward_ios_sharp,
-                      color: Colors.grey)),
+                  trailing: Text("${folderData.usedSize} MB",
+                      style: const TextStyle(color: Colors.grey))),
               const Divider(height: 1, color: Colors.grey),
               ListTile(
                   onTap: () {},
                   tileColor: Colors.transparent,
                   leading: const Icon(Icons.info, color: accentColor),
-                  title: const Text("Folder Size",
+                  title: const Text("Total Size",
                       style: TextStyle(color: accentColor)),
-                  trailing: Text("${folderData.folderUsedSpace} MB",
+                  trailing: Text("${folderData.totalSize} GB",
                       style: const TextStyle(color: Colors.grey))),
               // const Divider(height: 1, color: Colors.grey),
             ]));
@@ -593,7 +801,10 @@ pickImagesSheetF(context) {
 
 ///////////////////////////////////
 Future<void> deleteFileSheet(context,
-    {required token, required folderId, required fileName}) async {
+    {String token = "",
+    String folderId = "",
+    String fileName = "",
+    required VoidCallback onTap}) async {
   const primaryColor = Color(0xff4338CA);
   const secondaryColor = Color(0xff6D28D9);
   const accentColor = Color(0xffffffff);
@@ -631,13 +842,7 @@ Future<void> deleteFileSheet(context,
                 SizedBox(
                     width: MediaQuery.of(context).size.width * 0.95,
                     child: ElevatedButton.icon(
-                        onPressed: () async {
-                          Navigator.pop(context);
-                          await p.deleteFolderFilesF(context,
-                              token: token,
-                              folderId: folderId,
-                              fileName: fileName);
-                        },
+                        onPressed: onTap,
                         label: p.isLoadingForRename
                             ? const DotLoader(color: primaryColor)
                             : const Text("Delete This File",
@@ -652,7 +857,9 @@ Future<void> deleteFileSheet(context,
 
 ///////////////////////////////////
 Future<void> createOrderSheet(context,
-    {required slidesList, required imgsList, required framesList}) async {
+    {required List<File> slidesList,
+    required List<String> imgsList,
+    required List framesList}) async {
   const primaryColor = Color(0xff4338CA);
   const secondaryColor = Color(0xff6D28D9);
   const accentColor = Color(0xffffffff);
@@ -723,14 +930,27 @@ Future<void> createOrderSheet(context,
                     width: MediaQuery.of(context).size.width * 0.95,
                     child: ElevatedButton.icon(
                         onPressed: () async {
-                          // if (descContr.text.isEmpty) {
-                          //   EasyLoading.showSuccess("Write Something");
-                          //   isDescEmpty = true;
-                          //   return;
-                          // }
-                          Navigator.pop(context);
+                          if (descContr.text.isEmpty) {
+                            EasyLoading.showError("Write Something");
+                            isDescEmpty = true;
+                            return;
+                          }
+
+                          debugPrint(" 👉 ${{
+                            'images': imgsList,
+                            'frameIds': framesList,
+                            'slides': slidesList,
+                            'desc': descContr.text
+                          }}");
+
+                          await Provider.of<AuthVm>(context, listen: false)
+                              .createOrderF(context,
+                                  images: imgsList,
+                                  frameIds: framesList,
+                                  slides: slidesList,
+                                  desc: descContr.text);
                         },
-                        label: p.isLoadingForRename
+                        label: context.watch<AuthVm>().isLoading
                             ? const DotLoader(color: primaryColor)
                             : const Text("Create Order",
                                 style: TextStyle(color: primaryColor)),

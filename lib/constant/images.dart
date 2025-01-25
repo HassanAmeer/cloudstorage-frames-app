@@ -22,6 +22,7 @@ class AppImages {
   static const String otp = 'assets/otp.png';
   static const String password1 = 'assets/password1.png';
   static const String password2 = 'assets/password2.png';
+  static const String folderPin = 'assets/folderpin.png';
 }
 
 class AppFrames {

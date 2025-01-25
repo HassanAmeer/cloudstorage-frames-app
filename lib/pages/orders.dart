@@ -239,62 +239,56 @@ class _OrdersPageState extends State<OrdersPage> {
                                             style: GoogleFonts.agbalumo(
                                                 color: Colors.grey,
                                                 fontSize: 15)),
-                                        subtitle: Row(children: [
-                                          data.status == "pending"
-                                              ? Container(
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.orange,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  child: Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                        horizontal: 8,
-                                                      ),
-                                                      child: Text(data.status,
-                                                          style: GoogleFonts.agbalumo(
-                                                              color: Colors
-                                                                  .white))))
-                                              : data.status == "progress"
+                                        trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              data.status == "pending"
                                                   ? Container(
                                                       decoration: BoxDecoration(
-                                                          color:
-                                                              AppColors.indigo,
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  5)),
+                                                          color: AppColors.orange
+                                                              .withOpacity(0.2),
+                                                          borderRadius: BorderRadius.circular(
+                                                              5)),
                                                       child: Padding(
                                                           padding: const EdgeInsets
                                                               .symmetric(
                                                             horizontal: 8,
+                                                            vertical: 3,
                                                           ),
-                                                          child: Text(data.status,
-                                                              style: GoogleFonts.agbalumo(
-                                                                  color: Colors
-                                                                      .white))))
-                                                  : data.status == "conpleted"
-                                                      ? Container(decoration: BoxDecoration(color: AppColors.green, borderRadius: BorderRadius.circular(5)), child: Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: Text(data.status, style: GoogleFonts.agbalumo(color: Colors.white))))
-                                                      : Text(data.status, style: GoogleFonts.agbalumo(color: Colors.white)),
-                                        ]),
-                                        trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text("${data.price} \$",
-                                                      style:
-                                                          GoogleFonts.agbalumo(
-                                                              color: AppColors
-                                                                  .primaryColor,
-                                                              fontSize: 17))
-                                                  .animate(
-                                                      onPlay: (controller) =>
-                                                          controller.repeat())
-                                                  .shimmer(
-                                                      color:
-                                                          Colors.grey.shade200,
-                                                      duration: 1.seconds,
-                                                      delay:
-                                                          (index + 1).seconds),
+                                                          child: Transform
+                                                              .translate(
+                                                            offset:
+                                                                Offset(0, -2),
+                                                            child: Text(
+                                                                data.status,
+                                                                style: GoogleFonts
+                                                                    .agbalumo(
+                                                                        color: Colors
+                                                                            .orange)),
+                                                          )))
+                                                  : data.status == "progress"
+                                                      ? Container(
+                                                          decoration: BoxDecoration(
+                                                              color: AppColors.indigo
+                                                                  .withOpacity(
+                                                                      0.2),
+                                                              borderRadius: BorderRadius.circular(
+                                                                  5)),
+                                                          child: Padding(
+                                                              padding: const EdgeInsets.symmetric(
+                                                                  horizontal: 8,
+                                                                  vertical: 5),
+                                                              child: Transform.translate(
+                                                                  offset: const Offset(0, -2),
+                                                                  child: Text(data.status, style: GoogleFonts.agbalumo(color: AppColors.indigo)))))
+                                                      : data.status == "completed"
+                                                          ? Container(decoration: BoxDecoration(color: AppColors.green.withOpacity(0.2), borderRadius: BorderRadius.circular(5)), child: Padding(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5), child: Transform.translate(offset: const Offset(0, -2), child: Text(data.status, style: GoogleFonts.agbalumo(color: AppColors.green)))))
+                                                          : Text(data.status, style: GoogleFonts.agbalumo(color: Colors.white)).animate(onPlay: (controller) => controller.repeat()).shimmer(color: Colors.grey.shade200, duration: 1.seconds, delay: (index + 1).seconds),
+                                              SizedBox(width: 15),
                                               const Icon(
                                                   Icons
                                                       .arrow_forward_ios_outlined,
