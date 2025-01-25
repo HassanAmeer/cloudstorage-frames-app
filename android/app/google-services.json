@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "835443713191",
+    "project_id": "storyforgenerations",
+    "storage_bucket": "storyforgenerations.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835443713191:android:0174e46fec6ddf401be782",
+        "android_client_info": {
+          "package_name": "com.story.forgenerations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835443713191-hkj2k66otit37ui6783vll4mmvtnjliv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.story.forgenerations",
+            "certificate_hash": "b8ae94b21ff2e54706ea949a004c299bba74ac1e"
+          }
+        },
+        {
+          "client_id": "835443713191-3r8bk6n71dduq8bluc0ivm6af0aq00cl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAofh2h3u707wFnDz5vwVd4kSkyXbUFnfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835443713191-3r8bk6n71dduq8bluc0ivm6af0aq00cl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "835443713191-t00k5j7o5ujm0h3nviegasngfj6t6ce0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.story.forgenerations"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -15,6 +15,11 @@ class ApiLinks {
   static const String removeaccessfolder = 'removeaccessfolder'; // post
   static const String uploadfiles = 'uploadfiles'; // post
   static const String help = 'help'; // post
+
+  static const String updatePassword = 'updatepassword'; // post
+  static const String sendVerifyCode = 'sendverifycode'; // post
+  static const String createNotification = 'notify'; // post
+  static const String makeTransactionHistory = 'maketr'; // post
   // get methods
   static const String plans = 'plans'; // get
   static const String setting = 'setting'; // get

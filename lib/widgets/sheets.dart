@@ -19,7 +19,7 @@ import '../provider/foldersVm.dart';
 
 class Galert extends StatefulWidget {
   final Function onTap;
-  const Galert({Key? key, required this.onTap}) : super(key: key);
+  const Galert({super.key, required this.onTap});
 
   @override
   State<Galert> createState() => _GalertState();

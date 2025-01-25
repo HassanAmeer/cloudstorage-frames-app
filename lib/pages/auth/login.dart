@@ -1,3 +1,5 @@
+import 'package:storyforgen/pages/auth/forgotpass.dart';
+
 import '../../constant/colors.dart';
 import '../../constant/images.dart';
 import '../../provider/authVm.dart';
@@ -108,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   duration: const Duration(
                                                       seconds: 2),
                                                   color: Colors.grey)))),
+                          SizedBox(height: 5),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.94,
                             child: OutlinedButton(
@@ -117,15 +120,33 @@ class _LoginPageState extends State<LoginPage> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await p.loginByGoogleF(context);
+                                },
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                        width: 25, AppImages.googleIcon),
-                                    const Text("  Google Sign In"),
-                                  ],
-                                )),
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                          width: 25, AppImages.googleIcon),
+                                      const Text("  Google Sign In"),
+                                      p.isLoadingForGoogle
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 15),
+                                              child: SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child:
+                                                      CircularProgressIndicator
+                                                          .adaptive(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation(
+                                                            Colors.grey),
+                                                    strokeWidth: 2,
+                                                  )),
+                                            )
+                                          : SizedBox.shrink()
+                                    ])),
                           ),
                           const SizedBox(height: 20),
                           Row(
@@ -137,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const SignupPage()));
+                                                  const ForgotPasswordPage()));
                                     },
                                     child: Text('Forgot Password',
                                         style: TextStyle(

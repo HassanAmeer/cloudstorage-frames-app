@@ -70,17 +70,15 @@ class _HomePageState extends State<HomePage> {
             child: p.isLoading
                 ? const DotLoader(color: AppColors.primaryColor)
                 : p.allMediaList.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 150),
-                        child: Center(
-                            child: Image.asset(AppImages.foldernotfound,
-                                    opacity: const AlwaysStoppedAnimation(0.2))
-                                .animate(
-                                    onPlay: (controller) => controller.repeat())
-                                .shader()
-                                .shimmer(
-                                    color: Colors.grey.shade200,
-                                    duration: 3.seconds)))
+                    ? Center(
+                        child: Image.asset(AppImages.foldernotfound,
+                                opacity: const AlwaysStoppedAnimation(0.2))
+                            .animate(
+                                onPlay: (controller) => controller.repeat())
+                            .shader()
+                            .shimmer(
+                                color: Colors.grey.shade200,
+                                duration: 3.seconds))
                     : MasonryListViewGrid(
                         column: 2,
                         padding: const EdgeInsets.all(8.0),

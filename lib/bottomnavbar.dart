@@ -17,8 +17,8 @@ import 'provider/authVm.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();

@@ -9,8 +9,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 class PlansPage extends StatefulWidget {
   bool isFromBuyFolder;
   String folderName;
-  PlansPage({Key? key, this.isFromBuyFolder = false, this.folderName = ""})
-      : super(key: key);
+  PlansPage({super.key, this.isFromBuyFolder = false, this.folderName = ""});
 
   @override
   _PlansPageState createState() => _PlansPageState();
@@ -96,12 +95,12 @@ class PlanCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const PlanCard({
-    Key? key,
+    super.key,
     this.title = "",
     this.subtitle = "",
     this.desc = const [],
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -61,6 +61,16 @@ dependencies:
   wheel_slider: ^1.2.2
   screenshot: ^3.0.0
   path_provider: ^2.1.5
+  pinput: ^5.0.1
+
+# firebase google signin
+  firebase_core: 
+  firebase_auth:  
+  google_sign_in: 
+
+
+
+
 
 
 

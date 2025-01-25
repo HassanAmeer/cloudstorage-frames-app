@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:storyforgen/provider/foldersVm.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -166,7 +167,7 @@ class Upgrading with ChangeNotifier {
           paymentSheetParameters: SetupPaymentSheetParameters(
               paymentIntentClientSecret: payintent!["client_secret"],
               style: ThemeMode.light,
-              merchantDisplayName: "Adaptive Inscribed",
+              merchantDisplayName: "Story For Generations",
               googlePay: gpay));
 
       await Stripe.instance.presentPaymentSheet();
@@ -178,6 +179,15 @@ class Upgrading with ChangeNotifier {
         await Provider.of<FoldersVm>(context, listen: false)
             .createFolderF(context, folderName: folderName)
             .then((v) {
+          makeTransactionHistoyF(
+            context,
+            foldername: "",
+            folderstorage: "",
+            payfor: 0,
+            price: "100",
+            trid: "name",
+            token: "",
+          );
           isLoadingFoyBuyF = false;
           notifyListeners();
           Navigator.of(context).pop();
@@ -198,6 +208,38 @@ class Upgrading with ChangeNotifier {
     } finally {
       isLoadingFoyBuyF = false;
       notifyListeners();
+    }
+  }
+
+  ////////// mak a transaction history
+  makeTransactionHistoyF(
+    context, {
+    String foldername = "",
+    String folderstorage = "",
+    int payfor = 0 /*0 for folder 1 for frames */,
+    String price = "",
+    List frameids = const [],
+    String trid = "",
+    String token = "",
+  }) async {
+    var resp = await http.post(
+        Uri.parse(ApiLinks.baseUrl + ApiLinks.makeTransactionHistory),
+        body: {
+          "foldername": foldername,
+          "folderstorage": folderstorage,
+          "payfor": payfor,
+          "price": price,
+          "frameids": frameids,
+          "trid": trid,
+        },
+        headers: {
+          'Authorization': 'Bearer $token'
+        });
+    var respd = jsonDecode(resp.body);
+    if (resp.statusCode == 200 || resp.statusCode == 201) {
+      EasyLoading.showSuccess("Transaction Created");
+    } else {
+      EasyLoading.showSuccess("${respd['message']}");
     }
   }
 }

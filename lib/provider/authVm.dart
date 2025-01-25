@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:storyforgen/constant/links.dart';
 import 'package:storyforgen/models/notifyModel.dart';
 import 'package:storyforgen/models/ordersModel.dart';
@@ -14,6 +17,8 @@ import '../widgets/toast.dart';
 import 'package:http/http.dart' as http;
 
 class AuthVm with ChangeNotifier {
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   set isLoadingF(bool value) {
@@ -50,8 +55,73 @@ class AuthVm with ChangeNotifier {
     return _user;
   }
 
-  Future loginF(context, {String email = "", String password = ""}) async {
-    isLoadingF = true;
+  bool _isLoadingForGoogle = false;
+  bool get isLoadingForGoogle => _isLoadingForGoogle;
+  set isLoadingForGoogleF(bool value) {
+    _isLoadingForGoogle = value;
+    notifyListeners();
+  }
+
+  Future loginByGoogleF(context) async {
+    isLoadingForGoogleF = true;
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return;
+      }
+
+      // for user to select their Google account and grant permission.
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      // check user select an email or not
+      if (googleUser != null) {
+        final GoogleSignInAuthentication
+            // when user sign in then get authentication for token, id
+            googleAuth = await googleUser.authentication;
+        //with token and ID to create a credential.
+        final credential = GoogleAuthProvider.credential(
+            accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+        // then sign in to Firebase Authentication with this credential and get user signed data
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+
+        /////// signup
+        // http.Response response =
+        await http.post(Uri.parse(ApiLinks.baseUrl + ApiLinks.reg), body: {
+          "name": userCredential.user!.displayName.toString(),
+          "email": userCredential.user!.email.toString(),
+          "password": '12345678',
+        });
+        // var dresp = jsonDecode(response.body);
+        // if (response.statusCode == 200 || response.statusCode == 201) {
+        await loginF(context,
+            showLoading: false, email: userCredential.user!.email.toString());
+        // }
+        /////// signup and signin end
+        ///
+        EasyLoading.showSuccess("Sign In");
+        // debugPrint("✔ Signed in as ${userCredential.user!.displayName}");
+      } else {
+        EasyLoading.showError("SIgn In Cancelled");
+        // debugPrint("🟨 Sign-in cancelled");
+      }
+    } catch (error, stackTrace) {
+      debugPrint("💥try catch when Sign In By Google: Error: $error");
+      debugPrint("💥try catch stackTrace: $stackTrace");
+      isLoadingForGoogleF = false;
+    } finally {
+      isLoadingForGoogleF = false;
+    }
+  }
+
+  Future loginF(context,
+      {bool showLoading = true,
+      String email = "",
+      String password = "12345678"}) async {
+    if (showLoading) {
+      isLoadingF = true;
+    }
 
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
@@ -82,18 +152,18 @@ class AuthVm with ChangeNotifier {
         _user = AuthModel.fromJson(dresp['user']);
         _user!.token = dresp['token'];
         await UserStorage.setUserF(
-          token: dresp['token'],
-          uid: _user!.id.toString(),
-          active: _user!.isActive.toString(),
-          img: _user!.img.toString(),
-          name: _user!.name.toString(),
-          email: _user!.email.toString(),
-          phone: _user!.phone.toString(),
-          address: _user!.address.toString(),
-          password: _user!.password.toString(),
-        );
+            token: dresp['token'],
+            uid: _user!.id.toString(),
+            active: _user!.isActive.toString(),
+            img: _user!.img.toString(),
+            name: _user!.name.toString(),
+            email: _user!.email.toString(),
+            phone: _user!.phone.toString(),
+            address: _user!.address.toString(),
+            password: _user!.password.toString());
         notifyListeners();
-        snackBarColorF("Login Successfully", context);
+        EasyLoading.showSuccess("Login Successfully");
+
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const BottomNavBar()));
       } else {
@@ -151,7 +221,7 @@ class AuthVm with ChangeNotifier {
       });
       var dresp = jsonDecode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        snackBarColorF("Signup Successfully", context);
+        EasyLoading.showSuccess("Signup Successfully");
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const LoginPage()));
       } else {
@@ -394,6 +464,99 @@ class AuthVm with ChangeNotifier {
     } catch (e, st) {
       snackBarColorF("$e", context);
       debugPrint("💥 error: $e , st:$st");
+    } finally {
+      isLoadingF = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> sendOtpF(context, {String email = "", String code = ""}) async {
+    isLoadingF = true;
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return false;
+      }
+
+      if (code.isEmpty) {
+        snackBarColorF("Reopen Then Page", context);
+        return false;
+      }
+      if (email.isEmpty) {
+        snackBarColorF("Email is required", context);
+        return false;
+      }
+      notifyListeners();
+
+      http.Response response = await http
+          .post(Uri.parse(ApiLinks.baseUrl + ApiLinks.sendVerifyCode), body: {
+        "email": email,
+        "code": code,
+      }, headers: <String, String>{
+        // 'Content-Type': 'application/json',
+      });
+      var dresp = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        EasyLoading.showSuccess("OTP Sent");
+        return true;
+      } else {
+        EasyLoading.showError("${dresp['message']}");
+      }
+      return false;
+    } catch (e, st) {
+      snackBarColorF("$e", context);
+      debugPrint("💥 error: $e , st:$st");
+      return false;
+    } finally {
+      isLoadingF = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> updatePsswordF(context,
+      {String email = "", String password = ""}) async {
+    isLoadingF = true;
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        snackBarColorF("🛜 Network Not Available", context);
+        return false;
+      }
+
+      if (email.isEmpty) {
+        snackBarColorF("Email is required", context);
+        return false;
+      }
+      if (password.isEmpty) {
+        snackBarColorF("Password Then Page", context);
+        return false;
+      }
+      notifyListeners();
+
+      http.Response response = await http
+          .post(Uri.parse(ApiLinks.baseUrl + ApiLinks.updatePassword), body: {
+        "email": email,
+        "password": password,
+      }, headers: <String, String>{
+        // 'Content-Type': 'application/json',
+      });
+      var dresp = jsonDecode(response.body);
+      debugPrint("👉 $dresp");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // EasyLoading.showSuccess("Password Updated");
+        EasyLoading.showSuccess("Password Updated");
+        return true;
+      } else {
+        snackBarColorF("${dresp['message']}", context);
+      }
+      return false;
+    } catch (e, st) {
+      snackBarColorF("$e", context);
+      debugPrint("💥 error: $e , st:$st");
+      return false;
     } finally {
       isLoadingF = false;
       notifyListeners();

@@ -152,9 +152,8 @@ class _IntroPageState extends State<IntroPage> {
 
 class _IntroPageItem extends StatelessWidget {
   const _IntroPageItem({
-    Key? key,
     required this.data,
-  }) : super(key: key);
+  });
 
   final _IntroData data;
 

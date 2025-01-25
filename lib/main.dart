@@ -1,3 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
+
+import 'firebase_options.dart';
 import 'splash.dart';
 import 'constant/colors.dart';
 import 'provider/authVm.dart';
@@ -11,6 +14,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   Stripe.publishableKey =
       'pk_test_51NWbaPDPiaFCF9z8DVB7QNOwHIviBBbaqWZjN5EcVjsYxFh9pdxXV9bLTyzncAwxy0Y3Y71X9nQgHiZhrXSUtoFo00TVysbfEy';
 
@@ -56,3 +63,41 @@ void configLoading() {
     ..dismissOnTap = false;
   // ..customAnimation = CustomAnimation();
 }
+
+// admin/helpers/scaffold
+// admin/helpers/terminal/database
+
+
+
+///////
+// when create folder pass these values
+// folderName
+// totalspace
+// subscription
+
+//////// wheen buy folder or buy frames thees create ranscation api
+///make google sing in 
+///create notifications 
+///create shared folder
+///in more page see remaining things
+///
+///also send emails and notifcations
+///
+///
+///
+///
+///
+///
+///
+///
+///
+///
+///
+///use App\Models\notify;
+/// $notify = notify::create([
+//                   'uid' => $user->uid,
+//                   'title' => "Account Created", 
+//                   'desc' => "🔑 Your Account is Created successfully", 
+//             ]);
+// ///
+// 

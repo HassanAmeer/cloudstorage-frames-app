@@ -3,8 +3,9 @@
 
 
     <application
-        android:label="storyforgen"
+        android:label="story generations"
         android:name="${applicationName}"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

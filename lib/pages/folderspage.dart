@@ -1,3 +1,5 @@
+import 'package:storyforgen/provider/authVm.dart';
+
 import '../constant/colors.dart';
 import '../constant/images.dart';
 import '../pages/plans.dart';
@@ -39,8 +41,9 @@ class _FoldersPageState extends State<FoldersPage> {
 
   syncFirstF() async {
     var f = Provider.of<FoldersVm>(context, listen: false);
+    var auth = Provider.of<AuthVm>(context, listen: false);
     if (f.foldersList.isEmpty) {
-      f.getAllFolders(context);
+      f.getAllFolders(context, token: auth.userProfile.token);
     }
   }
 
