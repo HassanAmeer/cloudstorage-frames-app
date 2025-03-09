@@ -1,0 +1,1054 @@
+{
+	"info": {
+		"_postman_id": "35fff712-eaa2-4e46-bcbe-778b647293aa",
+		"name": "shared",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27184419",
+		"_collection_link": "https://red-zodiac-592112.postman.co/workspace/New-Team-Workspace~9b2f0d89-df59-43e6-a208-570d5dcdbb87/collection/27184419-35fff712-eaa2-4e46-bcbe-778b647293aa?action=share&source=collection_link&creator=27184419"
+	},
+	"item": [
+		{
+			"name": "reg",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{shared}}api/reg?email=clienstjobs@gmail.com&password=12345678&name=jobs&phone=0301&address=abc",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"reg"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "clienstjobs@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "12345678"
+						},
+						{
+							"key": "name",
+							"value": "jobs"
+						},
+						{
+							"key": "phone",
+							"value": "0301"
+						},
+						{
+							"key": "address",
+							"value": "abc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update password",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{shared}}api/updatepassword?email=user5@gmail.com&password=123456789",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"updatepassword"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "user5@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "123456789"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send verify code",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{shared}}api/sendverifycode?email=hasanameer386@gmail.com&code=7860",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"sendverifycode"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "hasanameer386@gmail.com"
+						},
+						{
+							"key": "code",
+							"value": "7860"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "help support message",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/help?name=umair&email=umair@gmail.com&msg=something",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"help"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "umair"
+						},
+						{
+							"key": "email",
+							"value": "umair@gmail.com"
+						},
+						{
+							"key": "msg",
+							"value": "something"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/login?email=user5@gmail.com&password=12345678",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "user5@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "12345678"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": "/Users/hasanameer/Downloads/food.png"
+						},
+						{
+							"key": "name",
+							"value": "user5",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "03012",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "kp",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "user5@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{shared}}api/profile",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "make order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images[]",
+							"value": "files/.....",
+							"type": "text"
+						},
+						{
+							"key": "frames[]",
+							"value": "1,2",
+							"type": "text"
+						},
+						{
+							"key": "slides[]",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "desc",
+							"value": "something",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{shared}}api/order",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "make folder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "folderName",
+							"value": "apifolder",
+							"type": "text"
+						},
+						{
+							"key": "totalsize",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "subscriptionno",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{shared}}api/makefolder",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"makefolder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "make transaction history",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "foldername",
+							"value": "night club",
+							"type": "text"
+						},
+						{
+							"key": "folderstorage",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "payfor",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "frameids[]",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "trid",
+							"value": "abc",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{shared}}api/maketr",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"maketr"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buy frame",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "frameid",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{shared}}api/buyframe",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"buyframe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rename folder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"folderid\":\"3\",\n    \"newName\":\"renamed1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{shared}}api/renamefolder",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"renamefolder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create notification",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"folderid\":\"3\",\n    \"newName\":\"renamed1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{shared}}api/notify?uid=2&title=you verified&desc=can login now",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"notify"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "2"
+						},
+						{
+							"key": "title",
+							"value": "you verified"
+						},
+						{
+							"key": "desc",
+							"value": "can login now"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contact us",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"folderid\":\"3\",\n    \"newName\":\"renamed1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{shared}}api/help?name=user5&email=user5@gmail.com&msg=someething",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"help"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "user5"
+						},
+						{
+							"key": "email",
+							"value": "user5@gmail.com"
+						},
+						{
+							"key": "msg",
+							"value": "someething"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "share folder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{shared}}api/sharefolder?shareid=j5oIPbhw",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"sharefolder"
+					],
+					"query": [
+						{
+							"key": "shareid",
+							"value": "j5oIPbhw"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove share folder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"folderid\":\"3\",\n    \"newName\":\"renamed1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{shared}}api/removeaccessfolder?shareid=C6aoOnKK&uid=2",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"removeaccessfolder"
+					],
+					"query": [
+						{
+							"key": "shareid",
+							"value": "C6aoOnKK"
+						},
+						{
+							"key": "uid",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload files to folder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "folderid",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "files[]",
+							"type": "file",
+							"src": "/Users/hasanameer/Downloads/chatIcon.png"
+						},
+						{
+							"key": "files[]",
+							"type": "file",
+							"src": "/Users/hasanameer/Downloads/profile.avif"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{shared}}api/uploadfiles",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"uploadfiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete folder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"folderid\":\"4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{shared}}api/delfolder",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"delfolder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete folder file",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"folderid\":\"5\",\n    \"filename\":\"files\\/1733941632.png\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{shared}}api/deletefile",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"deletefile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "plans",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/plans",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get shared folder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/getsharedfolder",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"getsharedfolder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "settings",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/setting",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"setting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "notify",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/notify",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"notify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/orders",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get frames",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/getframes",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"getframes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get storage",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/storage",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"storage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get files by folder id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/getfilesbyfolderid/1",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"getfilesbyfolderid",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer {{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shared}}api/logout",
+					"host": [
+						"{{shared}}api"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
