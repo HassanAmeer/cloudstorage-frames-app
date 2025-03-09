@@ -23,13 +23,12 @@
     <img src="demo/10.png" style="width:200px">
     <img src="demo/11.png" style="width:200px">
     <img src="demo/12.png" style="width:200px">
-    <img src="demo/13.png" style="width:200px">
 </div>
 
 
 # admin side
   - By `Laravel`
-  
+
 <img src="demo/admin1.png">
 <img src="demo/admin2.png">
 <img src="demo/admin3.png">
