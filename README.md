@@ -1,6 +1,36 @@
-# storyforgen
 
-A new Flutter project.
+
+
+# storyforgen (for usa client).
+ - by `laravel` and `flutter`
+
+ demo Screenshots
+
+# app side 
+  - By `Flutter`
+<img src="demo/1.png">
+<img src="demo/2.png">
+<img src="demo/3.png">
+<img src="demo/4.png">
+<img src="demo/5.png">
+<img src="demo/6.png">
+<img src="demo/7.png">
+<img src="demo/8.png">
+<img src="demo/9.png">
+<img src="demo/10.png">
+<img src="demo/11.png">
+<img src="demo/12.png">
+<img src="demo/13.png">
+
+# admin side
+  - By `Laravel`
+<img src="demo/admin1.png">
+<img src="demo/admin2.png">
+<img src="demo/admin3.png">
+<img src="demo/admin4.png">
+<img src="demo/admin5.png">
+<img src="demo/admin6.png">
+<img src="demo/admin7.png">
 
 ## Getting Started
 
