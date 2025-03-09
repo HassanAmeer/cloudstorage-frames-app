@@ -73,8 +73,7 @@ class _PlansPageState extends State<PlansPage> {
                                 child: PlanCard(
                                     onTap: () async {
                                       if (widget.isFromBuyFolder == true) {
-                                        var auth = await Provider.of<AuthVm>(
-                                                context,
+                                        var auth = Provider.of<AuthVm>(context,
                                                 listen: false)
                                             .userProfile;
                                         await p.forBuyingFolderF(context,

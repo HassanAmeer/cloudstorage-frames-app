@@ -43,7 +43,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           backgroundColor: AppColors.primaryColor.withOpacity(0.1),
           title: const Text("Notifications",
               style: TextStyle(
-                  fontSize: 35,
+                  fontSize: 25,
                   color: AppColors.primaryColor,
                   fontWeight: FontWeight.bold)),
         ),

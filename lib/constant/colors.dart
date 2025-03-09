@@ -8,6 +8,7 @@ class AppColors {
       200: Color(_indigoPrimaryValue),
       400: Color(0xFF3D5AFE),
       700: Color(0xFF304FFE),
+      900: Color(0xFF001FCD),
     },
   );
   static const int _indigoPrimaryValue = 0xFF536DFE;

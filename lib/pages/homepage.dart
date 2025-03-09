@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           body: Column(children: [
         const Text("All Uploads",
             style: TextStyle(
-                fontSize: 35,
+                fontSize: 25,
                 color: AppColors.primaryColor,
                 fontWeight: FontWeight.bold)),
         Expanded(
@@ -71,14 +71,19 @@ class _HomePageState extends State<HomePage> {
                 ? const DotLoader(color: AppColors.primaryColor)
                 : p.allMediaList.isEmpty
                     ? Center(
-                        child: Image.asset(AppImages.foldernotfound,
-                                opacity: const AlwaysStoppedAnimation(0.2))
+                        child: Transform.translate(
+                        offset: Offset(0, -50),
+                        child: Image.asset(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                AppImages.foldernotfound,
+                                opacity: const AlwaysStoppedAnimation(0.15))
                             .animate(
                                 onPlay: (controller) => controller.repeat())
                             .shader()
                             .shimmer(
                                 color: Colors.grey.shade200,
-                                duration: 3.seconds))
+                                duration: 3.seconds),
+                      ))
                     : MasonryListViewGrid(
                         column: 2,
                         padding: const EdgeInsets.all(8.0),

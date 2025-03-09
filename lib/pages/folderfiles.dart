@@ -90,13 +90,16 @@ class _FolderFilesState extends State<FolderFiles> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13)),
                               backgroundColor: Colors.black),
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async{
+                           var check =  await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SlidesPage(
                                         data: p.getfilesbyfolderidList.first,
                                         imgsList: _selectedItems)));
+                                if (check != null && check) {
+                              setState(() {});
+                            }       
                           },
                           label: const Text("Edit Images",
                               style:

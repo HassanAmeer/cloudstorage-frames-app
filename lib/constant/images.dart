@@ -17,6 +17,7 @@ class AppImages {
   static const String noframe = 'assets/images/noframe.png';
   static const String createfolder = 'assets/images/createfolder.png';
   static const String ordersList = 'assets/orders.png';
+  static const String cartusd = 'assets/cartusd.png';
   static const String googleIcon = 'assets/google_icon.png';
   static const String lock = 'assets/lock.png';
   static const String otp = 'assets/otp.png';

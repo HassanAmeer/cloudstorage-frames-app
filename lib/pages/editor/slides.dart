@@ -101,272 +101,280 @@ class _SlidesPageState extends State<SlidesPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<FoldersVm>(builder: (context, p, c) {
-      return Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back_ios_new,
-                    color: AppColors.primaryColor)),
-            backgroundColor: AppColors.primaryColor.withOpacity(0.1),
-            title: const Text('Slide Images',
-                style: TextStyle(color: AppColors.primaryColor))),
-        body: SingleChildScrollView(
-          controller: ScrollController(),
-          child: Column(children: [
-            const SizedBox(height: 10),
-            // Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            //   InkWell(
-            //       onTap: () {
-            //         Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //                 builder: (context) => const FramesPages(imgId: "")));
-            //       },
-            //       child: Container(
-            //           height: 50,
-            //           width: 60,
-            //           decoration: BoxDecoration(
-            //               borderRadius: const BorderRadius.only(
-            //                   topLeft: Radius.circular(20),
-            //                   bottomLeft: Radius.circular(20)),
-            //               gradient: LinearGradient(colors: [
-            //                 AppColors.primaryColor.shade700,
-            //                 AppColors.primaryColor.shade100
-            //               ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
-            //           child: const Icon(Icons.filter_frames_outlined,
-            //               color: Colors.white)))
-            // ]),
-            Screenshot(
-                controller: screenshotController,
-                child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: const [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 15,
-                                  offset: Offset(1, 1))
-                            ],
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Stack(children: [
-                          Container(
-                              width: double.infinity,
-                              decoration:
-                                  BoxDecoration(color: Colors.grey.shade50),
-                              child: Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: SizedBox(
-                                      height: 400,
-                                      width: double.infinity,
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            ApiLinks.imgLink + selectedImg,
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(AppImages.imgnotfound,
-                                                fit: BoxFit.cover),
-                                        progressIndicatorBuilder: (context, url,
-                                                progress) =>
-                                            const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                        color: AppColors
-                                                            .primaryColor)),
-                                        fit: BoxFit.cover,
-                                      )))),
-                          Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: _buildFrameWidget(context, selectedImg))
-                        ])))),
+      return WillPopScope(
+        onWillPop: () async {
+          return true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back_ios_new,
+                      color: AppColors.primaryColor)),
+              backgroundColor: AppColors.primaryColor.withOpacity(0.1),
+              title: const Text('Slide Images',
+                  style: TextStyle(color: AppColors.primaryColor))),
+          body: SingleChildScrollView(
+            controller: ScrollController(),
+            child: Column(children: [
+              const SizedBox(height: 10),
+              // Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              //   InkWell(
+              //       onTap: () {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (context) => const FramesPages(imgId: "")));
+              //       },
+              //       child: Container(
+              //           height: 50,
+              //           width: 60,
+              //           decoration: BoxDecoration(
+              //               borderRadius: const BorderRadius.only(
+              //                   topLeft: Radius.circular(20),
+              //                   bottomLeft: Radius.circular(20)),
+              //               gradient: LinearGradient(colors: [
+              //                 AppColors.primaryColor.shade700,
+              //                 AppColors.primaryColor.shade100
+              //               ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+              //           child: const Icon(Icons.filter_frames_outlined,
+              //               color: Colors.white)))
+              // ]),
+              Screenshot(
+                  controller: screenshotController,
+                  child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 15,
+                                    offset: Offset(1, 1))
+                              ],
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Stack(children: [
+                            Container(
+                                width: double.infinity,
+                                decoration:
+                                    BoxDecoration(color: Colors.grey.shade50),
+                                child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: SizedBox(
+                                        height: 400,
+                                        width: double.infinity,
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              ApiLinks.imgLink + selectedImg,
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(AppImages.imgnotfound,
+                                                  fit: BoxFit.cover),
+                                          progressIndicatorBuilder: (context,
+                                                  url, progress) =>
+                                              const Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: AppColors
+                                                              .primaryColor)),
+                                          fit: BoxFit.cover,
+                                        )))),
+                            Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: _buildFrameWidget(context, selectedImg))
+                          ])))),
 
-            OutlinedButton.icon(
-                onPressed: context
-                            .watch<FoldersVm>()
-                            .selectedFramesLinkList
-                            .firstWhere(
-                                (e) =>
-                                    e['imgId'].toString() == selectedImg &&
-                                    e['saved'] == true,
-                                orElse: () => {})['saved'] ==
-                        true
-                    ? null
-                    : () async {
-                        if (!Provider.of<FoldersVm>(context, listen: false)
-                            .selectedFramesLinkList
-                            .firstWhere(
-                                (e) => e['imgId'].toString() == selectedImg,
-                                orElse: () => {})
-                            .isNotEmpty) {
-                          snackBarColorF("Please select frame", context);
-                        } else {
-                          context.read<FoldersVm>().saveSelectedFramesLinkListF(
-                              imgId: selectedImg, saved: true);
-                          final directory = await getTemporaryDirectory();
-                          final slidesPath = '${directory.path}/slides';
-                          final slidesDirectory = Directory(slidesPath);
+              OutlinedButton.icon(
+                  onPressed: context
+                              .watch<FoldersVm>()
+                              .selectedFramesLinkList
+                              .firstWhere(
+                                  (e) =>
+                                      e['imgId'].toString() == selectedImg &&
+                                      e['saved'] == true,
+                                  orElse: () => {})['saved'] ==
+                          true
+                      ? null
+                      : () async {
+                          if (!Provider.of<FoldersVm>(context, listen: false)
+                              .selectedFramesLinkList
+                              .firstWhere(
+                                  (e) => e['imgId'].toString() == selectedImg,
+                                  orElse: () => {})
+                              .isNotEmpty) {
+                            snackBarColorF("Please select frame", context);
+                          } else {
+                            context
+                                .read<FoldersVm>()
+                                .saveSelectedFramesLinkListF(
+                                    imgId: selectedImg, saved: true);
+                            final directory = await getTemporaryDirectory();
+                            final slidesPath = '${directory.path}/slides';
+                            final slidesDirectory = Directory(slidesPath);
 
-                          if (await slidesDirectory.exists()) {
-                            await directory.create();
-                          }
+                            if (await slidesDirectory.exists()) {
+                              await directory.create();
+                            }
 
-                          var finalImgPath =
-                              "$slidesPath/${selectedImg.split("/").last}";
-                          if (await File(finalImgPath).exists()) {
-                            await File(finalImgPath).delete().then((value) {
-                              setState(() {});
-                              // EasyLoading.showSuccess("Delete: $value : $finalImgPath");
+                            var finalImgPath =
+                                "$slidesPath/${selectedImg.split("/").last}";
+                            if (await File(finalImgPath).exists()) {
+                              await File(finalImgPath).delete().then((value) {
+                                setState(() {});
+                                // EasyLoading.showSuccess("Delete: $value : $finalImgPath");
+                              });
+                            }
+                            // } else {
+                            //   EasyLoading.showSuccess("not delete ");
+                            // }
+
+                            screenshotController
+                                .captureAndSave(slidesPath,
+                                    fileName: selectedImg.split("/").last)
+                                .then((value) {
+                              // EasyLoading.showSuccess("Save: $value");
                             });
                           }
-                          // } else {
-                          //   EasyLoading.showSuccess("not delete ");
-                          // }
-
-                          screenshotController
-                              .captureAndSave(slidesPath,
-                                  fileName: selectedImg.split("/").last)
-                              .then((value) {
-                            // EasyLoading.showSuccess("Save: $value");
-                          });
-                        }
+                        },
+                  icon: const Icon(Icons.save),
+                  label: const Text("Save")),
+              // ImageListScreen(),
+              const SizedBox(height: 20),
+              SizedBox(
+                  height: 120,
+                  child: WheelSlider.customWidget(
+                      totalCount: widget.imgsList.length,
+                      initValue: _cInitValue,
+                      isInfinite: false,
+                      scrollPhysics: const BouncingScrollPhysics(),
+                      onValueChanged: (val) {
+                        setState(() {
+                          _cCurrentValue = val;
+                          selectedImg = widget.imgsList[val];
+                        });
                       },
-                icon: const Icon(Icons.save),
-                label: const Text("Save")),
-            // ImageListScreen(),
-            const SizedBox(height: 20),
-            SizedBox(
-                height: 120,
-                child: WheelSlider.customWidget(
-                    totalCount: widget.imgsList.length,
-                    initValue: _cInitValue,
-                    isInfinite: false,
-                    scrollPhysics: const BouncingScrollPhysics(),
-                    onValueChanged: (val) {
-                      setState(() {
-                        _cCurrentValue = val;
-                        selectedImg = widget.imgsList[val];
-                      });
+                      hapticFeedbackType: HapticFeedbackType.vibrate,
+                      showPointer: false,
+                      itemSize: 120,
+                      children: List.generate(widget.imgsList.length, (index) {
+                        var data = widget.imgsList[index];
+                        return Transform.scale(
+                            scale: _cCurrentValue == index ? 1 : 0.85,
+                            child: InkWell(
+                                onTap: () {
+                                  selectedImg = widget.imgsList[index];
+                                  _cCurrentValue = index;
+                                  setState(() {});
+                                },
+                                child: Stack(children: [
+                                  Container(
+                                      height: 120,
+                                      width: 120,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          border: Border.all(
+                                              color: AppColors.primaryColor)),
+                                      child: CachedNetworkImage(
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(AppImages.img1),
+                                          progressIndicatorBuilder: (context,
+                                                  url, progress) =>
+                                              const Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: AppColors
+                                                              .primaryColor)),
+                                          imageUrl: ApiLinks.imgLink + data,
+                                          colorBlendMode: BlendMode.color,
+                                          color: _cCurrentValue == index
+                                              ? Colors.transparent
+                                              : Colors.white,
+                                          fit: BoxFit.cover)),
+                                  Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            widget.imgsList.remove(data);
+                                            setState(() {});
+                                          },
+                                          icon: const Icon(Icons.cancel,
+                                              color: Colors.red)))
+                                ])));
+                      }))),
+              const SizedBox(height: 30),
+              // SizedBox(
+              //     width: MediaQuery.of(context).size.width * 0.95,
+              //     child: ElevatedButton.icon(
+              //         style: ElevatedButton.styleFrom(
+              //             backgroundColor: AppColors.primaryColor),
+              //         onPressed: () {},
+              //         label:
+              //             const Text("Play", style: TextStyle(color: Colors.white)),
+              //         icon: const Icon(Icons.play_arrow, color: Colors.white))),
+              const SizedBox(height: 10),
+            ]),
+          ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(bottom: 14, left: 20, right: 20),
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                color: AppColors.primaryColor, width: 1),
+                            borderRadius: BorderRadius.circular(10)),
+                        backgroundColor: Colors.grey.shade100),
+                    onPressed: () async {
+                      final foldervm =
+                          Provider.of<FoldersVm>(context, listen: false);
+                      final selectedFrameFalse = foldervm.selectedFramesLinkList
+                          .any((e) => e['saved'].toString() == 'false');
+
+                      debugPrint(" foldervm: ${foldervm.framesList}");
+                      debugPrint("$selectedFrameFalse");
+
+                      if (selectedFrameFalse ||
+                          foldervm.selectedFramesLinkList.length !=
+                              widget.imgsList.length) {
+                        snackBarColorF("Save and Select All Frames", context);
+                        return;
+                      }
+                      final directory = await getTemporaryDirectory();
+                      final slidesPath = '${directory.path}/slides';
+                      final slidesDirectory = Directory(slidesPath);
+                      List<File> slidesList = [];
+                      if (await slidesDirectory.exists()) {
+                        // EasyLoading.showSuccess("saved get");
+                        // Get all files in the directory
+                        final files = slidesDirectory.listSync();
+                        // Filter files to only include image files
+                        slidesList = files
+                            .where((file) =>
+                                file is File && isImageFile(file.path))
+                            .map((file) => File(file.path))
+                            .toList();
+                      }
+
+                      await createOrderSheet(context,
+                          slidesList: slidesList,
+                          framesList:
+                              Provider.of<FoldersVm>(context, listen: false)
+                                  .selectedFramesLinkList
+                                  .map((e) => e['frameId'])
+                                  .toList(),
+                          imgsList: widget.imgsList);
                     },
-                    hapticFeedbackType: HapticFeedbackType.vibrate,
-                    showPointer: false,
-                    itemSize: 120,
-                    children: List.generate(widget.imgsList.length, (index) {
-                      var data = widget.imgsList[index];
-                      return Transform.scale(
-                          scale: _cCurrentValue == index ? 1 : 0.85,
-                          child: InkWell(
-                              onTap: () {
-                                selectedImg = widget.imgsList[index];
-                                _cCurrentValue = index;
-                                setState(() {});
-                              },
-                              child: Stack(children: [
-                                Container(
-                                    height: 120,
-                                    width: 120,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                            color: AppColors.primaryColor)),
-                                    child: CachedNetworkImage(
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(AppImages.img1),
-                                        progressIndicatorBuilder: (context, url,
-                                                progress) =>
-                                            const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                        color: AppColors
-                                                            .primaryColor)),
-                                        imageUrl: ApiLinks.imgLink + data,
-                                        colorBlendMode: BlendMode.color,
-                                        color: _cCurrentValue == index
-                                            ? Colors.transparent
-                                            : Colors.white,
-                                        fit: BoxFit.cover)),
-                                Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: IconButton(
-                                        onPressed: () {
-                                          widget.imgsList.remove(data);
-                                          setState(() {});
-                                        },
-                                        icon: const Icon(Icons.cancel,
-                                            color: Colors.red)))
-                              ])));
-                    }))),
-            const SizedBox(height: 30),
-            // SizedBox(
-            //     width: MediaQuery.of(context).size.width * 0.95,
-            //     child: ElevatedButton.icon(
-            //         style: ElevatedButton.styleFrom(
-            //             backgroundColor: AppColors.primaryColor),
-            //         onPressed: () {},
-            //         label:
-            //             const Text("Play", style: TextStyle(color: Colors.white)),
-            //         icon: const Icon(Icons.play_arrow, color: Colors.white))),
-            const SizedBox(height: 10),
-          ]),
-        ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 14, left: 20, right: 20),
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.95,
-              child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              color: AppColors.primaryColor, width: 1),
-                          borderRadius: BorderRadius.circular(10)),
-                      backgroundColor: Colors.grey.shade100),
-                  onPressed: () async {
-                    final foldervm =
-                        Provider.of<FoldersVm>(context, listen: false);
-                    final selectedFrameFalse = foldervm.selectedFramesLinkList
-                        .any((e) => e['saved'].toString() == 'false');
-
-                    debugPrint(" foldervm: ${foldervm.framesList}");
-                    debugPrint("${selectedFrameFalse}");
-
-                    if (selectedFrameFalse ||
-                        foldervm.selectedFramesLinkList.length !=
-                            widget.imgsList.length) {
-                      snackBarColorF("Save and Select All Frames", context);
-                      return;
-                    }
-                    final directory = await getTemporaryDirectory();
-                    final slidesPath = '${directory.path}/slides';
-                    final slidesDirectory = Directory(slidesPath);
-                    List<File> slidesList = [];
-                    if (await slidesDirectory.exists()) {
-                      // EasyLoading.showSuccess("saved get");
-                      // Get all files in the directory
-                      final files = slidesDirectory.listSync();
-                      // Filter files to only include image files
-                      slidesList = files
-                          .where(
-                              (file) => file is File && isImageFile(file.path))
-                          .map((file) => File(file.path))
-                          .toList();
-                    }
-
-                    await createOrderSheet(context,
-                        slidesList: slidesList,
-                        framesList:
-                            Provider.of<FoldersVm>(context, listen: false)
-                                .selectedFramesLinkList
-                                .map((e) => e['frameId'])
-                                .toList(),
-                        imgsList: widget.imgsList);
-                  },
-                  label: const Text("Order Now",
-                      style: TextStyle(color: AppColors.primaryColor)),
-                  icon: const Icon(Icons.shopping_cart_checkout,
-                      color: AppColors.primaryColor))),
+                    label: const Text("Order Now",
+                        style: TextStyle(color: AppColors.primaryColor)),
+                    icon: const Icon(Icons.shopping_cart_checkout,
+                        color: AppColors.primaryColor))),
+          ),
         ),
       );
     });

@@ -39,7 +39,7 @@ class _ConatctUsPageState extends State<ConatctUsPage> {
             backgroundColor: AppColors.primaryColor.withOpacity(0.1),
             title: const Text("Contact Us",
                 style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 20,
                     color: AppColors.primaryColor,
                     fontWeight: FontWeight.bold)),
             leading: IconButton(

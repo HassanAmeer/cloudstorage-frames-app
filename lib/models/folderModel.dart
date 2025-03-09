@@ -52,7 +52,7 @@ class FolderModel {
                 .toString()),
 
         items: List<String>.from(json["items"].map((x) => x)),
-        shared: List<String>.from(json["shared"].map((x) => x)),
+        shared: List<String>.from(json["shared"].map((x) => x.toString())),
         createdAt: json["created_at"].toString().toNullString(),
         updatedAt: json["updated_at"].toString().toNullString(),
         deletedAt: json["deleted_at"].toString().toNullString(),

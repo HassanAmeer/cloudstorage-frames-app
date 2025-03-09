@@ -34,7 +34,7 @@ class ProfilePage extends StatelessWidget {
                 backgroundColor: AppColors.primaryColor.withOpacity(0.1),
                 title: const Text("Profile",
                     style: TextStyle(
-                        fontSize: 35,
+                        fontSize: 25,
                         color: AppColors.primaryColor,
                         fontWeight: FontWeight.bold))),
             body: Column(children: [

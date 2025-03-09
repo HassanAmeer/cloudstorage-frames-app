@@ -193,7 +193,8 @@ class _BottomNavBarState extends State<BottomNavBar>
           // child: NavigationScreen(pagesList[_bottomNavIndex]),
         ),
         floatingActionButton: FloatingActionButton(
-            backgroundColor: AppColors.primaryColor.shade700,
+            backgroundColor: Colors.white,
+            // backgroundColor: AppColors.primaryColor.shade900.withOpacity(0.8),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
             onPressed: () {
@@ -208,7 +209,7 @@ class _BottomNavBarState extends State<BottomNavBar>
               // _borderRadiusAnimationController.forward();
               // _fabAnimationController.forward();
             },
-            child: Image.asset(AppImages.ordersList, height: 35, width: 35)),
+            child: Image.asset(AppImages.cartusd, height: 55, width: 55)),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
           itemCount: iconList.length,
@@ -221,11 +222,9 @@ class _BottomNavBarState extends State<BottomNavBar>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(iconList[index], size: 24, color: color),
-                  const SizedBox(height: 4),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(iconNamesList[index],
-                          maxLines: 1, style: TextStyle(color: color)))
+                  const SizedBox(height: 3),
+                  Text(iconNamesList[index],
+                      maxLines: 1, style: TextStyle(color: color))
                 ]);
           },
           backgroundColor: Colors.white,

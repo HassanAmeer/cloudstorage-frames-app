@@ -228,7 +228,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                             child: Image.asset(AppImages.box,
                                                                                 color: AppColors.primaryColor,
                                                                                 opacity: const AlwaysStoppedAnimation(0.5))),
-                                                                        progressIndicatorBuilder: (context, url, progress) => const CircularProgressIndicator(color: AppColors.primaryColor),
+                                                                        progressIndicatorBuilder: (context, url, progress) => CircularProgressIndicator(color: AppColors.primaryColor.withOpacity(index == 0 ? 1 : 0.3)),
                                                                         fit: BoxFit.cover)),
                                                               ),
                                                             ),

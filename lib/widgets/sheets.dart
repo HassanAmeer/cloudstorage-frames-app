@@ -123,7 +123,7 @@ class _GalertState extends State<Galert> {
                         }
                         widget.onTap(folderNameContr.text);
                       },
-                      label: Text("Create Folder",
+                      label: Text("Buy a Folder",
                           style: TextStyle(color: accentColor)),
                       icon: Icon(Icons.create_new_folder_outlined,
                           color: accentColor)))

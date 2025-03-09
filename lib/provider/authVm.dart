@@ -223,8 +223,9 @@ class AuthVm with ChangeNotifier {
       var dresp = jsonDecode(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         EasyLoading.showSuccess("Signup Successfully");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginPage()));
+        loginF(context, email: email, password: password);
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => const LoginPage()));
       } else {
         snackBarColorF("${dresp['message']}", context);
       }
@@ -482,7 +483,7 @@ class AuthVm with ChangeNotifier {
       }
 
       if (code.isEmpty) {
-        snackBarColorF("Reopen Then Page", context);
+        snackBarColorF("Reopen The Page", context);
         return false;
       }
       if (email.isEmpty) {
@@ -499,11 +500,19 @@ class AuthVm with ChangeNotifier {
         // 'Content-Type': 'application/json',
       });
       var dresp = jsonDecode(response.body);
+      // debugPrint("👉 sendOtpF response:$dresp");
       if (response.statusCode == 200 || response.statusCode == 201) {
         EasyLoading.showSuccess("OTP Sent");
         return true;
       } else {
-        EasyLoading.showError("${dresp['message']}");
+        if (dresp['error'].toString().contains("limit")) {
+          EasyLoading.showError("Limit Exceeded Try Later");
+          // I/flutter ( 9952): 👉 sendOtpF response:{success: false, error: Expected response code "354" but got code "550", with message "550-5.4.5 Daily user sending limit exceeded. For more information on Gmail
+          // I/flutter ( 9952): 550-5.4.5 sending limits go to
+          // I/flutter ( 9952): 550 5.4.5  https://support.google.com/a/answer/166852 d2e1a72fcca58-73284a7401dsm10989913b3a.134 - gsmtp"., message: Verification sent failed}
+        } else {
+          EasyLoading.showError("${dresp['message']}");
+        }
       }
       return false;
     } catch (e, st) {
@@ -531,8 +540,9 @@ class AuthVm with ChangeNotifier {
         snackBarColorF("Email is required", context);
         return false;
       }
+
       if (password.isEmpty) {
-        snackBarColorF("Password Then Page", context);
+        snackBarColorF("Password is required", context);
         return false;
       }
       notifyListeners();

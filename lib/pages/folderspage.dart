@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:storyforgen/provider/authVm.dart';
 
 import '../constant/colors.dart';
@@ -107,7 +106,7 @@ class _FoldersPageState extends State<FoldersPage>
                                     horizontal: 12, vertical: 9),
                                 child: Row(children: [
                                   const Icon(Icons.add, color: Colors.white),
-                                  const Text("Create Folder  ",
+                                  const Text("Buy Folder  ",
                                       style: TextStyle(color: Colors.white)),
                                 ]))))
                     : InkWell(
@@ -116,7 +115,7 @@ class _FoldersPageState extends State<FoldersPage>
                               context: context,
                               builder: (context) {
                                 return SharedFolderPinAlert(onTap: (v) async {
-                                  debugPrint("v:$v");
+                                  // debugPrint("v:$v");
                                   await p.participentFolderF(context,
                                       folderId: v,
                                       token: Provider.of<AuthVm>(context,
@@ -223,6 +222,7 @@ class _FoldersPageState extends State<FoldersPage>
                                     padding: const EdgeInsets.only(top: 150),
                                     child: Center(
                                         child: Image.asset(AppImages.foldernotfound,
+                                        width: MediaQuery.of(context).size.width * 0.3,
                                                 opacity:
                                                     const AlwaysStoppedAnimation(
                                                         0.2))
@@ -440,6 +440,7 @@ class _FoldersPageState extends State<FoldersPage>
                                     child: Center(
                                         child: Image.asset(
                                                 AppImages.foldernotfound,
+                                                 width: MediaQuery.of(context).size.width * 0.3,
                                                 opacity:
                                                     const AlwaysStoppedAnimation(
                                                         0.2))

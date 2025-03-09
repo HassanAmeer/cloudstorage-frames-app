@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Cloud Storage',
+        title: 'S4G',
         theme: ThemeData(
             colorScheme:
                 ColorScheme.fromSeed(seedColor: AppColors.primaryColor),

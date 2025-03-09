@@ -22,19 +22,19 @@ class _IntroPageState extends State<IntroPage> {
       image: AppJson.folder,
       title: 'Store and Share Files',
       description:
-          'Cloud Storage allows you to store and share files seamlessly. Upload, download, and share your documents with ease.',
+          'Stories4Generations.com allows you to EASILY & SIMPLY upload, download, and share.  We will make a video from your photos and provide you the link to share to any of YOUR chosen contacts',
     ),
     _IntroData(
       image: AppJson.lock,
       title: 'Secure',
       description:
-          'Your files are protected with top-notch security measures. Rest assured that your data is safe and confidential.',
+          'Your files are protected and secured with world-class security. Your data and files are safe and confidential.  Only YOU can share the link!',
     ),
     _IntroData(
       image: AppJson.share,
       title: 'Easy to Use',
       description:
-          'Our user-friendly interface makes managing your files simple and efficient. Get started in just a few clicks.',
+          'Stories4Generations.com offers a user-friendly App which allows you and “those you invite” to easily upload photos for an event, a trip, a family reunion….then easily SHARE the event with friends & family!',
     ),
   ];
 

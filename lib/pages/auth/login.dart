@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
               centerTitle: true,
               automaticallyImplyLeading: false,
               backgroundColor: AppColors.primaryColor,
-              title: const Text('Cloud Storage',
+              title: const Text('Story For Generations',
                   style: TextStyle(color: Colors.white))),
           body: Center(
               child: Padding(

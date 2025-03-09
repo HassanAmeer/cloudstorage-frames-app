@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../provider/authVm.dart';
 import '../../provider/foldersVm.dart';
 import '../../provider/upgradingVm.dart';
@@ -12,7 +11,6 @@ import '../../constant/colors.dart';
 import '../../constant/images.dart';
 import '../../constant/links.dart';
 import '../../widgets/dotloader.dart';
-import '../../widgets/toast.dart';
 
 class FramesPages extends StatefulWidget {
   final String imgId;
@@ -178,7 +176,8 @@ class _FramesPagesState extends State<FramesPages> {
                                                             p.selectedFramesLinkListF(
                                                                 imgId: widget
                                                                     .imgId,
-                                                                    frameId: data.id,
+                                                                frameId:
+                                                                    data.id,
                                                                 imgLink: ApiLinks
                                                                         .imgLink +
                                                                     data.image);
@@ -209,7 +208,9 @@ class _FramesPagesState extends State<FramesPages> {
                                                                         false)
                                                                 .forBuyingFramesF(
                                                                     context,
-                                                                    frameId:[data.id],
+                                                                    frameId: [
+                                                                      data.id
+                                                                    ],
                                                                     amount: data
                                                                         .price
                                                                         .toString())
