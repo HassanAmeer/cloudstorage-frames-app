@@ -1,0 +1,276 @@
+// {
+//     "baseUrl": "http:\/\/127.0.0.1:8000",
+//     "settings": {
+//         "id": 1,
+//         "websiteName": "bikevan",
+//         "websiteLogo": "images\/bikevanlogo.jpeg",
+//         "webisteMiniLogo": "images\/bikevanlogo_1.jpeg",
+//         "email": "maarkhoorsn@gmail.com",
+//         "phone": "03097676179",
+//         "showPhone": 1,
+//         "showWhatsapp": 1,
+//         "whatsappNumber": "+923097676179",
+//         "showFacebook": 1,
+//         "facebookLink": "https:\/\/facebook.com",
+//         "showInstagram": 1,
+//         "instagramLink": "https:instagram.com",
+//         "showBannerImagesOnlyInHead": 1,
+//         "showPrivacyPolicy": 1,
+//         "showShippingPolicy": 1,
+//         "showReturnRefundPolicy": 1,
+//         "showTermsCondition": 1,
+//         "showPromotionBanner": 1,
+//         "showRequestItemsSection": 1,
+//         "showToastMessages": 1,
+//         "showBanner2InHeader": 0,
+//         "showOfferInFooter": 1,
+//         "selectedItemIdForFooter": 1,
+//         "showItemInFooter": 1,
+//         "PromotionBannerDesign": "<p>Buy 1<strong> Get 1 Free Watch Gift<\/str "designOfferInFooter": " < marquee >\r\n < center >\r\n < p > <strong style=\"co "created_at": "2024 - 10-02T14: 50: 29.000000Z","updated_at": "2024-11-27T19: 10: 52.000000Z","deleted_at": null
+//     },
+//     "vehicleHistory": {
+//         "id": 1,
+//         "showReports": 1,
+//         "vId": "a786",
+//         "vImg": "images\/parking.png",
+//         "isShowImg": 0,
+//         "vName": "Jeep",
+//         "title": "2004 JEEP LIBERTY LIMITED",
+//         "desc": "VIN: 1J4GL58K14W295826, 4 DOOR WAGON\/SPORT UTILITY ,3.7L V6 "points": ["No accidents or damage reported to
+// CARFAX","5 Service history records","At least 1 open recall","7 Previous owners","Personal vehicle",
+//         "145,225 Last reported odometer reading"
+//     ],
+//     "footerDesc": "This CARFAX Vehicle History Report is based only on inf "price": "44.99","created_at":"2024 - 11 - 27T18: 13: 18.000000Z","updated_at": "2024-11-27T18: 18: 05.000000Z","deleted_at": null
+// },
+// "additionalHistory": {
+//     "id": 1,
+//     "vId": "a786",
+//     "vname": " ",
+//     "totalLoss": "No total loss reported to CARFAX.",
+//     "totalLossOwners": [
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported"
+//     ],
+//     "structuredDamage": "No structural damage reported to CARFAX.",
+//     "structuredDamageOwners": [
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported"
+//     ],
+//     "airBagDeployment": "No airbag deployment reported to CARFAX.",
+//     "airBagDeploymentOwners": [
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported"
+//     ],
+//     "odoMeterCheck": "No indication of an odometer rollback.",
+//     "odoMeterCheckOwners": [
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported"
+//     ],
+//     "accidentDamage": "No accidents or damage reported to CARFAX.",
+//     "accidentDamageOwners": [
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported",
+//         "No issues reported"
+//     ],
+//     "manufacturerRecall": "At least 1 manufacturer recall requires repair. "manufacturerRecallOwners": ["No issues
+// reported","No issues reported","No issues reported","No issues reported"
+// ],
+// "basicWarranty": "Original warranty estimated to have expired.",
+// "basicWarrantyOwners": [
+//     "Warranty Expired.",
+//     "Warranty Expired.",
+//     "Warranty Expired.",
+//     "Warranty Expired."
+// ],
+// "created_at": "2024-11-27T18:22:45.000000Z",
+// "updated_at": "2024-11-27T18:22:45.000000Z",
+// "deleted_at": null
+// },
+// "ownershipHistory": {
+// "id": 1,
+// "vId": "a786",
+// "vName": " ",
+// "yearpurchased": "2005",
+// "yearpurchasedowners": [
+//     "2005",
+//     "2010",
+//     "2015",
+//     "2022"
+// ],
+// "typeofowner": "Type of Owner",
+// "typeofowners": [
+//     "Personal",
+//     "Personal",
+//     "Personal",
+//     "Personal"
+// ],
+// "ownershiplength": "Estimated Length of Ownership",
+// "ownershiplengthowners": [
+//     "17 yrs, 9 mo.",
+//     "17 yrs, 9 mo.",
+//     "17 yrs, 9 mo.",
+//     "1 yr, 5 mo."
+// ],
+// "provinces": "Owned in the Following States\/Provinces",
+// "provincesowners": [
+//     "See Details",
+//     "See Details",
+//     "See Details",
+//     "Missouri"
+// ],
+// "milesperyear": "Estimated Miles Driven per Year",
+// "milesperyearowners": [
+//     "See Details",
+//     "See Details",
+//     "See Details",
+//     "----"
+// ],
+// "lastodometerreading": "Last Reported Odometer Reading",
+// "lastodometerreadingowners": [
+//     "145,225",
+//     "145,225",
+//     "145,225",
+//     "----"
+// ],
+// "created_at": "2024-11-27T18:46:40.000000Z",
+// "updated_at": "2024-11-27T18:46:40.000000Z",
+// "deleted_at": null
+// },
+// "titleHistory": {
+// "id": 1,
+// "vId": "a786",
+// "vName": " ",
+// "title1": "Damage Brands",
+// "desc1": "junk|fire|flood",
+// "ownerslist1": [
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem"
+// ],
+// "title2": "Odometer Brands",
+// "desc2": "exceeds machanical limits",
+// "ownerslist2": [
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem"
+// ],
+// "title3": "Odometer Brands2",
+// "desc3": "exceeds machanical limits2",
+// "ownerslist3": [
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem",
+//     "Guaranteed: No Problem"
+// ],
+// "created_at": "2024-11-27T18:40:54.000000Z",
+// "updated_at": "2024-11-27T18:40:54.000000Z",
+// "deleted_at": null
+// },
+// "ownersList": [
+// {
+//     "id": 1,
+//     "vId": "a786",
+//     "vName": " ",
+//     "ownerNo": "1",
+//     "purchased": "2004",
+//     "subtitle": "Personal Vehicle - 8,310 mi\/yr",
+//     "details": {
+//         "new_1": {
+//             "date": "2004-01-01",
+//             "mileage": "2",
+//             "source": "Doug Marine Motors, Washington Court House, OH""comments": "Vehicle serviced: Pre-delivery inspection com
+//         },
+//         "new_2": {
+//             "date": "2005-01-01",
+//             "mileage": "0",
+//             "source": "Ohio Motor Vehicle Dept.",
+//             "comments": "First owner reported: Titled or registered as }
+//         },
+//         "created_at": "2024-11-27T19:00:22.000000Z",
+//         "updated_at": "2024-11-27T19:00:22.000000Z",
+//         "deleted_at": null
+//     },
+//     {
+//         "id": 2,
+//         "vId": "a786",
+//         "vName": " ",
+//         "ownerNo": "2",
+//         "purchased": "2009",
+//         "subtitle": "Personal Vehicle - 11,404 mi\/yr",
+//         "details": {
+//             "new_1": {
+//                 "date": "2009-01-01",
+//                 "mileage": "0",
+//                 "source": "Ohio Motor Vehicle Dept., Columbus, OH",
+//                 "comments": "Title issued or updated: Registration issued },"new_2": {"date": "2010-01-01","mileage": "0","source": "Ohio Motor Vehicle Dept., Columbus, OH","comments": "Registration issued or renewed"
+//             },
+//             "new_3": {
+//                 "date": "2011-01-01",
+//                 "mileage": "0",
+//                 "source": "Ohio Motor Vehicle Dept., Columbus, OH",
+//                 "comments": "Registration issued or renewed: Registration },"new_4": {"date": "2012-01-01","mileage": "72,
+//                 690","source": "Crown Motor Cars, Dublin, OH","comments": "Vehicle serviced: Control arm(s) replaced"
+//             },
+//             "new_5": {
+//                 "date": "2013-01-01",
+//                 "mileage": "0",
+//                 "source": "Ohio Motor Vehicle Dept.",
+//                 "comments": "Registration issued or renewed"
+//             }
+//         },
+//         "created_at": "2024-11-27T19:02:42.000000Z",
+//         "updated_at": "2024-11-27T19:02:42.000000Z",
+//         "deleted_at": null
+//     }
+// ],
+// "glossary": [
+//     {
+//         "id": 1,
+//         "title": "First Owner",
+//         "desc": "When the first owner(s) obtains a title from a Department "created_at": "2024 - 11 - 27T16: 51: 45.000000Z","updated_at": "2024 - 11 - 27T17: 17: 58.000000Z","deleted_at": null
+//     },
+//     {
+//         "id": 2,
+//         "title": "Manufacturer Recall",
+//         "desc": "Automobile manufacturers issue recall notices to inform v "created_at": "2024 - 11 - 27T17: 18: 26.000000Z","updated_at": "2024 - 11 - 27T17: 18: 26.000000Z","deleted_at": null
+//     },
+//     {
+//         "id": 3,
+//         "title": "New Owner Reported",
+//         "desc": "When a vehicle is sold to a new owner, the Title must be "created_at": "2024 - 11 - 27T17: 18: 46.000000Z","updated_at": "2024 - 11 - 27T17: 18: 46.000000Z","deleted_at": null
+//     },
+//     {
+//         "id": 4,
+//         "title": "Ownership History",
+//         "desc": "CARFAX defines an owner as an individual or business that "created_at": "2024 - 11 - 27T17: 21: 16.000000Z","updated_at": "2024 - 11 - 27T17: 21: 16.000000Z","deleted_at": null
+//     },
+//     {
+//         "id": 5,
+//         "title": "Title Issued",
+//         "desc": "A state issues a title to provide a vehicle owner with pr "created_at": "2024 - 11 - 27T17: 21: 45.000000Z","updated_at": "2024 - 11 - 27T17: 21: 45.000000Z","deleted_at": null
+//     }
+// ],
+// "reportSetting": {
+//     "id": 1,
+//     "vehicleHistoryReportDesc": "This CARFAX Vehicle History Report is bas "titleHistoryDesc": "GUARANTEED - None of these
+// title problems were re "facebookLink": "facebook.com",
+//     "showFacebook": 1,
+//     "instagaramLink": "instagaram.com",
+//     "showInstagaram": 1,
+//     "whatsappLink": "whatsapp.com",
+//     "showWhatsapp": 1,
+//     "socialmediaDesc": "CARFAX DEPENDS ON ITS SOURCES FOR THE ACCURACY AND "rightReservedDesc": "\u00a9 2024 CARFAX, Inc.,
+//                                     part of S & P Global.Al "signatureDesc": "I have reviewed and received a copy of the CARFAX Ve"created_at": "2024 - 11 - 27T17: 30: 22.000000Z","updated_at": "2024-11-27T17: 30: 22.000000Z","deleted_at": null
+// }
+// }
