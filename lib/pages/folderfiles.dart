@@ -90,16 +90,16 @@ class _FolderFilesState extends State<FolderFiles> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13)),
                               backgroundColor: Colors.black),
-                          onPressed: () async{
-                           var check =  await Navigator.push(
+                          onPressed: () async {
+                            var check = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SlidesPage(
                                         data: p.getfilesbyfolderidList.first,
                                         imgsList: _selectedItems)));
-                                if (check != null && check) {
+                            if (check != null && check) {
                               setState(() {});
-                            }       
+                            }
                           },
                           label: const Text("Edit Images",
                               style:
@@ -288,6 +288,9 @@ class _FolderFilesState extends State<FolderFiles> {
                                                       onPressed: () {
                                                         deleteFileSheet(
                                                           context,
+                                                          imgUrl:
+                                                              ApiLinks.imgLink +
+                                                                  data,
                                                           onTap: () async {
                                                             Navigator.pop(
                                                                 context);

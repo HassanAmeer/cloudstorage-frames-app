@@ -17,6 +17,8 @@ import '../models/folderModel.dart';
 import '../provider/authVm.dart';
 import '../provider/foldersVm.dart';
 
+import 'package:flutter_media_downloader/flutter_media_downloader.dart';
+
 class Galert extends StatefulWidget {
   final Function onTap;
   const Galert({super.key, required this.onTap});
@@ -591,15 +593,31 @@ Future<void> pickMultipleFilesSheet(context, {required String folderId}) async {
                       width: MediaQuery.of(context).size.width * 0.95,
                       child: OutlinedButton.icon(
                           onPressed: () async {
-                            final FilePickerResult? selected =
-                                await FilePicker.platform.pickFiles(
-                                    type: FileType.image, allowMultiple: true);
-                            if (selected != null) {
-                              setState(() {
-                                selectedFiles.addAll(selected.files);
-                                filesContr.text =
-                                    "${selectedFiles.length} Files Selected";
-                              });
+                            try {
+                              // final FilePickerResult? selected =
+                              // await FilePicker.platform.pickFiles(
+                              //     type: FileType.image, allowMultiple: true);
+
+                              // Try with more generic type if still failing
+                              final FilePickerResult? selected =
+                                  await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: [
+                                  'jpg',
+                                  'png',
+                                  'jpeg',
+                                  'mp4'
+                                ],
+                              );
+                              if (selected != null) {
+                                setState(() {
+                                  selectedFiles.addAll(selected.files);
+                                  filesContr.text =
+                                      "${selectedFiles.length} Files Selected";
+                                });
+                              }
+                            } catch (e, st) {
+                              debugPrint("💥 $e, st$st");
                             }
                           },
                           label: Row(
@@ -804,7 +822,8 @@ Future<void> deleteFileSheet(context,
     {String token = "",
     String folderId = "",
     String fileName = "",
-    required VoidCallback onTap}) async {
+    required VoidCallback onTap,
+    String imgUrl = ""}) async {
   const primaryColor = Color(0xff4338CA);
   const secondaryColor = Color(0xff6D28D9);
   const accentColor = Color(0xffffffff);
@@ -839,6 +858,50 @@ Future<void> deleteFileSheet(context,
                   ),
                 ),
                 const SizedBox(height: 15),
+                Divider(
+                    color: AppColors.primaryColor.withOpacity(0.4),
+                    height: 1,
+                    indent: 10,
+                    endIndent: 10),
+                InkWell(
+                    onTap: () async {
+                      await Share.share(imgUrl,
+                          subject: "Share Media Link Of Story for Gen",
+                          sharePositionOrigin: Rect.fromCenter(
+                              center: Offset(0, 0), width: 100, height: 100));
+                    },
+                    child: CupertinoListTile(
+                        title:
+                            Text("Share", style: TextStyle(color: accentColor)),
+                        trailing: Icon(Icons.share, color: accentColor))),
+                Divider(
+                    color: AppColors.primaryColor.withOpacity(0.4),
+                    height: 1,
+                    indent: 10,
+                    endIndent: 10),
+                InkWell(
+                    onTap: () async {
+                      try {
+                        MediaDownload()
+                            .downloadMedia(context, imgUrl)
+                            .then((v) {
+                          EasyLoading.showSuccess('Downloaded Successfully!');
+                          Navigator.pop(context);
+                        });
+                      } catch (e) {
+                        EasyLoading.showError('Error downloading image: $e');
+                      }
+                    },
+                    child: CupertinoListTile(
+                        title: Text("Download",
+                            style: TextStyle(color: accentColor)),
+                        trailing: Icon(Icons.download, color: accentColor))),
+                Divider(
+                    color: AppColors.primaryColor.withOpacity(0.4),
+                    height: 1,
+                    indent: 10,
+                    endIndent: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                     width: MediaQuery.of(context).size.width * 0.95,
                     child: ElevatedButton.icon(
@@ -849,7 +912,7 @@ Future<void> deleteFileSheet(context,
                                 style: TextStyle(color: primaryColor)),
                         icon: const Icon(Icons.delete_outline_outlined,
                             color: primaryColor))),
-                const SizedBox(height: 20),
+                const SizedBox(height: 50),
               ]));
         });
       });

@@ -189,6 +189,35 @@ class Upgrading with ChangeNotifier {
       isLoadingFoyBuyF = true;
       notifyListeners();
 
+      if (amount == 0 || amount == null || amount == "" || amount == "0") {
+        await makeTransactionHistoyF(
+          context,
+          foldername: folderName,
+          folderstorage: totalSize,
+          payfor: "0",
+          price: "$amount",
+          trid: "free_$amount-${DateTime.now()}",
+          token: token.toString(),
+        );
+
+        await Provider.of<FoldersVm>(context, listen: false)
+            .createFolderF(context,
+                token: token,
+                folderName: folderName,
+                totalSize: totalSize,
+                subscriptionno: subscriptionNo)
+            .then((v) {
+          isLoadingFoyBuyF = false;
+          notifyListeners();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        });
+
+        isLoadingFoyBuyF = false;
+        notifyListeners();
+        return;
+      }
+
       final payintent = await creatpaymentintentf(amount: amount);
       const gpay = PaymentSheetGooglePay(
           //  testEnv: true

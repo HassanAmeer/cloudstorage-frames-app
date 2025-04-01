@@ -1,3 +1,5 @@
+import 'package:storyforgen/pages/notifyDetails.dart';
+
 import '../provider/authVm.dart';
 import '../widgets/dotloader.dart';
 import 'package:flutter/cupertino.dart';
@@ -68,6 +70,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     itemBuilder: (BuildContext context, int index) {
                       var data = p.notifyList[index];
                       return CupertinoListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      NotificationsDetailsPage(data: data)));
+                        },
                         leading:
                             const Icon(Icons.notifications_active_outlined),
                         title: Text(data.title),

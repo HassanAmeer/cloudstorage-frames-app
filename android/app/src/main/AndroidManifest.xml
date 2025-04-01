@@ -3,10 +3,21 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
 
 
+<!-- for media downloadeer permission start -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- For Android 13+ (API 33 and above) -->
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+<uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+<!-- for media downloadeer permission end -->
+
     <application
         android:label="story generations"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -35,6 +46,17 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- for media downloadeer permission start -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        <!-- for media downloadeer permission end -->
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

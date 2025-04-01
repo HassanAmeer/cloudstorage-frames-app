@@ -107,8 +107,8 @@ class ProfilePage extends StatelessWidget {
                       color: Colors.grey, size: 17)),
               const Divider(),
               CupertinoListTile(
-                  onTap: () {
-                    Logout().singOut(context);
+                  onTap: () async {
+                    await Logout().singOut(context);
                   },
                   leading:
                       const Icon(Icons.exit_to_app, color: Colors.deepOrange),

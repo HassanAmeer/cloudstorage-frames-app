@@ -68,6 +68,15 @@ class _PlansPageState extends State<PlansPage> {
                               .length, // Number of plans, adjust as needed
                           itemBuilder: (context, index) {
                             var data = p.plansList[index];
+                            // Sort plans before building the list
+                            if (index == 0) {
+                              p.plansList.sort((a, b) {
+                                if (a.price == 0) return -1;
+                                if (b.price == 0) return 1;
+                                return a.price.compareTo(b.price);
+                              });
+                            }
+
                             return Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: PlanCard(

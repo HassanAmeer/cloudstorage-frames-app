@@ -28,7 +28,7 @@ class _IntroPageState extends State<IntroPage> {
       image: AppJson.lock,
       title: 'Secure',
       description:
-          'Your files are protected and secured with world-class security. Your data and files are safe and confidential.  Only YOU can share the link!',
+          'Files are safe, confidential, and protected utilizing state-of-the-art security on world class, branded, encrypted servers.',
     ),
     _IntroData(
       image: AppJson.share,
