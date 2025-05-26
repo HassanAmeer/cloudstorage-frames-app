@@ -138,7 +138,7 @@ class _FoldersPageState extends State<FoldersPage>
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 9),
                                 child: Row(children: [
-                                  const Text("Participents  ",
+                                  const Text("Participants  ",
                                       style: TextStyle(color: Colors.white)),
                                   const Icon(Icons.folder_shared_sharp,
                                       color: Colors.white),

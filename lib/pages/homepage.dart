@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     return Consumer<FoldersVm>(builder: (context, p, c) {
       return Scaffold(
           body: Column(children: [
-        const Text("All Uploads",
+        const Text("Photos",
             style: TextStyle(
                 fontSize: 25,
                 color: AppColors.primaryColor,

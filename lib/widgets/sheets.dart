@@ -42,94 +42,100 @@ class _GalertState extends State<Galert> {
     return Dialog(
         elevation: 1,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Container(
-            width: MediaQuery.of(context).size.width / 1.5,
-            height: MediaQuery.of(context).size.height / 3.8,
-            decoration: BoxDecoration(
-                gradient:
-                    LinearGradient(colors: [primaryColor, secondaryColor]),
-                borderRadius: BorderRadius.circular(15.0),
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(12, 26),
-                      blurRadius: 50,
-                      spreadRadius: 0,
-                      color: Colors.grey.withOpacity(.1))
-                ]),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(""),
-                    const Text(""),
-                    CircleAvatar(
-                        backgroundColor: accentColor.withOpacity(0.1),
-                        radius: 40,
-                        child: Image.asset(AppImages.createfolder)),
-                    Transform.translate(
-                        offset: const Offset(5, -15),
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.cancel,
-                                color: accentColor.withOpacity(0.3))))
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight:  MediaQuery.of(context).size.height / 2.8,
+
+          ),
+          child: Container(
+              width: MediaQuery.of(context).size.width / 1.5,
+              // height: MediaQuery.of(context).size.height / 3.8,
+              decoration: BoxDecoration(
+                  gradient:
+                      LinearGradient(colors: [primaryColor, secondaryColor]),
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(12, 26),
+                        blurRadius: 50,
+                        spreadRadius: 0,
+                        color: Colors.grey.withOpacity(.1))
                   ]),
-              const SizedBox(height: 15),
-              Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: CupertinoTextField(
-                      onChanged: (v) {
-                        if (v.trim().isEmpty) {
-                          isNameEmpty = true;
-                          setState(() {});
-                        } else {
-                          isNameEmpty = false;
-                          setState(() {});
-                        }
-                      },
-                      controller: folderNameContr,
-                      cursorColor: Colors.cyan,
-                      style: TextStyle(color: accentColor),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: accentColor.withOpacity(0.5)),
-                          color: accentColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(15)),
-                      padding: const EdgeInsets.all(10),
-                      placeholder: 'Folder Name',
-                      placeholderStyle:
-                          TextStyle(color: accentColor.withOpacity(0.5)))),
-              isNameEmpty
-                  ? Row(children: [
-                      Text("      Folder Name is required",
-                              style: GoogleFonts.abhayaLibre(
-                                  color:
-                                      const Color.fromARGB(255, 247, 138, 175),
-                                  fontWeight: FontWeight.w200))
-                          .animate(onPlay: (controller) => controller.repeat())
-                          .shimmer(color: Colors.white, duration: 2.seconds)
-                    ])
-                  : const SizedBox.shrink(),
-              SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.58,
-                  child: OutlinedButton.icon(
-                      onPressed: () {
-                        if (folderNameContr.text.isEmpty) {
-                          snackBarColorF("Folder Name is required", context);
-                          isNameEmpty = true;
-                          setState(() {});
-                          return;
-                        }
-                        widget.onTap(folderNameContr.text);
-                      },
-                      label: Text("Buy a Folder",
-                          style: TextStyle(color: accentColor)),
-                      icon: Icon(Icons.create_new_folder_outlined,
-                          color: accentColor)))
-            ])));
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(""),
+                      const Text(""),
+                      CircleAvatar(
+                          backgroundColor: accentColor.withOpacity(0.1),
+                          radius: 40,
+                          child: Image.asset(AppImages.createfolder)),
+                      Transform.translate(
+                          offset: const Offset(5, -35),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.cancel,
+                                  color: accentColor.withOpacity(0.3))))
+                    ]),
+                const SizedBox(height: 15),
+                Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CupertinoTextField(
+                        onChanged: (v) {
+                          if (v.trim().isEmpty) {
+                            isNameEmpty = true;
+                            setState(() {});
+                          } else {
+                            isNameEmpty = false;
+                            setState(() {});
+                          }
+                        },
+                        controller: folderNameContr,
+                        cursorColor: Colors.cyan,
+                        style: TextStyle(color: accentColor),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: accentColor.withOpacity(0.5)),
+                            color: accentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: const EdgeInsets.all(10),
+                        placeholder: 'Folder Name',
+                        placeholderStyle:
+                            TextStyle(color: accentColor.withOpacity(0.5)))),
+                isNameEmpty
+                    ? Row(children: [
+                        Text("      Folder Name is required",
+                                style: GoogleFonts.abhayaLibre(
+                                    color:
+                                        const Color.fromARGB(255, 247, 138, 175),
+                                    fontWeight: FontWeight.w200))
+                            .animate(onPlay: (controller) => controller.repeat())
+                            .shimmer(color: Colors.white, duration: 2.seconds)
+                      ])
+                    : const SizedBox.shrink(),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.58,
+                    child: OutlinedButton.icon(
+                        onPressed: () {
+                          if (folderNameContr.text.isEmpty) {
+                            snackBarColorF("Folder Name is required", context);
+                            isNameEmpty = true;
+                            setState(() {});
+                            return;
+                          }
+                          widget.onTap(folderNameContr.text);
+                        },
+                        label: Text("Buy a Folder",
+                            style: TextStyle(color: accentColor)),
+                        icon: Icon(Icons.create_new_folder_outlined,
+                            color: accentColor)))
+              ])),
+        ));
   }
 }
 
@@ -163,131 +169,136 @@ class _SharedFolderPinAlertState extends State<SharedFolderPinAlert> {
     return Dialog(
         elevation: 1,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Container(
-            width: MediaQuery.of(context).size.width / 1.5,
-            height: MediaQuery.of(context).size.height / 3.1,
-            decoration: BoxDecoration(
-                color: AppColors.primaryColor,
-                gradient: LinearGradient(
-                    end: Alignment.bottomLeft,
-                    begin: Alignment.topLeft,
-                    colors: [
-                      primaryColor,
-                      primaryColor,
-                      AppColors.primaryColor,
-                      AppColors.goldenDark.withOpacity(0.4),
-                    ]),
-                borderRadius: BorderRadius.circular(15.0),
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(12, 26),
-                      blurRadius: 50,
-                      spreadRadius: 0,
-                      color: Colors.grey.withOpacity(.1))
-                ]),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(""),
-                    const Text(""),
-                    Stack(
-                      children: [
-                        CircleAvatar(
-                            backgroundColor: accentColor.withOpacity(0.1),
-                            radius: 40,
-                            child: Image.asset(AppImages.folderPin)),
-                        Positioned(
-                            child: Icon(
-                          Icons.share,
-                          color: AppColors.primaryColor,
-                          size: 40,
-                        ))
-                      ],
-                    ),
-                    Transform.translate(
-                        offset: const Offset(5, -15),
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.cancel,
-                                color: accentColor.withOpacity(0.3))))
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight:  MediaQuery.of(context).size.height / 2.5,
+          ),
+          child: Container(
+              width: MediaQuery.of(context).size.width / 1.5,
+              // height: MediaQuery.of(context).size.height / 3.1,
+              decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  gradient: LinearGradient(
+                      end: Alignment.bottomLeft,
+                      begin: Alignment.topLeft,
+                      colors: [
+                        primaryColor,
+                        primaryColor,
+                        AppColors.primaryColor,
+                        AppColors.goldenDark.withOpacity(0.4),
+                      ]),
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(12, 26),
+                        blurRadius: 50,
+                        spreadRadius: 0,
+                        color: Colors.grey.withOpacity(.1))
                   ]),
-              const SizedBox(height: 15),
-              Text("Participents Stories",
-                  style: GoogleFonts.agbalumo(
-                      color: AppColors.lightOrange.withOpacity(0.8),
-                      fontSize: 20)),
-              Text(
-                  "For Participent with other users enter folder invitaion code",
-                  style: GoogleFonts.lancelot(
-                      color: AppColors.lightBlue.withOpacity(0.8),
-                      fontSize: 12)),
-              const SizedBox(height: 5),
-              Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: CupertinoTextField(
-                      onChanged: (v) {
-                        if (v.trim().isEmpty) {
-                          isNameEmpty = true;
-                          setState(() {});
-                        } else {
-                          isNameEmpty = false;
-                          setState(() {});
-                        }
-                      },
-                      controller: folderIdCodeContro,
-                      cursorColor: Colors.cyan,
-                      style: TextStyle(color: accentColor),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: accentColor.withOpacity(0.5)),
-                          color: accentColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(15)),
-                      padding: const EdgeInsets.all(10),
-                      placeholder: 'Folder Invitation Code',
-                      placeholderStyle:
-                          TextStyle(color: accentColor.withOpacity(0.5)))),
-              isNameEmpty
-                  ? Row(children: [
-                      Text("      Invitaion Key is required",
-                              style: GoogleFonts.abhayaLibre(
-                                  color: Colors.yellowAccent,
-                                  fontWeight: FontWeight.w200))
-                          .animate(onPlay: (controller) => controller.repeat())
-                          .shimmer(color: Colors.orange, duration: 2.seconds)
-                    ])
-                  : const SizedBox.shrink(),
-              SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.58,
-                  child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.indigoDark),
-                      onPressed: () {
-                        if (folderIdCodeContro.text.isEmpty) {
-                          EasyLoading.showError(
-                              "Folder Invitaion Key is required");
-                          isNameEmpty = true;
-                          setState(() {});
-                          return;
-                        }
-                        widget.onTap(folderIdCodeContro.text);
-                      },
-                      label: Text(" Participent",
-                          style: TextStyle(color: accentColor)),
-                      icon: context.watch<FoldersVm>().isLoadingForParticipent
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator.adaptive(
-                                  strokeWidth: 2,
-                                  backgroundColor: AppColors.lightBlue))
-                          : Icon(Icons.folder_shared_outlined,
-                              color: accentColor)))
-            ])));
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(""),
+                      const Text(""),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                              backgroundColor: accentColor.withOpacity(0.1),
+                              radius: 30,
+                              child: Image.asset(AppImages.folderPin)),
+                          Positioned(
+                              child: Icon(
+                            Icons.share,
+                            color: AppColors.primaryColor,
+                            size: 35,
+                          ))
+                        ],
+                      ),
+                      Transform.translate(
+                          offset: const Offset(5, -15),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.cancel,
+                                  color: accentColor.withOpacity(0.3))))
+                    ]),
+                const SizedBox(height: 15),
+                Text("Participants Stories",
+                    style: GoogleFonts.agbalumo(
+                        color: AppColors.lightOrange.withOpacity(0.8),
+                        fontSize: 18)),
+                Text(
+                    "For Participants with other users enter folder invitaion code",
+                    style: GoogleFonts.lancelot(
+                        color: AppColors.lightBlue.withOpacity(0.8),
+                        fontSize: 11)),
+                const SizedBox(height: 5),
+                Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CupertinoTextField(
+                        onChanged: (v) {
+                          if (v.trim().isEmpty) {
+                            isNameEmpty = true;
+                            setState(() {});
+                          } else {
+                            isNameEmpty = false;
+                            setState(() {});
+                          }
+                        },
+                        controller: folderIdCodeContro,
+                        cursorColor: Colors.cyan,
+                        style: TextStyle(color: accentColor, fontSize: 14),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: accentColor.withOpacity(0.5)),
+                            color: accentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: const EdgeInsets.all(10),
+                        placeholder: 'Folder Invitation Code',
+                        placeholderStyle:
+                            TextStyle(color: accentColor.withOpacity(0.5)))),
+                isNameEmpty
+                    ? Row(children: [
+                        Text("      Invitaion Key is required",
+                                style: GoogleFonts.abhayaLibre(
+                                    color: Colors.yellowAccent,
+                                    fontWeight: FontWeight.w200))
+                            .animate(onPlay: (controller) => controller.repeat())
+                            .shimmer(color: Colors.orange, duration: 2.seconds)
+                      ])
+                    : const SizedBox.shrink(),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.58,
+                    child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.indigoDark),
+                        onPressed: () {
+                          if (folderIdCodeContro.text.isEmpty) {
+                            EasyLoading.showError(
+                                "Folder Invitaion Key is required");
+                            isNameEmpty = true;
+                            setState(() {});
+                            return;
+                          }
+                          widget.onTap(folderIdCodeContro.text);
+                        },
+                        label: Text(" Participants",
+                            style: TextStyle(color: accentColor)),
+                        icon: context.watch<FoldersVm>().isLoadingForParticipent
+                            ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator.adaptive(
+                                    strokeWidth: 2,
+                                    backgroundColor: AppColors.lightBlue))
+                            : Icon(Icons.folder_shared_outlined,
+                                color: accentColor)))
+              ])),
+        ));
   }
 }
 

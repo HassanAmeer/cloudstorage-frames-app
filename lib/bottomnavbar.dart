@@ -49,9 +49,9 @@ class _BottomNavBarState extends State<BottomNavBar>
     Icons.person_4_outlined,
   ];
   final iconNamesList = <String>[
-    "Gallery",
+    "Photos",
     "Folders",
-    "Notifications",
+    "ALERTs",
     "Profile",
   ];
 
@@ -193,7 +193,7 @@ class _BottomNavBarState extends State<BottomNavBar>
           // child: NavigationScreen(pagesList[_bottomNavIndex]),
         ),
         floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             // backgroundColor: AppColors.primaryColor.shade900.withOpacity(0.8),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
@@ -209,7 +209,7 @@ class _BottomNavBarState extends State<BottomNavBar>
               // _borderRadiusAnimationController.forward();
               // _fabAnimationController.forward();
             },
-            child: Image.asset(AppImages.cartusd, height: 55, width: 55)),
+            child: Image.asset(AppImages.mid, height: 55, width: 55)),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
           itemCount: iconList.length,

@@ -121,7 +121,7 @@ class _FolderFilesState extends State<FolderFiles> {
                             //   }
                             // });
                           },
-                          label: const Text("Add New Files",
+                          label: const Text("add Photos/Videos",
                               style: TextStyle(color: Colors.white)),
                           icon: const Icon(Icons.add, color: Colors.white),
                           style: ButtonStyle(

@@ -1,11 +1,8 @@
 import 'package:storyforgen/models/notifyModel.dart';
 
 import '../provider/authVm.dart';
-import '../widgets/dotloader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../constant/colors.dart';
 
@@ -27,7 +24,7 @@ class NotificationsDetailsPage extends StatelessWidget {
                   color: AppColors.primaryColor,
                 )),
             backgroundColor: AppColors.primaryColor.withOpacity(0.1),
-            title: Text("${data.title}",
+            title: Text(data.title,
                 style: TextStyle(
                     fontSize: 18,
                     color: AppColors.primaryColor,
@@ -45,7 +42,7 @@ class NotificationsDetailsPage extends StatelessWidget {
                         color: Colors.grey.shade400,
                         fontWeight: FontWeight.w400)),
                 trailing: Text(
-                    "${data.createdAt.isNotEmpty ? data.createdAt.substring(0, 19) : DateTime.now().toString().substring(0, 19)}",
+                    data.createdAt.isNotEmpty ? data.createdAt.substring(0, 19) : DateTime.now().toString().substring(0, 19),
                     style: TextStyle(
                         fontSize: 18,
                         color: AppColors.primaryColor,
@@ -55,7 +52,7 @@ class NotificationsDetailsPage extends StatelessWidget {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.only(left: 14),
-                child: Text("${data.title}",
+                child: Text(data.title,
                     style: TextStyle(
                         fontSize: 17,
                         color: AppColors.primaryColor,
@@ -64,7 +61,7 @@ class NotificationsDetailsPage extends StatelessWidget {
               const SizedBox(height: 5),
               Padding(
                 padding: const EdgeInsets.only(left: 14),
-                child: Text("${data.desc}",
+                child: Text(data.desc,
                     style: TextStyle(
                         fontSize: 15,
                         color: Colors.grey.shade500,

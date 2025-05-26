@@ -14,7 +14,7 @@
 <!-- for media downloadeer permission end -->
 
     <application
-        android:label="story generations"
+        android:label="S4G"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true"
